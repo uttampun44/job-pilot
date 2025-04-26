@@ -18,19 +18,19 @@ export default function Canditate() {
             <div className="password relative">
                 <Input placeholder="Password" type={password ? "text" : "password"} className="w-full" />
                 {
-                    password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer" onClick={() => setPassword(true)} />
+                    password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(true)} />
                 }
             </div>
             <div className="confirmPassword relative">
                 <Input placeholder="Confirm Password" type={confirmPassword ? "text" : "password"} className="w-full" />
                 {
-                    confirmPassword ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer" onClick={() => setConfirmPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer" onClick={() => setConfirmPassword(true)} />
+                    confirmPassword ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(true)} />
                 }
             </div>
             <div className="checkbox">
 
             </div>
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
+            <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
                 Sign Up
             </button>
         </div>

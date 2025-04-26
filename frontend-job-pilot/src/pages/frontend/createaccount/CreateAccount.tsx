@@ -9,7 +9,7 @@ import Employers from "./_components/Employers";
 export default function CreateAccount() {
     return (
         <main >
-            <section className={cn("min-h-screen w-full flex")}>
+            <section className={cn("min-h-screen w-full flex font-inter")}>
                 <div className={cn("flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-8 relative")}>
                     <div className={cn("icon_tile flex items-center gap-x-2.5 text-center absolute top-3.5 text-2xl font-semibold font-inter")}>
                         <Icon iconName="mainIcon" /> <h1>JOB PILOT</h1>
@@ -17,17 +17,17 @@ export default function CreateAccount() {
                     <div className={cn("w-full max-w-lg items-end")}>
                         <h2 className={cn("text-3xl font-bold mb-4 text-center md:text-left")}>Create an Account</h2>
                         <p className={cn("text-sm text-gray-500 mb-4")}>
-                            Already have an account?{" "}
-                            <a href="/login" className="text-blue-600 font-semibold hover:underline">
+                            Already have an ?
+                            <a href="/login" className="text-blue- ml-1 font-semibold hover:underline">
                                 Log In
                             </a>
                         </p>
 
                         <div className="tabsForm">
                             <Tabs defaultValue="canditate" className="w-full">
-                                <TabsList className="grid w-full grid-cols-2"  >
-                                    <TabsTrigger value="canditate"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-gray-600 rounded-md p-1">Canditate</TabsTrigger>
-                                    <TabsTrigger value="employers"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-gray-600 rounded-md p-1">Employers</TabsTrigger>
+                                <TabsList className="grid w-full grid-cols-2 bg-gray-400"  >
+                                    <TabsTrigger value="canditate"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white rounded-md p-1">Canditate</TabsTrigger>
+                                    <TabsTrigger value="employers"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white rounded-md p-1">Employers</TabsTrigger>
                                 </TabsList>
                                 <TabsContent value="canditate">
                                     <Canditate />
@@ -47,6 +47,7 @@ export default function CreateAccount() {
                         src={TeamImage}
                         alt="Team"
                         className={cn("w-full h-full object-cover")}
+                        loading="lazy"
                     />
                 </div>
             </section>
