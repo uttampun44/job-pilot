@@ -13,7 +13,6 @@
         "laravel/fortify": "^1.25",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "mll-lab/laravel-graphiql": "^3.3",
         "nuwave/lighthouse": "^6.54",
         "nwidart/laravel-modules": "^12.0",
         "spatie/laravel-permission": "^6.17"
