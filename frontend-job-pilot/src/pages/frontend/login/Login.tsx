@@ -16,24 +16,31 @@ export default function Login() {
                         <Icon iconName="mainIcon" /> <h1>JOB PILOT</h1>
                     </div>
                     <div className={cn("w-full max-w-lg items-end")}>
-                        <h2 className={cn("text-3xl font-bold mb-4 text-center md:text-left")}>Create an Account</h2>
+                        <h2 className={cn("text-3xl font-bold mb-4 text-center md:text-left")}>Sign In</h2>
                         <p className={cn("text-sm text-gray-500 mb-4")}>
-                            Already have an ?
-                            <a href="/login" className="text-blue- ml-1 font-semibold hover:underline">
-                                Log In
+                          Don't have an account?
+                            <a href="/sign-up" className="text-blue- ml-1 font-semibold text-blue-500 hover:underline">
+                             Create Account
                             </a>
                         </p>
 
                         <div className="tabsForm">
                             <Input placeholder="Email" />
-                            <div className="password relative">
+                            <div className="password relative my-2.5">
                                 <Input placeholder="Password" type={password ? "text" : "password"} className="w-full" />
                                 {
                                     password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(true)} />
                                 }
                             </div>
+                            <div className="flex justify-between items-center mb-2.5">
+                                <div className="checkbox flex items-center gap-x-2.5">
+                                    <input type="checkbox" id="remember" className="w-4 h-4" />
+                                    <label htmlFor="remember" className="text-sm text-gray-500">Remember me</label>
+                                </div>
+                                <a href="/forgot-password" className="text-sm font-semibold text-blue-500 hover:underline">Forgot Password?</a>
+                            </div>
                             <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
-                                Sign Up
+                                Sign In
                             </button>
 
                         </div>

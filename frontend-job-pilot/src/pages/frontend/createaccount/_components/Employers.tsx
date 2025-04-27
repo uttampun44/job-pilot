@@ -1,16 +1,20 @@
 import Icon from "@/components/Icon";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
+import useFetch from "@/hooks/api/useFetch";
 import useToggle from "@/hooks/toggle";
 
 export default function Employers() {
 
     const [password, setPassword] = useToggle();
     const [confirmPassword, setConfirmPassword] = useToggle();
+    const { data: roles } = useFetch("/api/v1/all-roles")
 
     return (
         <div className={cn("formField employers space-y-6")}>
-
+            <div className="hidden">
+                <Input type="hidden" value={roles[1].id} />
+            </div>
             <div className="name flex gap-x-2.5">
                 <Input placeholder="Full Name" /> <Input placeholder="User Name" />
             </div>

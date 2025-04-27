@@ -5,8 +5,13 @@ import TeamImage from "@assets/images/team.webp"
 import { TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
 import Canditate from "./_components/Canditate";
 import Employers from "./_components/Employers";
+import useFetch from "@/hooks/api/useFetch";
 
 export default function CreateAccount() {
+
+    const { data: roles } = useFetch("/api/v1/all-roles")
+ 
+    // console.log(roles)
     return (
         <main >
             <section className={cn("min-h-screen w-full flex font-inter")}>
@@ -24,15 +29,21 @@ export default function CreateAccount() {
                         </p>
 
                         <div className="tabsForm">
-                            <Tabs defaultValue="canditate" className="w-full">
+                            <Tabs defaultValue="candidate" className="w-full">
                                 <TabsList className="grid w-full grid-cols-2 bg-gray-400"  >
-                                    <TabsTrigger value="canditate"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white rounded-md p-1">Canditate</TabsTrigger>
-                                    <TabsTrigger value="employers"  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white rounded-md p-1">Employers</TabsTrigger>
+                                    {
+                                        roles?.map((role: any) => (
+                                            <TabsTrigger key={role.id} value={role.name.toLowerCase()}  className="data-[state=active]:bg-blue-600 data-[state=active]:text-white text-white rounded-md p-1">
+                                                {role.name}
+                                            </TabsTrigger>
+                                        ))
+                                    }
+
                                 </TabsList>
-                                <TabsContent value="canditate">
+                                <TabsContent value="candidate">
                                     <Canditate />
                                 </TabsContent>
-                                <TabsContent value="employers">
+                                <TabsContent value="employer">
                                     <Employers />
                                 </TabsContent>
                             </Tabs>

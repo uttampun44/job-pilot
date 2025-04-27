@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -18,7 +18,7 @@ class RoleSeeder extends Seeder
                 'guard_name' => 'web',
             ],
             [
-                 'name' => ' Admin',
+                'name' => ' Admin',
                 'guard_name' => 'web',
             ],
             [
@@ -29,10 +29,10 @@ class RoleSeeder extends Seeder
                 'name' => 'Employer',
                 'guard_name' => 'web',
             ]
-            ];
+        ];
 
         foreach ($roles as $role) {
-            DB::table('roles')->insert($role);
+            Role::create($role);
         }
     }
 }
