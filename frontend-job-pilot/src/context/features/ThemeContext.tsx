@@ -1,30 +1,37 @@
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+
 interface ThemeContextProps {
     children: React.ReactNode
 }
 
+type themeType = "light" | "dark";
+
 interface ThemeContextValue {
-    theme: string,
-    setTheme: React.Dispatch<React.SetStateAction<string>>
+    theme: themeType,
+    setTheme: Dispatch<SetStateAction<themeType>>
 }
 
-const ThemeContext = React.createContext<ThemeContextValue>({
-    theme: "light",
-    setTheme: () => {}
-})
+const Theme = createContext<ThemeContextValue | undefined>(undefined)
 
-export  default function Theme({ children }: ThemeContextProps) {
+export  default function ThemeContext({ children }: ThemeContextProps) {
+    const [theme, setTheme] = useState<themeType>("light");
+
+    useEffect(() => {
+        const localTheme = localStorage.getItem("theme");
+        if (localTheme) {
+            setTheme(localTheme as themeType);
+        }
+    }, []);
+
     return(
-        <ThemeContext.Provider value={{
-            theme: "light",
-            setTheme: () => {}
-        }}>
+        <Theme.Provider value={{theme, setTheme}}>
             {children}
         </Theme.Provider>
     )
 }
 
 export function useTheme() {
-    const context = React.useContext(Theme);
+    const context = useContext(Theme);
     if (context === undefined) {
         throw new Error("useTheme must be used within a ThemeContext");
     }

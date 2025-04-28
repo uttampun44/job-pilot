@@ -37,7 +37,7 @@ export default function Login() {
                                     <input type="checkbox" id="remember" className="w-4 h-4" />
                                     <label htmlFor="remember" className="text-sm text-gray-500">Remember me</label>
                                 </div>
-                                <a href="/forgot-password" className="text-sm font-semibold text-blue-500 hover:underline">Forgot Password?</a>
+                                <a href="/forget-password" className="text-sm font-semibold text-blue-500 hover:underline">Forget Password?</a>
                             </div>
                             <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
                                 Sign In

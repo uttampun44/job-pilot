@@ -10,8 +10,7 @@ import useFetch from "@/hooks/api/useFetch";
 export default function CreateAccount() {
 
     const { data: roles } = useFetch("/api/v1/all-roles")
- 
-    // console.log(roles)
+
     return (
         <main >
             <section className={cn("min-h-screen w-full flex font-inter")}>
