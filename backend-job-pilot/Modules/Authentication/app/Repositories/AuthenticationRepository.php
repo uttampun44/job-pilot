@@ -4,6 +4,7 @@ namespace Modules\Authentication\app\Repositories;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthenticationRepository
 {
@@ -24,7 +25,7 @@ class AuthenticationRepository
        return User::createOrUpdate([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'role_id' => $data['role_id'],
         ]);
 
@@ -33,10 +34,47 @@ class AuthenticationRepository
     public function postLogin(array $data)
     {
         $user = User::where('email', $data['email'])->first();
-        if (!$user) {
+        if (!$user && !Hash::check($data['password'], $user->password)) {
             return response()->json(['message' => 'Invalid email or password'], 400);
         }
+
+        return response()->json([
+            'message' => 'Login successful',
+            'token' => auth()->user->createToken('auth_token')->plainTextToken,
+        ]);
         
+    }
+
+    public function postLogout()
+    {    
+        $user = Auth::user();
+        if(!$user){
+            return response()->json(['message' => 'Not logged in'], 400);
+        }
+        $user->currentAccessToken()->delete();
+        return response()->json(['message' => 'Logged out successfully'], 200);
+    }
+
+    public function postForgotPassword(array $data)
+    {
+        $user = User::where('email', $data['email'])->first();
+        if (!$user) {
+            return response()->json(['message' => 'Invalid email'], 400);
+        }
+        $user->forgotPasswordCode = str_random(60);
+        $user->save();
+        return response()->json(['message' => 'Password reset link sent successfully'], 200);
+    }
+
+    public function postResetPassword(array $data)
+    {
+        $user = User::where('email', $data['email'])->first();
+        if (!$user) {
+            return response()->json(['message' => 'Invalid email'], 400);
+        }
+        $user->password = Hash::make($data['password']);
+        $user->save();
+        return response()->json(['message' => 'Password reset successfully'], 200);
     }
     
 }

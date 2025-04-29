@@ -29,4 +29,44 @@ class AuthenticationController extends Controller {
           return response()->json(['message' => $th->getMessage()], 400);
       }
     }
+
+    public function postLogin(array $data)
+    {
+        try {
+            $this->authenticationRepository->postLogin($data);
+            return response()->json(['message' => 'Login successful'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 400);
+        }
+    }
+
+    public function postLogout()
+    {
+        try {
+            $this->authenticationRepository->postLogout();
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 400);
+        }
+    }
+
+    public function postForgotPassword(array $data)
+    {
+        try {
+            $this->authenticationRepository->postForgotPassword($data);
+            return response()->json(['message' => 'Password reset link sent successfully'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 400);
+        }
+    }
+
+    public function postResetPassword(array $data)
+    {
+        try {
+            $this->authenticationRepository->postResetPassword($data);
+            return response()->json(['message' => 'Password reset successfully'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage()], 400);
+        }
+    }
 }
