@@ -1,4 +1,5 @@
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 import useToggle from "@/hooks/toggle";
@@ -39,10 +40,7 @@ export default function Login() {
                                 </div>
                                 <a href="/forget-password" className="text-sm font-semibold text-blue-500 hover:underline">Forget Password?</a>
                             </div>
-                            <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
-                                Sign In
-                            </button>
-
+                           <Button>Sign In</Button>
                         </div>
 
                     </div>

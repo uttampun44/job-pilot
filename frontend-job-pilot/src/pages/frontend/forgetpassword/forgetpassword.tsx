@@ -3,6 +3,7 @@ import { cn } from "@/components/ui/lib/utils";
 import { useForm } from "react-hook-form";
 import TeamImage from "@assets/images/team.webp"
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/button";
 
 export default function ForgetPassword() {
 
@@ -46,9 +47,7 @@ export default function ForgetPassword() {
                                 <div className="checkbox">
 
                                 </div>
-                                <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
-                                    Reset Password
-                                </button>
+                                <Button></Button>
                             </form>
                         </div>
 

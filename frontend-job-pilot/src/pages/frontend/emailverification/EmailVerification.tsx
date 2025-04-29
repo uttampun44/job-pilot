@@ -1,4 +1,5 @@
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 import { Link } from "react-router";
@@ -21,9 +22,7 @@ export default function EmailVerification() {
                     <form className="flex flex-col gap-4">
                         <Input type="password" name="password" placeholder="Verification Code" />
 
-                        <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
-                            Reset Password
-                        </button>
+                       <Button>Email Verification</Button>
                     </form>
                     <p className="my-4">Didn't receive the email? <a href="/email-verification" className="text-blue-500 hover:underline">Resend</a></p>
                 </div>

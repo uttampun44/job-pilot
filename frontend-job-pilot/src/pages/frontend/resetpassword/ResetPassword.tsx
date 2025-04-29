@@ -1,4 +1,5 @@
 import Icon from "@/components/Icon";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 
@@ -20,9 +21,7 @@ export default function ResetPassword() {
           <form className="flex flex-col gap-4">
             <Input type="password" name="password" placeholder="New Password" />
             <Input type="password" name="confirmPassword" placeholder="Confirm Password" />
-            <button className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold p-4 rounded-lg">
-              Reset Password
-            </button>
+            <Button>Reset Password</Button>
           </form>
         </div>
       </section>

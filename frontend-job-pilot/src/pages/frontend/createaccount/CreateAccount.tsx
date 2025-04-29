@@ -3,8 +3,8 @@ import { cn } from "@/components/ui/lib/utils";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import TeamImage from "@assets/images/team.webp"
 import { TabsContent, TabsTrigger } from "@radix-ui/react-tabs";
-import Canditate from "./_components/Canditate";
-import Employers from "./_components/Employers";
+import Canditate from "./components/Canditate";
+import Employers from "./components/Employers";
 import useFetch from "@/hooks/api/useFetch";
 
 export default function CreateAccount() {
