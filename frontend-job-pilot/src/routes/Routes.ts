@@ -8,6 +8,7 @@ import Login from '@/pages/frontend/login/Login';
 import ForgetPassword from '@/pages/frontend/forgetpassword/forgetpassword';
 import ResetPassword from '@/pages/frontend/resetpassword/ResetPassword';
 import EmailVerification from '@/pages/frontend/emailverification/EmailVerification';
+import Dashboard from '@/pages/backend/Dashboard';
 
 export const router = createBrowserRouter([
 
@@ -50,8 +51,13 @@ export const router = createBrowserRouter([
     // Backend Routes
     {
         path: '/',
-        Component: BackendLayout
-
+        Component: BackendLayout,
+       children: [
+         {
+            path: '/dashboard',
+            Component: Dashboard
+         }
+       ]
     }
 
 ])
