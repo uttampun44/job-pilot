@@ -2,10 +2,11 @@
 
 namespace Modules\Authentication\app\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Authentication\app\Repositories\AuthenticationRepository;
-use Modules\Authentication\Http\Requests\LoginRequest;
-use Modules\Authentication\Http\Requests\RegisterRequest;
+use Modules\Authentication\app\Http\Requests\LoginRequest;
+use Modules\Authentication\app\Http\Requests\RegisterRequest;
 
 class AuthenticationController extends Controller {
 
