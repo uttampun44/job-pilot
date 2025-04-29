@@ -14,7 +14,11 @@ export default function Canditate() {
 
     const { data: roles } = useFetch("/api/v1/all-roles")
 
-    const formMethods = useForm<tsignupTypes>()
+    const formMethods = useForm<tsignupTypes>({
+        defaultValues:{
+            role: "Candidate",
+        }
+    })
 
     const handleSubmit = (formData: tsignupTypes) => {
 
@@ -28,7 +32,7 @@ export default function Canditate() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" value={(roles && roles.length > 0 ? roles[1].id : "")} />
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" />
                         )
                     }
                 </div>

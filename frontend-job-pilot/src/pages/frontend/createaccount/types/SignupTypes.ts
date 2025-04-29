@@ -1,5 +1,5 @@
 export type tsignupTypes = {
-    role: number,
+    role: string,
     full_name:string,
     name:string,
     email:string,

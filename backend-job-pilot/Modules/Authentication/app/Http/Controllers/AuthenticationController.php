@@ -4,6 +4,8 @@ namespace Modules\Authentication\app\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Modules\Authentication\app\Repositories\AuthenticationRepository;
+use Modules\Authentication\Http\Requests\LoginRequest;
+use Modules\Authentication\Http\Requests\RegisterRequest;
 
 class AuthenticationController extends Controller {
 
@@ -20,9 +22,10 @@ class AuthenticationController extends Controller {
         return response()->json($roles);
     }
 
-    public function postRegister(array $data)
+    public function postRegister(RegisterRequest $request)
     {
       try {
+          $data = $request->validated();
           $this->authenticationRepository->postRegister($data);
           return response()->json(['message' => 'Registered successfully'], 201);
       } catch (\Throwable $th) {
@@ -30,9 +33,10 @@ class AuthenticationController extends Controller {
       }
     }
 
-    public function postLogin(array $data)
+    public function postLogin(LoginRequest $request)
     {
         try {
+            $data = $request->validated();
             $this->authenticationRepository->postLogin($data);
             return response()->json(['message' => 'Login successful'], 200);
         } catch (\Throwable $th) {

@@ -19,11 +19,7 @@ export default function Employers() {
 
     const formMethods = useForm<tsignupTypes>({
         defaultValues:{
-            role: 3,
-            full_name:"",
-            name:"",
-            email:"",
-            password:"",
+            role: "Employer",
         }
     });
 
@@ -44,7 +40,7 @@ export default function Employers() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" value={(roles && roles.length > 0 ? roles[1].id : "")} />
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" />
                         )
                     }
                 </div>
