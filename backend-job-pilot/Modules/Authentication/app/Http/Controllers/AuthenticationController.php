@@ -19,4 +19,14 @@ class AuthenticationController extends Controller {
         $roles = $this->authenticationRepository->fetchRoles();
         return response()->json($roles);
     }
+
+    public function postRegister(array $data)
+    {
+      try {
+          $this->authenticationRepository->postRegister($data);
+          return response()->json(['message' => 'Registered successfully'], 201);
+      } catch (\Throwable $th) {
+          return response()->json(['message' => $th->getMessage()], 400);
+      }
+    }
 }
