@@ -1,5 +1,6 @@
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 import useToggle from "@/hooks/toggle";
@@ -19,9 +20,9 @@ export default function Login() {
                     <div className={cn("w-full max-w-lg items-end")}>
                         <h2 className={cn("text-3xl font-bold mb-4 text-center md:text-left")}>Sign In</h2>
                         <p className={cn("text-sm text-gray-500 mb-4")}>
-                          Don't have an account?
+                            Don't have an account?
                             <a href="/sign-up" className="text-blue- ml-1 font-semibold text-blue-500 hover:underline">
-                             Create Account
+                                Create Account
                             </a>
                         </p>
 
@@ -33,6 +34,9 @@ export default function Login() {
                                     password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(true)} />
                                 }
                             </div>
+                            <div className="checkbox flex gap-2.5">
+                                <Checkbox name="remember" /> <label>Remember me</label>
+                            </div>
                             <div className="flex justify-between items-center mb-2.5">
                                 <div className="checkbox flex items-center gap-x-2.5">
                                     <input type="checkbox" id="remember" className="w-4 h-4" />
@@ -40,7 +44,7 @@ export default function Login() {
                                 </div>
                                 <a href="/forget-password" className="text-sm font-semibold text-blue-500 hover:underline">Forget Password?</a>
                             </div>
-                           <Button>Sign In</Button>
+                            <Button>Sign In</Button>
                         </div>
 
                     </div>
