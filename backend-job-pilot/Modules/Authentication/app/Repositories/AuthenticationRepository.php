@@ -5,6 +5,9 @@ namespace Modules\Authentication\app\Repositories;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Modules\Authentication\Models\ForgotPassword;
+use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Mail;
 
 class AuthenticationRepository
 {
@@ -59,10 +62,22 @@ class AuthenticationRepository
     {
         $user = User::where('email', $data['email'])->first();
         if (!$user) {
-            return response()->json(['message' => 'Invalid email'], 400);
+            return response()->json(['message' => 'Email not found'], 400);
         }
-        $user->forgotPasswordCode = str_random(60);
-        $user->save();
+
+        $checkPassword = ForgotPassword::where('email', $user->email)->first();
+        if ($checkPassword) {
+            return response()->json(['message' => 'Password reset link already sent'], 400);
+        }
+
+      $passwordCode =  ForgotPassword::create([
+            'email' => $user->email,
+            'code' => str_random(60),
+            'user_id' => $user->id,
+        ]);
+
+        Mail::to($request->user())->send(new ResetPassword);
+
         return response()->json(['message' => 'Password reset link sent successfully'], 200);
     }
 
@@ -72,8 +87,15 @@ class AuthenticationRepository
         if (!$user) {
             return response()->json(['message' => 'Invalid email'], 400);
         }
+       
+        $checkPassword = ForgotPassword::where('email', $user->email)->first();
+        if (!$checkPassword) {
+            return response()->json(['message' => 'Invalid email'], 400);
+        }
+         
         $user->password = Hash::make($data['password']);
         $user->save();
+        $checkPassword->delete();
         return response()->json(['message' => 'Password reset successfully'], 200);
     }
     

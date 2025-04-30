@@ -1,19 +1,22 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
     children: React.ReactNode
 }
 
 interface AuthContextValue {
+    token: string,
     user: string,
+    setToken: React.Dispatch<React.SetStateAction<string>>,
     setUser: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Auth = createContext<AuthContextValue | undefined>(undefined)
+const AuthContext = createContext<AuthContextValue | undefined>(undefined)
 
-export  default function AuthContext({ children }: AuthContextProps) {
+export  default function AutProvider({ children }: AuthContextProps) {
    
     const [user, setUser] = useState<AuthContextValue["user"]>("");
+    const [token, setToken] = useState<AuthContextValue["token"]>("");
 
     useEffect(() => {
         const localUser = localStorage.getItem("user");
@@ -23,15 +26,17 @@ export  default function AuthContext({ children }: AuthContextProps) {
     }, []);
     
     return(
-        <Auth.Provider value={{user, setUser}}>
+        <AuthContext value={{user,token, setToken, setUser}}>
             {children}
-        </Auth.Provider>
+        </AuthContext>
     )
 }
 
+export {AutProvider, AuthContext}
+
 export function useAuth() {
-    const context = useContext(Auth);
-    if (context === undefined) {
+    const context = use(AuthContext);
+    if (!context) {
         throw new Error("useAuth must be used within a AuthContext");
     }
     return context;

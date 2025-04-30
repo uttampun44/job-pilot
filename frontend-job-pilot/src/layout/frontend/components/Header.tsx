@@ -1,7 +1,18 @@
 import Icon from "@/components/Icon";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { headerLinks } from "@/data/header/header";
 import { NavLink } from "react-router";
 
+let multiLanguages = [
+    {
+        code: "en",
+        name: "English",
+    },
+    {
+        code: "np",
+        name: "Nepali",
+    }
+]
 export default function Header() {
     return (
         <header className="bg-white shadow-md">
@@ -10,44 +21,13 @@ export default function Header() {
                 <nav className="w-full md:w-auto">
                     <ul className="flex flex-wrap md:flex-nowrap items-center justify-center gap-5 text-gray-600 font-semibold text-lg">
                         <li>
-                            <NavLink 
-                                to="/" 
-                                className="hover:text-blue-500 transition-colors duration-200"
-                            >
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to="/about" 
-                                className="hover:text-blue-500 transition-colors duration-200"
-                            >
-                                Find a Job
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to="/contact" 
-                                className="hover:text-blue-500 transition-colors duration-200"
-                            >
-                                Candidate
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to="/services" 
-                                className="hover:text-blue-500 transition-colors duration-200"
-                            >
-                                Employers
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink 
-                                to="/blog" 
-                                className="hover:text-blue-500 transition-colors duration-200"
-                            >
-                                Customer Support
-                            </NavLink>
+                            {headerLinks.map((link) => {
+                                return (
+                                    <NavLink key={link.id} to={link.url} className="hover:text-blue-500">
+                                        {link.title}
+                                    </NavLink>
+                                );
+                            })}
                         </li>
                     </ul>
                 </nav>
@@ -64,13 +44,16 @@ export default function Header() {
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>North America</SelectLabel>
-                                <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-                                <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
-                                <SelectItem value="mst">Mountain Standard Time (MST)</SelectItem>
-                                <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-                                <SelectItem value="akst">Alaska Standard Time (AKST)</SelectItem>
-                                <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
+                                <SelectLabel>select Langauage</SelectLabel>
+                                {
+                                    multiLanguages.map((lang) => {
+                                        return (
+                                            <SelectItem key={lang.code} value={lang.code}>
+                                                {lang.name}
+                                            </SelectItem>
+                                        );
+                                    })
+                                }
                             </SelectGroup>
                         </SelectContent>
                     </Select>

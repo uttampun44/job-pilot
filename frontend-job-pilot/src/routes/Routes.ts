@@ -8,7 +8,11 @@ import Login from '@/pages/frontend/login/Login';
 import ForgetPassword from '@/pages/frontend/forgetpassword/forgetpassword';
 import ResetPassword from '@/pages/frontend/resetpassword/ResetPassword';
 import EmailVerification from '@/pages/frontend/emailverification/EmailVerification';
-import Dashboard from '@/pages/backend/Dashboard';
+import Dashboard from '@/pages/backend/dashboard/Dashboard';
+import { useAuth } from '@/context/features/AuthContext';
+
+
+const {token} = useAuth();
 
 export const router = createBrowserRouter([
 
@@ -28,7 +32,7 @@ export const router = createBrowserRouter([
         ]
     },
     {
-        path: '/sign-up',
+        path: '/register',
         Component: CreateAccount
     },
     {

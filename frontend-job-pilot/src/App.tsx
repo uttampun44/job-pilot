@@ -4,6 +4,7 @@ import { AppRoutes } from './routes/AppRoutes'
 import { Toaster } from 'sonner'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import CombineContext from './context/CombineContext'
+import './utils/i18n'
 
 const queryClient = new QueryClient()
 

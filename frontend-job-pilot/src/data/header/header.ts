@@ -1,38 +1,38 @@
-export const header = [
+export const headerLinks = [
     {
-        id: 1,
+        id: 6,
         title: "Home",
         url: "/",
         icon: "home"
     },
     {
-        id: 2,
+        id: 7,
         title: "Find Jobs",
         url: "/jobs",
         icon: "search"
     },
     {
-        id: 3,
+        id: 8,
         title: "Employer",
-        url: "/apply",
+        url: "/employers",
         icon: "search"
     },
     {
-        id: 4,
+        id: 9,
         title: "Candidate",
-        url: "/careers",
+        url: "/candidates",
         icon: "search"
     },
     {
-        id: 5,
+        id: 10,
         title: "Pricing Plans",
-        url: "/contact-us",
+        url: "/pricing",
         icon: "search"
     },
     {
-        id: 6,
+        id: 11,
         title: "Customer Support",
-        url: "/login",
+        url: "/support",
         icon: "search"
     }
 ]

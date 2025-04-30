@@ -2,10 +2,14 @@ import Icon from "@/components/Icon";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 import useFetch from "@/hooks/api/useFetch";
-import useToggle from "@/hooks/toggle";
+import useToggle from "@/hooks/useToggle";
 import { useForm } from "react-hook-form";
 import { tsignupTypes } from "../types/SignupTypes";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import usePost from "@/hooks/api/usePost";
 
 export default function Canditate() {
 
@@ -14,15 +18,29 @@ export default function Canditate() {
 
     const { data: roles } = useFetch("/api/v1/all-roles")
 
+    const post = usePost("/api/v1/login")
+
+    const navigate = useNavigate();
+
     const formMethods = useForm<tsignupTypes>({
-        defaultValues:{
+        defaultValues: {
             role: "Candidate",
         }
     })
 
-    const handleSubmit = (formData: tsignupTypes) => {
+    const handleSubmit = async (formData: tsignupTypes) => {
 
         console.log(formData)
+        try {
+            if (formData.password !== formData.confirm_password) return toast.warning("Password and confirm Password not match !")
+            const response = await post.mutateAsync({ data: formData })
+            console.log(response);
+            navigate("/dashboard")
+
+        } catch (error) {
+            toast.warning("Something went wrong !")
+        }
+
     }
 
     return (
@@ -32,7 +50,7 @@ export default function Canditate() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" />
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles[0].name} />
                         )
                     }
                 </div>
@@ -54,10 +72,8 @@ export default function Canditate() {
                         confirmPassword ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(true)} />
                     }
                 </div>
-                <div className="checkbox">
-
-                </div>
-              <Button>Sign Up</Button>
+             
+                <Button>Sign Up</Button>
             </form>
         </div>
     )

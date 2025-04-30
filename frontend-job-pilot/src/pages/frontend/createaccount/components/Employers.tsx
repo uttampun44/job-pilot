@@ -2,7 +2,7 @@ import Icon from "@/components/Icon";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
 import useFetch from "@/hooks/api/useFetch";
-import useToggle from "@/hooks/toggle";
+import useToggle from "@/hooks/useToggle";
 import { useForm } from "react-hook-form";
 import { tsignupTypes } from "../types/SignupTypes";
 import usePost from "@/hooks/api/usePost";
@@ -40,7 +40,7 @@ export default function Employers() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" />
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles[1].name}/>
                         )
                     }
                 </div>
