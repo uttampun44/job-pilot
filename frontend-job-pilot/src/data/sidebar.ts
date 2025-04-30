@@ -6,7 +6,13 @@ export const sidebarLink = [
         href: "/dashboard",
     },
     {
-        id: 13,
+       id: 13,
+       label: "Calendar",
+       icon: "CalendarIcon",
+       href: "/calendar",
+    },
+    {
+        id: 14,
         label: "Jobs",
         icon: "DocumentTextIcon",
         subNavigation: [
@@ -18,13 +24,13 @@ export const sidebarLink = [
         ]
     },
     {
-        id: 14,
+        id: 15,
         label: "Clients",
         icon: "UserIcon",
         href: "/clients",
     },
     {
-        id: 15,
+        id: 16,
         label: "Users",
         icon: "UserIcon",
         href: "/users",
