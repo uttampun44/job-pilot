@@ -26,13 +26,17 @@ export default function Footer() {
                     <div>
                         <h3 className="text-white text-xl font-semibold mb-4">About</h3>
                         <ul className="space-y-2">
-                            {quickLink.map((link, index) => (
-                                <li key={index}>
-                                    <Link to={link.url} className="hover:text-white transition-colors duration-300">
-                                        {link.title}
-                                    </Link>
-                                </li>
-                            ))}
+
+                            {
+                                quickLink && quickLink.length > 0 && quickLink.map((link, index) => (
+                                    <li key={index}>
+                                        <Link to={link.url} className="hover:text-white transition-colors duration-300">
+                                            {link.title}
+                                        </Link>
+                                    </li>
+                                ))
+                            }
+                           
                         </ul>
                     </div>
 

@@ -40,7 +40,7 @@ export default function Employers() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles[1].name}/>
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles && roles.length> 0 ? roles[1].name : ""}/>
                         )
                     }
                 </div>

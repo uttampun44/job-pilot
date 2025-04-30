@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { tsignupTypes } from "../types/SignupTypes";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router";
-import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import usePost from "@/hooks/api/usePost";
 
@@ -50,7 +49,7 @@ export default function Canditate() {
                 <div className="hidden">
                     {
                         Array.isArray(roles) && (
-                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles[0].name} />
+                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles && roles.length > 0 ? roles[0].id : ""} />
                         )
                     }
                 </div>

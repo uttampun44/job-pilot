@@ -21,7 +21,7 @@ export default function Header() {
                 <nav className="w-full md:w-auto">
                     <ul className="flex flex-wrap md:flex-nowrap items-center justify-center gap-5 text-gray-600 font-semibold text-lg">
                         <li>
-                            {headerLinks.map((link) => {
+                            {headerLinks && headerLinks.length > 0 &&headerLinks.map((link) => {
                                 return (
                                     <NavLink key={link.id} to={link.url} className="hover:text-blue-500">
                                         {link.title}
