@@ -1,4 +1,4 @@
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, use, useEffect, useState } from "react";
 
 interface AuthContextProps {
     children: React.ReactNode
@@ -11,12 +11,12 @@ interface AuthContextValue {
     setUser: React.Dispatch<React.SetStateAction<string>>
 }
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export  default function AutProvider({ children }: AuthContextProps) {
    
     const [user, setUser] = useState<AuthContextValue["user"]>("");
-    const [token, setToken] = useState<AuthContextValue["token"]>("");
+    const [token, setToken] = useState<string>("");
 
     useEffect(() => {
         const localUser = localStorage.getItem("user");

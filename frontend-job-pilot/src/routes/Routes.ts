@@ -8,7 +8,8 @@ import ForgetPassword from '@/pages/frontend/forgetpassword/forgetpassword';
 import ResetPassword from '@/pages/frontend/resetpassword/ResetPassword';
 import EmailVerification from '@/pages/frontend/emailverification/EmailVerification';
 import Dashboard from '@/pages/backend/dashboard/Dashboard';
-import ProtectedRoutes from './ProtecteedRoutes';
+import ProtectedRoutes from './ProtectedRoutes';
+import Calendar from '@/pages/backend/calendar/Calendar';
 
 
 export const router = createBrowserRouter([
@@ -50,13 +51,18 @@ export const router = createBrowserRouter([
 
     // Backend Routes
     {
+    
         Component: ProtectedRoutes,
-        path: 'auth',
         children: [
          {
             path: '/dashboard',
             Component: Dashboard
-         }
+         },
+         {
+            path: '/calendar',
+            Component: Calendar
+         },
+         
        ]
     }
 

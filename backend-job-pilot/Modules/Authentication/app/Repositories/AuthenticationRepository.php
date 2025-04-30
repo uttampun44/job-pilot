@@ -7,51 +7,59 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Modules\Authentication\Models\ForgotPassword;
 use App\Mail\ResetPassword;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class AuthenticationRepository
 {
     public function fetchRoles()
     {
-        $roles = Role::whereIn('name', ['candidate' ,'employer'])->select('id', 'name')->get();
+        $roles = Role::whereIn('name', ['candidate', 'employer'])->select('id', 'name')->get();
         return $roles;
     }
 
     public function postRegister(array $data)
     {
-       $checkEmail = User::where('email', $data['email'])->first();
-       
-       if($checkEmail){
-           return response()->json(['message' => 'Email already exists'], 400);
-       }
+        $checkEmail = User::where('email', $data['email'])->first();
 
-       return User::createOrUpdate([
+        if ($checkEmail) {
+            return throw new \Exception('Email already exists');
+        }
+
+        $user =  User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => $data['role_id'],
         ]);
 
+        if ($data['role'] == 'Employer') {
+            $user->assignRole('Employer');
+        } else {
+            $user->assignRole('Candidate');
+        }
     }
 
     public function postLogin(array $data)
     {
         $user = User::where('email', $data['email'])->first();
-        if (!$user && !Hash::check($data['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid email or password'], 400);
+
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            throw new \Exception('Invalid email or password');
         }
 
-        return response()->json([
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
             'message' => 'Login successful',
-            'token' => auth()->user->createToken('auth_token')->plainTextToken,
-        ]);
-        
+            'token' => $token,
+        ];
     }
 
     public function postLogout()
-    {    
+    {
         $user = Auth::user();
-        if(!$user){
+        if (!$user) {
             return response()->json(['message' => 'Not logged in'], 400);
         }
         $user->currentAccessToken()->delete();
@@ -70,13 +78,13 @@ class AuthenticationRepository
             return response()->json(['message' => 'Password reset link already sent'], 400);
         }
 
-      $passwordCode =  ForgotPassword::create([
+        $passwordCode =  ForgotPassword::create([
             'email' => $user->email,
-            'code' => str_random(60),
+            'code' => Str::random(60),
             'user_id' => $user->id,
         ]);
 
-        Mail::to($request->user())->send(new ResetPassword);
+        Mail::to($user->email)->send(new ResetPassword($passwordCode));
 
         return response()->json(['message' => 'Password reset link sent successfully'], 200);
     }
@@ -87,16 +95,15 @@ class AuthenticationRepository
         if (!$user) {
             return response()->json(['message' => 'Invalid email'], 400);
         }
-       
+
         $checkPassword = ForgotPassword::where('email', $user->email)->first();
         if (!$checkPassword) {
             return response()->json(['message' => 'Invalid email'], 400);
         }
-         
+
         $user->password = Hash::make($data['password']);
         $user->save();
         $checkPassword->delete();
         return response()->json(['message' => 'Password reset successfully'], 200);
     }
-    
 }
