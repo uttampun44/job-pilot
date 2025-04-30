@@ -1,24 +1,20 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import CreateAccount from '@pages/frontend/createaccount/CreateAccount';
 import Home from '@/pages/frontend/home/Home';
 import FrontLayout from '@/layout/frontend/FrontLayout';
-import BackendLayout from '@/layout/backend/BackendLayout';
 import ListingDetails from '@/pages/frontend/listing/ListingDetails';
 import Login from '@/pages/frontend/login/Login';
 import ForgetPassword from '@/pages/frontend/forgetpassword/forgetpassword';
 import ResetPassword from '@/pages/frontend/resetpassword/ResetPassword';
 import EmailVerification from '@/pages/frontend/emailverification/EmailVerification';
 import Dashboard from '@/pages/backend/dashboard/Dashboard';
-import { useAuth } from '@/context/features/AuthContext';
+import ProtectedRoutes from './ProtecteedRoutes';
 
-
-const {token} = useAuth();
 
 export const router = createBrowserRouter([
 
     // Frontend Routes
     {
-        path: '/',
         Component: FrontLayout,
         children: [
             {
@@ -54,9 +50,9 @@ export const router = createBrowserRouter([
 
     // Backend Routes
     {
-        path: '/',
-        Component: BackendLayout,
-       children: [
+        Component: ProtectedRoutes,
+        path: 'auth',
+        children: [
          {
             path: '/dashboard',
             Component: Dashboard

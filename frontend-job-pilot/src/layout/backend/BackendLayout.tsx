@@ -1,12 +1,19 @@
 import React from "react"
-import { Outlet } from "react-router"
-import Sidebar from "./components/Sidebar"
+import AppSidebar from "./components/AppSidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
 
-export default function Layout() {
+type LayoutProps = {
+    children: React.ReactNode
+}
+
+export default function Layout({ children }: LayoutProps) {
+
     return (
         <React.Fragment>
-            <Sidebar />
-            <Outlet />
+            <SidebarProvider>
+                <AppSidebar />
+                {children}
+            </SidebarProvider>
         </React.Fragment>
     )
 }

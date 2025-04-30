@@ -1,6 +1,6 @@
 import Icon from "@/components/Icon";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { headerLinks } from "@/data/header/header";
+import { headerLinks } from "@/data/header";
 import { NavLink } from "react-router";
 
 let multiLanguages = [

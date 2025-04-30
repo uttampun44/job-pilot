@@ -1,5 +1,5 @@
 import Icon from "@/components/Icon";
-import { quickLink } from "@/data/quicklinks/quicklink";
+import { quickLink } from "@/data/quicklink";
 import { Link } from "react-router";
 
 export default function Footer() {
