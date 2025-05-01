@@ -48,5 +48,24 @@ export interface SidebarLink {
       icon: 'calendar',
       href: "/users",
     },
+    {
+      id: 17,
+       label: "Settings",
+        icon: 'calendar',
+        href: "/settings",
+        subNavigation: [
+          {
+            id: 171,
+            label: "Profile",
+            href: "/profile",
+          },
+          {
+            id: 172,
+            label: "Account",
+            href: "/account",
+          },
+        ],
+
+    }
   ];
   

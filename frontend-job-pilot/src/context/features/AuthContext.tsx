@@ -7,6 +7,7 @@ interface AuthContextProps {
 interface AuthContextValue {
     token: string,
     user: string,
+    isLoading: boolean,
     setToken: React.Dispatch<React.SetStateAction<string>>,
     setUser: React.Dispatch<React.SetStateAction<string>>
 }
@@ -17,6 +18,7 @@ export  default function AutProvider({ children }: AuthContextProps) {
    
     const [user, setUser] = useState<AuthContextValue["user"]>("");
     const [token, setToken] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const localUser = localStorage.getItem("user");
@@ -28,12 +30,13 @@ export  default function AutProvider({ children }: AuthContextProps) {
         if (localUser) {
             setUser(localUser as string);
         }
+        setIsLoading(false);
     }, [token, user]);
     
     return(
-        <AuthContext value={{user,token, setToken, setUser}}>
+        <AuthContext.Provider value={{user,token, isLoading, setToken, setUser}}>
             {children}
-        </AuthContext>
+        </AuthContext.Provider>
     )
 }
 

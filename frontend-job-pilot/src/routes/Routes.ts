@@ -12,6 +12,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Calendar from '@/pages/backend/calendar/Calendar';
 import Candidate from '@/pages/frontend/candidate/Candidate';
 import Employer from '@/pages/frontend/employer/Employer';
+import Profile from '@/pages/backend/profile/profile';
+import { Settings } from 'lucide-react';
 
 
 export const router = createBrowserRouter([
@@ -73,6 +75,23 @@ export const router = createBrowserRouter([
             path: '/calendar',
             Component: Calendar
          },
+         {
+            path: '/profile',
+            Component: Profile
+         },
+         {
+            Component: Settings,
+            children: [
+                {
+                    path: '/account',
+                    Component: Profile
+                },
+                {
+                    path: '/settings',
+                    Component: Profile
+                }
+            ]
+         }
          
        ]
     }
