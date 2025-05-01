@@ -1,0 +1,13 @@
+services:
+  web:
+   build:
+      context: ./frontend-job-pilot
+      dockerfile: dockerfile
+   ports:
+     - "3000:3000"
+   volumes:
+     - ./frontend-job-pilot/src
+     - ./frontend-job-pilot/src/node_modules
+   env:
+      - .env
+   command: npm run dev

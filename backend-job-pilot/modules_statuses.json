@@ -1,3 +1,5 @@
 {
-    "Authentication": true
+    "Authentication": true,
+    "CreateForgetPasswordsLogs": true,
+    "CreateOnlineUsers": true
 }
