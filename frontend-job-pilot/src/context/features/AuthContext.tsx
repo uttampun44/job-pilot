@@ -20,10 +20,15 @@ export  default function AutProvider({ children }: AuthContextProps) {
 
     useEffect(() => {
         const localUser = localStorage.getItem("user");
+        const localToken = localStorage.getItem("token");
+        if (localToken) {
+            setToken(localToken as string);
+        }
+
         if (localUser) {
             setUser(localUser as string);
         }
-    }, []);
+    }, [token, user]);
     
     return(
         <AuthContext value={{user,token, setToken, setUser}}>

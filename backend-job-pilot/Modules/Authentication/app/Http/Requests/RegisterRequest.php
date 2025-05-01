@@ -13,7 +13,6 @@ class RegisterRequest extends FormRequest
     {
         return [
             'role' => 'required|in:Employer,Candidate',
-            'fullName' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',

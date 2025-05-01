@@ -17,27 +17,30 @@ export default function Canditate() {
 
     const { data: roles } = useFetch("/api/v1/all-roles")
 
-    const post = usePost("/api/v1/login")
+    const post = usePost("/api/v1/register")
 
     const navigate = useNavigate();
 
-    const formMethods = useForm<tsignupTypes>({
-        defaultValues: {
-            role: "Candidate",
-        }
-    })
+    const { handleSubmit, register, formState: { errors } } = useForm<tsignupTypes>()
 
-    const handleSubmit = async (formData: tsignupTypes) => {
+    const onSubmit = async (formData: tsignupTypes) => {
 
-        console.log(formData)
+        console.log("formdata", formData)
         try {
-            if (formData.password !== formData.confirm_password) return toast.warning("Password and confirm Password not match !")
+            if (formData.password !== formData.password_confirmation) return toast.warning("Password and confirm Password not match !")
             const response = await post.mutateAsync({ data: formData })
-            console.log(response);
-            navigate("/dashboard")
+            console.log(response)
+            if(response.status === 201) {
+                toast.success("Account created successfully !")
+                navigate("/dashboard")
+            }
 
         } catch (error) {
-            toast.warning("Something went wrong !")
+           if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("An unknown error occurred.");
+            }
         }
 
     }
@@ -45,34 +48,49 @@ export default function Canditate() {
     return (
         <div className={cn("formField canditate space-y-6")}>
 
-            <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
-                <div className="hidden">
-                    {
-                        Array.isArray(roles) && (
-                            <Input type="hidden" defaultValue={formMethods.getValues("role")} name="role" value={roles && roles.length > 0 ? roles[0].id : ""} />
-                        )
-                    }
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+
+                {
+                    Array.isArray(roles) && (
+                        <Input type="hidden"
+                            {...register("role")}
+                            value={roles && roles.length > 0 ? roles[0].name : ""}
+                            className="hidden"
+                        />
+                    )
+                }
+
                 <div className="name flex gap-x-2.5 my-2.5">
-                    <Input placeholder="Full Name" /> <Input placeholder="User Name" />
+                    <Input placeholder="Full Name"
+                        {...register("full_name")}
+                    />
+                    <Input placeholder="User Name"
+                        {...register("name")}
+                    />
                 </div>
                 <div className="email mb-2.5">
-                    <Input placeholder="Email" type="email" className="w-full" />
+                    <Input placeholder="Email" type="email" className="w-full" {...register("email")} />
                 </div>
                 <div className="password relative mb-2.5">
-                    <Input placeholder="Password" type={password ? "text" : "password"} className="w-full" autoComplete="new-password" />
+                    <Input placeholder="Password" type={password ? "text" : "password"} className="w-full"
+                        autoComplete="new-password"
+                        {...register("password")}
+                    />
                     {
                         password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(true)} />
                     }
                 </div>
                 <div className="confirmPassword relative mb-2.5">
-                    <Input placeholder="Confirm Password" type={confirmPassword ? "text" : "password"} className="w-full" autoComplete="new-password" />
+                    <Input placeholder="Confirm Password" type={confirmPassword ? "text" : "password"}
+                        className="w-full" autoComplete="new-password"
+                        {...register("password_confirmation")}
+                    />
                     {
                         confirmPassword ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setConfirmPassword(true)} />
                     }
                 </div>
-             
-                <Button>Sign Up</Button>
+
+                <Button className="cursor-pointer">Create Account</Button>
             </form>
         </div>
     )

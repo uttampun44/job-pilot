@@ -38,8 +38,8 @@ class AuthenticationController extends Controller {
     {
         try {
             $data = $request->validated();
-            $this->authenticationRepository->postLogin($data);
-            return response()->json(['message' => 'Login successful'], 200);
+            $loginData =$this->authenticationRepository->postLogin($data);
+            return response()->json($loginData, 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 400);
         }

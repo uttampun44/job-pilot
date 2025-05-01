@@ -10,6 +10,8 @@ import EmailVerification from '@/pages/frontend/emailverification/EmailVerificat
 import Dashboard from '@/pages/backend/dashboard/Dashboard';
 import ProtectedRoutes from './ProtectedRoutes';
 import Calendar from '@/pages/backend/calendar/Calendar';
+import Candidate from '@/pages/frontend/candidate/Candidate';
+import Employer from '@/pages/frontend/employer/Employer';
 
 
 export const router = createBrowserRouter([
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
             {
                 path: '/',
                 Component: Home
+            },
+            {
+                path: '/candidate',
+                Component: Candidate
+            },
+            {
+                path: '/employer',
+                Component: Employer
             },
             {
                 path: '/listing-details',
@@ -48,6 +58,7 @@ export const router = createBrowserRouter([
         path: '/forget-password',
         Component: ForgetPassword
     },
+    
 
     // Backend Routes
     {

@@ -4,7 +4,7 @@ type typeRemeber = {
     remeber: boolean
 }
 
-type typelogin  = Omit<tsignupTypes, "role" | "full_name" | "name" | "confirm_password">
+type typelogin  = Omit<tsignupTypes, "role" | "full_name" | "name" | "password_confirmation">
 
 /*
  type intersection

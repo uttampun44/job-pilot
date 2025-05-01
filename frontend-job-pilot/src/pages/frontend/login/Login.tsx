@@ -9,29 +9,41 @@ import { useForm } from "react-hook-form";
 import usePost from "@/hooks/api/usePost";
 import { toast } from "sonner";
 import { tLoginType, trememberType } from "./types/login";
-
+import { useNavigate } from "react-router";
+import { useAuth } from "@/context/features/AuthContext";
 
 export default function Login() {
 
     const [password, setPassword] = useToggle();
-
     const [remember, setRemember] = useState<trememberType | null>(null);
 
     const post = usePost("/api/v1/login")
+    const {setToken} = useAuth()
+    const navigation = useNavigate()
 
-    const formMethods = useForm<tLoginType>({
-        defaultValues:{
-            email: "",
-            password: "",
-        }
-    });
+    const {handleSubmit, register} = useForm<tLoginType>();
 
-    const handleSubmit = (formData: tLoginType) => {
+    const onSubmit = async (formData: tLoginType) => {
         try {
-            const response = post.mutateAsync({ data: formData })
-            console.log(response);
+            const response = await post.mutateAsync({ data: formData })
+            console.log("response", response)
+            if (response.status === 200) {
+                localStorage.setItem("token", response.token as string)
+                toast.success("Login successfully !")
+                navigation("/dashboard")
+                if (remember) {
+                    localStorage.setItem("remember", JSON.stringify(remember))
+                }
+
+            } else {
+                toast.error("Invalid email or password !")
+            }
         } catch (error) {
-            toast.error("Something went wrong !")
+            if(error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("An unknown error occurred.");
+            }
         }
     }
     const handleRemeberMe = (e: any) => {
@@ -54,11 +66,15 @@ export default function Login() {
                             </a>
                         </p>
 
-                        <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="tabsForm">
-                                <Input placeholder="Email" />
+                                <Input placeholder="Email"
+                                 {...register("email")}
+                                />
                                 <div className="password relative my-2.5">
-                                    <Input placeholder="Password" type={password ? "text" : "password"} className="w-full" />
+                                    <Input placeholder="Password" type={password ? "text" : "password"}
+                                     {...register("password")}
+                                    className="w-full" />
                                     {
                                         password ? <Icon iconName="eyeClose" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(false)} /> : <Icon iconName="eyeOpen" className="absolute right-2 top-2 cursor-pointer text-neutral-500" onClick={() => setPassword(true)} />
                                     }

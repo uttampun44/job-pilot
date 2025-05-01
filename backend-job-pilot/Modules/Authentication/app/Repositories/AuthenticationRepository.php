@@ -38,6 +38,8 @@ class AuthenticationRepository
         } else {
             $user->assignRole('Candidate');
         }
+
+        return $user;
     }
 
     public function postLogin(array $data)
@@ -48,11 +50,14 @@ class AuthenticationRepository
             throw new \Exception('Invalid email or password');
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $userSelectDetails = $user->only(['id', 'name', 'email']);
+
+        $plainTextToken = $user->createToken('auth_token')->plainTextToken;
 
         return [
-            'message' => 'Login successful',
-            'token' => $token,
+            'user' => $userSelectDetails,
+            'token' => $plainTextToken,
+            'role' => $user->getRoleNames()->first(),
         ];
     }
 

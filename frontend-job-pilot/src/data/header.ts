@@ -14,13 +14,13 @@ export const headerLinks = [
     {
         id: 8,
         title: "Employer",
-        url: "/employers",
+        url: "/employer",
         icon: "search"
     },
     {
         id: 9,
         title: "Candidate",
-        url: "/candidates",
+        url: "/candidate",
         icon: "search"
     },
     {
