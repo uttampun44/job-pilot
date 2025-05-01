@@ -26,9 +26,10 @@ export default function Login() {
     const onSubmit = async (formData: tLoginType) => {
         try {
             const response = await post.mutateAsync({ data: formData })
-            console.log("response", response)
             if (response.status === 200) {
+                console.log(response.data)
                 localStorage.setItem("token", response.token as string)
+                setToken(response.token as string)
                 toast.success("Login successfully !")
                 navigation("/dashboard")
                 if (remember) {

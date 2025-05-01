@@ -7,6 +7,7 @@ export interface SidebarLink {
       id: number;
       label: string;
       href: string;
+      icon?: string;
     }[];
   }
   
@@ -51,19 +52,28 @@ export interface SidebarLink {
     {
       id: 17,
        label: "Settings",
-        icon: 'calendar',
+        icon: 'settings',
         href: "/settings",
+
         subNavigation: [
           {
             id: 171,
             label: "Profile",
             href: "/profile",
+            icon: "profile"
           },
           {
             id: 172,
-            label: "Account",
-            href: "/account",
+            label: "Company Information",
+            href: "/company-information",
+            icon: "company"
           },
+          {
+            id: 173,
+            label: "Permissions",
+            href: "/permissions",
+            icon: "permissions"
+          }
         ],
 
     }

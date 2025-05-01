@@ -6,20 +6,24 @@ import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/api/usePost";
 import { useForm } from "react-hook-form";
-
+import { toast } from "sonner";
 
 export default function TopNav() {
-    const { user, setToken, setUser } = useAuth();
+    const {token, user, setToken, setUser } = useAuth();
     const navigate = useNavigate();
-    
-    const {handleSubmit} = useForm();
 
-    const post = usePost("api/v1/logout")
+    const { handleSubmit } = useForm();
 
-    const onsubmit = async () => {
-        console.log("logout")
+    const logout = usePost("/api/v1/logout")
+
+    const onSubmit = async (): Promise<void> => {
         try {
-            const response = await post.mutateAsync({});
+            const response = await logout.mutateAsync({
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
             if (response.status === 200) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
@@ -29,17 +33,21 @@ export default function TopNav() {
             }
         } catch (error) {
 
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("Something went wrong");
+            }
         }
     };
 
-
-
     return (
-        <header className="w-full border-b bg-white px-6 py-4 flex justify-between items-center shadow-sm">
-            <h1 className="text-xl font-semibold">Dashboard</h1>
-
+        <header className="w-full border-b bg-muted/50 py-4 flex justify-between items-center shadow-sm">
+            
+             <div className="row pl-4">
+             <h1 className="text-xl font-semibold">Dashboard</h1>
+             </div>
             <div className="flex items-center gap-6">
-
                 <Button
                     type="button"
                     className="relative text-gray-600 hover:text-black cursor-pointer"
@@ -53,21 +61,19 @@ export default function TopNav() {
                     <DropdownMenuTrigger asChild>
                         <div className="flex items-center gap-3 cursor-pointer">
                             <Avatar className="cursor-pointer">
-                                <AvatarImage src="/avatar.png" alt={user} />
-                                <AvatarFallback>{user?.charAt(0)?.toUpperCase()}</AvatarFallback>
+                                <AvatarImage src="/avatar.png" alt={user as string} />
+                                <AvatarFallback>{user?.charAt(0)?.toUpperCase() as string}</AvatarFallback>
                             </Avatar>
-                            <span className="font-medium text-gray-800">{user}</span>
+                            <span className="font-medium text-gray-800">{user as string}</span>
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
                         <DropdownMenuItem onClick={() => navigate("/profile")}>
                             Update Profile
                         </DropdownMenuItem>
-                            <DropdownMenuItem className="text-red-600">
-                        <form onSubmit={handleSubmit(onsubmit)}>
-                                Logout
-                        </form>
-                            </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600" onClick={handleSubmit(onSubmit)}>
+                            Logout
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

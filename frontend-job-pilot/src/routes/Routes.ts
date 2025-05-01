@@ -14,6 +14,7 @@ import Candidate from '@/pages/frontend/candidate/Candidate';
 import Employer from '@/pages/frontend/employer/Employer';
 import Profile from '@/pages/backend/profile/profile';
 import { Settings } from 'lucide-react';
+import Permission from '@/pages/backend/permission/Permission';
 
 
 export const router = createBrowserRouter([
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
                 {
                     path: '/settings',
                     Component: Profile
+                },
+                {
+                    path: 'permissions',
+                    Component: Permission
                 }
             ]
          }

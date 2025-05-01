@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export  default function AutProvider({ children }: AuthContextProps) {
    
-    const [user, setUser] = useState<AuthContextValue["user"]>("");
+    const [user, setUser] = useState<string>("");
     const [token, setToken] = useState<string>("");
     const [isLoading, setIsLoading] = useState(true);
 
