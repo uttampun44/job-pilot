@@ -2,8 +2,12 @@ name: job-pilot
 
 on:
   push:
-    branches-ignore:
+    # triggers build workflow when a commit is pushed to main branch
+    branches:
       - main
+      # triggers development workflow when a PR is created
+  pull_request:
+    branches:
       - development
 
 jobs:
@@ -16,6 +20,6 @@ jobs:
       
       - name: test
         run:  npm run test
-
+        
       - name: build
         run:  npm run build  
