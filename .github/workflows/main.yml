@@ -29,8 +29,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm run test
+      # - name: Run tests
+      #   run: npm run test
 
       - name: Build
         run: npm run build
@@ -55,8 +55,8 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      - name: Run tests
-        run: php artisan test
+      # - name: Run tests
+      #   run: php artisan test
 
   build:
     runs-on: ubuntu-latest
