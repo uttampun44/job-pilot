@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Settings\Http\Controllers;
+namespace Modules\Settings\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Settings\app\Repositories\PermissionRepository;
-use App\Request\PermissionRequest;
 use Illuminate\Support\Facades\Log;
+use Modules\Settings\app\Repositories\PermissionRepositories;
+use Modules\Settings\Http\Requests\PermissionRequest;
 
 class PermissionController extends Controller
 {
@@ -15,7 +15,7 @@ class PermissionController extends Controller
      */
     protected $permissionRepository;
 
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(PermissionRepositories $permissionRepository)
     {
         $this->permissionRepository = $permissionRepository;
     }

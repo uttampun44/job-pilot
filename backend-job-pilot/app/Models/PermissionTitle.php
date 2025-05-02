@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Modeles\Permission;
+use App\Models\Permission;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PermissionTitle extends Model
 {
@@ -13,6 +14,6 @@ class PermissionTitle extends Model
 
    public function permissions(): BelongsTo
    {
-       return $this->belongsTo(Permission::class);
+       return $this->belongsTo(Permission::class, 'permission_id');
    }
 }

@@ -3,10 +3,11 @@
 namespace Modules\Settings\app\Repositories;
 
 use App\Models\User;
-use App\Models\CandidateProfile;
-use App\Models\CandidateExperience;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Modules\Settings\Models\CandidateProfile;
+use Modules\Settings\Models\CandidateExperience;
 
 class CandidateRepositories
 {
@@ -18,7 +19,7 @@ class CandidateRepositories
     public function createUpdate(array $data)
     {
         DB::beginTransaction();
-        $auth_user = auth()->user();
+        $auth_user = Auth::user();
 
         if(!$auth_user) {
             return throw new \Exception('Not logged in');
@@ -29,9 +30,10 @@ class CandidateRepositories
         }
 
         CandidateProfile::createOrUpdate($data);
-        CandidateWorkExperience::createOrUpdate($data);
+        CandidateExperience::createOrUpdate($data);
         
         DB::commit();
-        return $candidate;
+        
+        return true;
     }
 }

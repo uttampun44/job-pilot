@@ -10,7 +10,7 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void {
-        Schemma::create('candidate_informations', function (Blueprint $table) {
+        Schema::create('candidate_informations', function (Blueprint $table) {
             $table->id();
             $table->longText('image')->nullable();
             $table->string('date_of_birth');

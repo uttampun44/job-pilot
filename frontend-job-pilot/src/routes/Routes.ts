@@ -12,9 +12,10 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Calendar from '@/pages/backend/calendar/Calendar';
 import Candidate from '@/pages/frontend/candidate/Candidate';
 import Employer from '@/pages/frontend/employer/Employer';
-import Profile from '@/pages/backend/settings/Profile/Profile';
-import { Settings } from 'lucide-react';
+import Profile from '@/pages/backend/settings/profile/Profile';
 import Permission from '@/pages/backend/settings/permissions/Permission';
+import EmployerProfile from '@/pages/backend/settings/employer/EmployerProfile';
+import RolePermission from '@/pages/backend/settings/permissions/RolePermission';
 
 
 export const router = createBrowserRouter([
@@ -50,8 +51,8 @@ export const router = createBrowserRouter([
         Component: Login
     },
     {
-       path: '/reset-password',
-       Component: ResetPassword
+        path: '/reset-password',
+        Component: ResetPassword
     },
     {
         path: '/email-verification',
@@ -61,44 +62,43 @@ export const router = createBrowserRouter([
         path: '/forget-password',
         Component: ForgetPassword
     },
-    
+
 
     // Backend Routes
     {
-    
+
         Component: ProtectedRoutes,
         children: [
-         {
-            path: '/dashboard',
-            Component: Dashboard
-         },
-         {
-            path: '/calendar',
-            Component: Calendar
-         },
-         {
-            path: '/profile',
-            Component: Profile
-         },
-         {
-            Component: Settings,
-            children: [
-                {
-                    path: '/candidate-profile',
-                    Component: Profile
-                },
-                {
-                    path: '/employer-settings',
-                    Component: Profile
-                },
-                {
-                    path: 'permissions',
-                    Component: Permission
-                }
-            ]
-         }
-         
-       ]
+            {
+                path: '/dashboard',
+                Component: Dashboard
+            },
+            {
+                path: '/calendar',
+                Component: Calendar
+            },
+            {
+                path: '/profile',
+                Component: Profile
+            },
+
+            {
+                path: '/settings/candidate-profile',
+                Component: Profile
+            },
+            {
+                path: '/settings/company-information',
+                Component: EmployerProfile
+            },
+            {
+                path: '/settings/permissions',
+                Component: Permission
+            },
+            {
+                path: '/settings/role/:id',
+                Component: RolePermission
+            }
+        ]
     }
 
 ])

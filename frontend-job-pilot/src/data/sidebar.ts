@@ -65,13 +65,13 @@ export interface SidebarLink {
           {
             id: 172,
             label: "Company Information",
-            href: "/company-information",
+            href: "/settings/company-information",
             icon: "company"
           },
           {
             id: 173,
             label: "Permissions",
-            href: "/permissions",
+            href: "/settings/permissions",
             icon: "permissions"
           }
         ],

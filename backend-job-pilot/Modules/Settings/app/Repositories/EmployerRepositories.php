@@ -2,9 +2,9 @@
 
 namespace Modules\Settings\app\Repositories;
 
-use App\Models\User;
-use App\Models\Employer;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Modules\Settings\Models\Employer;
 
 class EmployerRepositories
 {
@@ -15,7 +15,7 @@ class EmployerRepositories
 
     public function createUpdate(array $data)
     {
-        $auth_user = auth()->user();
+        $auth_user = Auth::user();
 
         if(!$auth_user) {
             return throw new \Exception('Not logged in');
@@ -27,6 +27,5 @@ class EmployerRepositories
 
         Employer::createOrUpdate($data);
 
-        return $employer;
     }
 }

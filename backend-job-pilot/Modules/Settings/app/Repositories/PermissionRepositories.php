@@ -5,6 +5,7 @@ use App\Models\Role;
 use App\Models\PermissionTitle;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PermissionRepositories
 {
@@ -15,12 +16,12 @@ class PermissionRepositories
 
     public function fetchPermissions()
     {
-        return PermissionTitle::with("permissions")->select('id', 'name')->get()->toArray();
+        return PermissionTitle::with("permissions")->select('id', 'title')->get()->groupBy('title')->toArray();
     }
 
     public function createUpdate(array $data)
     {
-        $auth_user = auth()->user();
+        $auth_user = Auth::user();
 
         if(!$auth_user) {
             return throw new \Exception('Not logged in');
@@ -35,9 +36,9 @@ class PermissionRepositories
         }
         
         $permissions = DB::table('model_has_permissions')->updateOrInsert([
-            'model_type' => $user;
-            'permission_id' => $data['permission_id'];
-        ])
+            'model_type' => $user,
+            'permission_id' => $data['permission_id'],
+        ]);
 
        return  $role->syncPermissions($permissions);
     }

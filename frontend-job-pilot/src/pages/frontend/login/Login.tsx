@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { tLoginType, trememberType } from "./types/login";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/context/features/AuthContext";
+import Overlary from "@/components/ui/overlary";
 
 export default function Login() {
 
@@ -94,7 +95,8 @@ export default function Login() {
                         </form>
                     </div>
                 </div>
-                <div className="hidden md:block w-1/2 h-screen">
+                <div className="hidden md:block w-1/2 h-screen relative ">
+                 <Overlary />
                     <img
                         src={TeamImage}
                         alt="Team"
