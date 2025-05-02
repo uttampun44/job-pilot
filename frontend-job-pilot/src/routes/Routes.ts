@@ -12,9 +12,9 @@ import ProtectedRoutes from './ProtectedRoutes';
 import Calendar from '@/pages/backend/calendar/Calendar';
 import Candidate from '@/pages/frontend/candidate/Candidate';
 import Employer from '@/pages/frontend/employer/Employer';
-import Profile from '@/pages/backend/profile/profile';
+import Profile from '@/pages/backend/settings/Profile/Profile';
 import { Settings } from 'lucide-react';
-import Permission from '@/pages/backend/permission/Permission';
+import Permission from '@/pages/backend/settings/permissions/Permission';
 
 
 export const router = createBrowserRouter([
@@ -84,11 +84,11 @@ export const router = createBrowserRouter([
             Component: Settings,
             children: [
                 {
-                    path: '/account',
+                    path: '/candidate-profile',
                     Component: Profile
                 },
                 {
-                    path: '/settings',
+                    path: '/employer-settings',
                     Component: Profile
                 },
                 {

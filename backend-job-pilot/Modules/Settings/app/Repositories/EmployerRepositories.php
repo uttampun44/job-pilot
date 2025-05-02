@@ -1,0 +1,32 @@
+<?php
+
+namespace Modules\Settings\app\Repositories;
+
+use App\Models\User;
+use App\Models\Employer;
+use Illuminate\Support\Facades\DB;
+
+class EmployerRepositories
+{
+    public function fetchEmployers()
+    {
+        return Employer::with("user")->select('id', 'company_name', 'company_address', 'company_phone_number', 'company_email', 'company_website_url', 'linkedin_url', 'industry', 'company_size', 'founded_year', 'logo')->get()->toArray();
+    }
+
+    public function createUpdate(array $data)
+    {
+        $auth_user = auth()->user();
+
+        if(!$auth_user) {
+            return throw new \Exception('Not logged in');
+        }
+         
+        if(isset($data['company_logo'])) {
+            $data['logo'] = Storage::put('public/logos/'.$data['company_logo'], file_get_contents($data['company_logo']));
+        }
+
+        Employer::createOrUpdate($data);
+
+        return $employer;
+    }
+}
