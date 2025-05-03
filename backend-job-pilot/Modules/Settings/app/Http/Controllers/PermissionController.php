@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Modules\Settings\app\Repositories\PermissionRepositories;
-use Modules\Settings\Http\Requests\PermissionRequest;
+use Modules\Settings\app\Http\Requests\PermissionRequest;
 
 class PermissionController extends Controller
 {
@@ -44,6 +44,7 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request) 
     {
         try {
+            Log::info('Store permission', [$request->all()]);
             $data = $request->validated();
             $this->permissionRepository->createUpdate($data);
             return response()->json(['message' => 'Permission given successfully'], 200);

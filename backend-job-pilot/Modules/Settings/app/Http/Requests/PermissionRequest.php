@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Settings\Http\Requests;
+namespace Modules\Settings\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,8 +12,8 @@ class PermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'role_id' => 'required|integer',
-            'permission_id' => 'required|integer',
+            'permissions.*.permission_id' => 'required',
+            'permissions.*.role_id' => 'required',
         ];
     }
 

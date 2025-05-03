@@ -25,7 +25,7 @@ class PermissionRepositories
         foreach ($permissions as $permission) {
             $action = strtolower(Str::before($permission->name, ' '));
 
-           
+
             if (!in_array($action, ['add', 'edit', 'delete', 'view'])) {
                 continue;
             }
@@ -36,14 +36,14 @@ class PermissionRepositories
                 if (!preg_match('/^(add|edit|view|delete)/i', $permission->name)) {
                     continue;
                 }
-        
+
                 foreach ($permission->permissionsTitles as $title) {
                     $titleName = $title->title;
-        
+
                     if (!isset($grouped[$titleName])) {
                         $grouped[$titleName] = [];
                     }
-        
+
                     $grouped[$titleName][] = [
                         'id' => $permission->id,
                         'name' => $permission->name
@@ -63,19 +63,17 @@ class PermissionRepositories
             return throw new \Exception('Not logged in');
         }
 
-        $user = User::find($auth_user->id);
-
-        $role = Role::find($auth_user->roles->pluck('name')->first());
+        $role = Auth::user()->roles->first();
 
         if (!$role) {
             return throw new \Exception('No role found');
         }
 
-        $permissions = DB::table('model_has_permissions')->updateOrInsert([
-            'model_type' => $user,
-            'permission_id' => $data['permission_id'],
-        ]);
+       
+        $permissionIds = array_column($data['permissions'], 'permission_id');
 
-        return  $role->syncPermissions($permissions);
+        $permissionAssign = Permission::whereIn('id', $permissionIds)->where('guard_name', $role->guard_name)->get();
+
+        return  $role->syncPermissions($permissionAssign);
     }
 }
