@@ -11,5 +11,5 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('candidate-profile', CandidateProfileController::class)->names('candidate-profile');
     Route::get('employer-profile', [EmployerController::class, 'index'])->name('employer-profile');
     Route::post('employer-profile', [EmployerController::class, 'store'])->name('employer-profile');
-    Route::apiResource('permission', PermissionController::class)->names('permission');
+    Route::apiResource('permission', PermissionController::class)->only(['index', 'store']);
 });

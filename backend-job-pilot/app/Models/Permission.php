@@ -13,8 +13,8 @@ class Permission extends Model
     protected $table = 'permissions';
     protected $fillable = ['name'];
 
-    public function permissionsTitles(): BelongsTo
+    public function permissionsTitles(): HasMany
     {
-        return $this->belongsTo(PermissionTitle::class);
+        return $this->hasMany(PermissionTitle::class);
     }
 }

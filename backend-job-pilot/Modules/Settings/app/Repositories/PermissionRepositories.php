@@ -1,11 +1,13 @@
 <?php
 
 namespace Modules\Settings\app\Repositories;
+
+use App\Models\Permission;
 use App\Models\Role;
-use App\Models\PermissionTitle;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class PermissionRepositories
 {
@@ -16,14 +18,48 @@ class PermissionRepositories
 
     public function fetchPermissions()
     {
-        return PermissionTitle::with("permissions")->select('id', 'title')->get()->groupBy('title')->toArray();
+        $permissions = Permission::with('permissionsTitles')->get();
+
+        $grouped = [];
+
+        foreach ($permissions as $permission) {
+            $action = strtolower(Str::before($permission->name, ' '));
+
+           
+            if (!in_array($action, ['add', 'edit', 'delete', 'view'])) {
+                continue;
+            }
+
+            foreach ($permission->permissionsTitles as $title) {
+                $titleName = $title->title;
+
+                if (!preg_match('/^(add|edit|view|delete)/i', $permission->name)) {
+                    continue;
+                }
+        
+                foreach ($permission->permissionsTitles as $title) {
+                    $titleName = $title->title;
+        
+                    if (!isset($grouped[$titleName])) {
+                        $grouped[$titleName] = [];
+                    }
+        
+                    $grouped[$titleName][] = [
+                        'id' => $permission->id,
+                        'name' => $permission->name
+                    ];
+                }
+            }
+        }
+
+        return $grouped;
     }
 
     public function createUpdate(array $data)
     {
         $auth_user = Auth::user();
 
-        if(!$auth_user) {
+        if (!$auth_user) {
             return throw new \Exception('Not logged in');
         }
 
@@ -31,15 +67,15 @@ class PermissionRepositories
 
         $role = Role::find($auth_user->roles->pluck('name')->first());
 
-        if(!$role) {
+        if (!$role) {
             return throw new \Exception('No role found');
         }
-        
+
         $permissions = DB::table('model_has_permissions')->updateOrInsert([
             'model_type' => $user,
             'permission_id' => $data['permission_id'],
         ]);
 
-       return  $role->syncPermissions($permissions);
+        return  $role->syncPermissions($permissions);
     }
 }

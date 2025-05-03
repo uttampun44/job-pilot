@@ -12,8 +12,8 @@ class PermissionTitle extends Model
    protected $table = 'permission_titles';
    protected $fillable = ['title', 'permission_id'];
 
-   public function permissions(): HasMany
+   public function permissions(): BelongsTo
    {
-       return $this->hasMany(Permission::class);
+       return $this->belongsTo(Permission::class);
    }
 }
