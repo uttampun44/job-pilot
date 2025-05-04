@@ -12,8 +12,9 @@ class PermissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'permissions.*.permission_id' => 'required',
-            'permissions.*.role_id' => 'required',
+            'permissions' => 'array',
+            'permissions.*.id' => 'required|integer',
+            'permissions.*.name' => 'required|string',
         ];
     }
 

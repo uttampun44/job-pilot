@@ -15,12 +15,7 @@ class EmployerRepositories
 
     public function createUpdate(array $data)
     {
-        $auth_user = Auth::user();
-
-        if(!$auth_user) {
-            return throw new \Exception('Not logged in');
-        }
-         
+        
         if(isset($data['company_logo'])) {
             $data['logo'] = Storage::put('public/logos/'.$data['company_logo'], file_get_contents($data['company_logo']));
         }

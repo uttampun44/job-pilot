@@ -57,23 +57,13 @@ class PermissionRepositories
 
     public function createUpdate(array $data)
     {
-        $auth_user = Auth::user();
-
-        if (!$auth_user) {
-            return throw new \Exception('Not logged in');
-        }
-
+       
         $role = Auth::user()->roles->first();
 
         if (!$role) {
             return throw new \Exception('No role found');
         }
-
-       
-        $permissionIds = array_column($data['permissions'], 'permission_id');
-
-        $permissionAssign = Permission::whereIn('id', $permissionIds)->where('guard_name', $role->guard_name)->get();
-
+        
         return  $role->syncPermissions($permissionAssign);
     }
 }
