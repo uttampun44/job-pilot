@@ -4,6 +4,8 @@ namespace Modules\Authentication\app\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Modules\Settings\Models\CandidateProfile;
+use Modules\Settings\Models\Employer;
 
 class DashboardRepository
 {
@@ -25,7 +27,7 @@ class DashboardRepository
 
     public function fetchAllCandidates()
     {
-        $candidates = Candidate::with('user')->select('id', 'name', 'email', 'phone_number', 'profile_picture_url', 'is_active')->get()->toArray();
+        $candidates = CandidateProfile::with('user')->select('id', 'name', 'email', 'phone_number', 'profile_picture_url', 'is_active')->get()->toArray();
         return $candidates;
     }
 

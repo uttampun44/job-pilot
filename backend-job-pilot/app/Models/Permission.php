@@ -7,8 +7,8 @@ use App\Models\PermissionTitle;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-
-class Permission extends Model
+use Spatie\Permission\Models\Permission as SpatiePermission;
+class Permission extends SpatiePermission
 {
     protected $table = 'permissions';
     protected $fillable = ['name'];

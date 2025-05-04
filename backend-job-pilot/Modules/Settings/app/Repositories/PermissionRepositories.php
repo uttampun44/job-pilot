@@ -55,15 +55,26 @@ class PermissionRepositories
         return $grouped;
     }
 
-    public function createUpdate(array $data)
+    public function createUpdatePermission(array $data)
     {
-       
+
         $role = Auth::user()->roles->first();
 
         if (!$role) {
             return throw new \Exception('No role found');
         }
+
+        if (!isset($data['permissions']) || !is_array($data['permissions'])) {
+            throw new \Exception('Invalid permissions format');
+        }
+
         
-        return  $role->syncPermissions($permissionAssign);
+        $permissionIds = collect($data['permissions'])->pluck('id');
+        $permissions = Permission::findMany($permissionIds);
+
+        if ($permissions->isEmpty()) {
+            throw new \Exception('Permissions not found');
+        }
+        return  $role->syncPermissions($permissions);
     }
 }

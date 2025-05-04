@@ -10,7 +10,7 @@ import { useNavigate} from "react-router";
 import { toast } from "sonner";
 
 type permissions = {
-    id: number;
+    id: string;
     name: string;
 }
 
@@ -33,15 +33,19 @@ export default function RolePermission() {
 
     const onSubmit = async (formData: tRolePermission) => {
 
-        const dataToSend = formData.permissions.filter((permission: any) => {
-            return selectedPermission.includes(permission.id)
-        })
+        const dataToSend = formData.permissions
+        .filter((permission) => selectedPermission.includes(permission.id))
+        .map((permission) => ({
+            id: permission.id,
+            name: permission.name,
+        }));
+
+    console.log("dataToSend", dataToSend);
 
         try {
 
             const response = await postData.mutateAsync({ data: { permissions: dataToSend } });
          
-           console.log("dataToSend", dataToSend)
             if (response.status !== 200) return toast.error(response.error);
 
             toast.success("Role Permission updated successfully !")

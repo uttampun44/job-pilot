@@ -44,9 +44,8 @@ class PermissionController extends Controller
     public function store(PermissionRequest $request) 
     {
         try {
-            Log::info('Store permission', [$request->all()]);
             $data = $request->validated();
-            $this->permissionRepository->createUpdate($data);
+            $this->permissionRepository->createUpdatePermission($data);
             return response()->json(['message' => 'Permission given successfully'], 200);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
