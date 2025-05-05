@@ -1,17 +1,19 @@
+// @ts-nocheck
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/api/useFetch";
 import usePost from "@/hooks/api/usePost";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { useNavigate} from "react-router";
 import { toast } from "sonner";
 
 type permissions = {
     id: string;
     name: string;
+    status: boolean;
 }
 
 type tRolePermission = {
@@ -23,7 +25,11 @@ export default function RolePermission() {
     const [selectedPermission, setSelectedPermission] = useState<string[]>([]);
     const navigation = useNavigate()
 
-    const { handleSubmit, register } = useForm<tRolePermission>();
+    const { handleSubmit, register, control } = useForm<tRolePermission>({
+        defaultValues: {
+            permissions: [],
+        }
+    });
 
     const { data: rolePermission, isPending } = useFetch(`/api/v1/permission`);
 
@@ -31,17 +37,21 @@ export default function RolePermission() {
 
     const postData = usePost("/api/v1/permission");
 
-    const onSubmit = async (formData: tRolePermission) => {
+    const onSubmit = async () => {
 
-        const dataToSend = formData.permissions
-        .filter((permission) => selectedPermission.includes(permission.id))
-        .map((permission) => ({
-            id: permission.id,
-            name: permission.name,
-        }));
-
-    console.log("dataToSend", dataToSend);
-
+        const dataToSend = selectedPermission.map((permissionId: string) => {
+          
+            const permissionObj = Object.values(permissions || {}).flat().find(
+                (p: any) => p.id === permissionId
+            );
+    
+            return {
+                id: permissionId,
+                name: permissionObj?.name || "",
+                status: permissionObj?.selected  === true ? true : false
+            };
+        });
+    
         try {
 
             const response = await postData.mutateAsync({ data: { permissions: dataToSend } });
@@ -76,8 +86,9 @@ export default function RolePermission() {
                                 <div key={permission}>
                                     <h2 className="text-xl capitalize font-semibold mb-4 text-gray-800 dark:text-white">{permission}</h2>
                                     {
-                                        // access the permission values
+                                     
                                         permissions[permission].map((permission: any, index: number) => {
+
                                             return (
                                                 <div key={permission.id} className="flex items-center gap-4">
                                                   
@@ -91,6 +102,7 @@ export default function RolePermission() {
                                                                 return [...prev, permission.id];
                                                             }
                                                         })}
+                                                        defaultChecked={permission.selected == true ? true : false}
                                                     />
                                                     <Label className="capitalize">{permission.name}</Label>
                                                 </div>

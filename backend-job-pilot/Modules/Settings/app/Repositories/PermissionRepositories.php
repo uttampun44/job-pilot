@@ -46,7 +46,8 @@ class PermissionRepositories
 
                     $grouped[$titleName][] = [
                         'id' => $permission->id,
-                        'name' => $permission->name
+                        'name' => $permission->name,
+                        'selected' => Auth::user()->roles->first()->permissions->contains($permission)
                     ];
                 }
             }
