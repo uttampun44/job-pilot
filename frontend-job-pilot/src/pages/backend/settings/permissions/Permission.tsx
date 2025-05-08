@@ -16,7 +16,7 @@ export default function Permission() {
 
   const roles = Array.isArray(rolesPermissions?.roles) ? rolesPermissions?.roles : []
 
-  const debouncedSearch = useDebounce(searchTerm, 500)
+  const debouncedSearch = useDebounce(searchTerm, 200)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value)

@@ -59,7 +59,7 @@ export interface SidebarLink {
           {
             id: 171,
             label: "Profile",
-            href: "/profile",
+            href: "/settings/candidate-profile",
             icon: "profile"
           },
           {

@@ -4,14 +4,18 @@ namespace Modules\Authentication\app\Repositories;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Modules\Settings\Models\CandidateProfile;
-use Modules\Settings\Models\Employer;
+use Modules\Settings\app\Models\CandidateInformation;
+use Modules\Settings\app\Models\Employer;
 
 class DashboardRepository
 {
     public function fetchDashboard()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
         
         // calling fetch allcandidates and fetch allemployers
         $candidates = $this->fetchAllCandidates();
@@ -27,7 +31,7 @@ class DashboardRepository
 
     public function fetchAllCandidates()
     {
-        $candidates = CandidateProfile::with('user')->select('id', 'name', 'email', 'phone_number', 'profile_picture_url', 'is_active')->get()->toArray();
+        $candidates = CandidateInformation::with('user')->select('id', 'image', 'date_of_birth')->get()->toArray();
         return $candidates;
     }
 

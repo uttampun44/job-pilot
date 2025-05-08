@@ -4,7 +4,7 @@ namespace Modules\Settings\app\Repositories;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Modules\Settings\Models\Employer;
+use Modules\Settings\app\Models\Employer;
 
 class EmployerRepositories
 {

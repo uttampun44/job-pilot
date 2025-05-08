@@ -1,7 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import useFetch from "@/hooks/api/useFetch";
 import { Users, Briefcase, Heart, Bell } from "lucide-react";
 
 export default function Dashboard() {
+
+  const {data: dashboarData} = useFetch("/api/v1/dashboard")
+
+  console.log(dashboarData)
   const stats = [
     {
       title: "Active Users",

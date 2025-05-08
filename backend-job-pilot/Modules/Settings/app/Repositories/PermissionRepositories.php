@@ -4,8 +4,6 @@ namespace Modules\Settings\app\Repositories;
 
 use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 

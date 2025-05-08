@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Settings\Models;
+namespace Modules\Settings\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 // use Modules\Settings\Database\Factories\CandidateProfileFactory;
 
-class CandidateProfile extends Model
+class CandidateInformation extends Model
 {
     use HasFactory;
 

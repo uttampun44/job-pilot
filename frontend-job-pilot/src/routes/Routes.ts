@@ -16,6 +16,8 @@ import Profile from '@/pages/backend/settings/profile/Profile';
 import Permission from '@/pages/backend/settings/permissions/Permission';
 import EmployerProfile from '@/pages/backend/settings/employer/EmployerProfile';
 import RolePermission from '@/pages/backend/settings/permissions/RolePermission';
+import CandidateEdit from '@/pages/backend/settings/profile/components/Edit';
+
 
 
 export const router = createBrowserRouter([
@@ -77,14 +79,14 @@ export const router = createBrowserRouter([
                 path: '/calendar',
                 Component: Calendar
             },
-            {
-                path: '/profile',
-                Component: Profile
-            },
-
+           
             {
                 path: '/settings/candidate-profile',
                 Component: Profile
+            },
+            {
+                path: "/settings/candidate-profile/edit",
+                Component: CandidateEdit
             },
             {
                 path: '/settings/company-information',
