@@ -4,14 +4,13 @@ import { Link, useParams } from "react-router";
 
 export default function Profile() {
 
-    const {id} = useParams();
-
+    const { id } = useParams();
     return (
         <React.Fragment>
             <div className="container min-h-screen bg-neutral-100 py-10 px-4 w-full max-w-full">
 
                 <div className="flex justify-end  items-center">
-                <Link to={`/settings/candidate-profile/edit/`} className={buttonVariants({ variant: "outline" })}>Update Profile</Link>
+                <Link to={`/settings/candidate-profile/edit/${id}`} className={buttonVariants({ variant: "outline" })}>Update Profile</Link>
 
                 </div>
                 <div className="flex justify-center items-start">
