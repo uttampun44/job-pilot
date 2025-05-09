@@ -34,13 +34,13 @@ export default function PermissionContext({ children }: permissionsContextProps)
 }
 
 export function usePermission() {
-    const permissions = use(Permission);
-    if (!permissions) {
+    const context = use(Permission);
+    if (!context) {
         throw new Error("usePermission must be used within a PermissionContext");
     }
 
     const hasPermission = (permission: string) => {
-        return permissions.permissions.some(p => p.name === permission);
+        return context.permissions.some(p => p.name === permission);
     }
-    return {permissions, hasPermission };
+    return {permissions: context.permissions, setPermissions: context.setPermissions, hasPermission };
 }

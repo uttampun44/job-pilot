@@ -12,7 +12,7 @@ export default function AppSidebar() {
   const [openItems, setOpenItems] = useState<{ [key: number]: boolean }>({});
 
   const { permissions } = usePermission();
-  const userPermissions = permissions.permissions.map((item) => item.name);
+  const userPermissions = permissions.map((item) => item.name);
 
   const handleCollapse = (id: number) => {
     setOpenItems((prevState) => ({
