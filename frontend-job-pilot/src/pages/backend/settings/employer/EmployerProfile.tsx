@@ -1,7 +1,7 @@
 import React from "react";
 import CompanyDetails from "./components/CompanyDetails";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function EmployerProfile(){
     return (

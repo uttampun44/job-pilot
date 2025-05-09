@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 
 export default function Permission() {
