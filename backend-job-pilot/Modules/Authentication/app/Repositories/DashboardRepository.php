@@ -13,20 +13,30 @@ class DashboardRepository
     {
         $user = Auth::user();
 
-        if (!$user) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+        // calling fetch allcandidates and fetch allemployers
+        
+        if(!$user || $user->hasAnyRole(['Employer', 'Candidate']))
+        {
+            return response()->json(['error' => 'Unauthorized access'], 401);
+        }
+
+        if($user->hasRole('Employer'))
+        {
+            $employers = $this->fetchAllEmployers();
+            return [
+                'employers' => $employers,
+                'userRolePermissions' => $user->getPermissionsViaRoles(),
+            ];
+        }
+        if($user->hasRole('Candidate'))
+        {
+            $candidates = $this->fetchAllCandidates();
+            return [
+                'candidates' => $candidates,
+                'userRolePermissions' => $user->getPermissionsViaRoles(),
+            ];
         }
         
-        // calling fetch allcandidates and fetch allemployers
-        $candidates = $this->fetchAllCandidates();
-        $employers = $this->fetchAllEmployers();
-
-        return [
-            'candidates' => $candidates,
-            'employers' => $employers,
-            'userRolePermissions' => $user->getPermissionsViaRoles(),
-        ];
-
     }
 
     public function fetchAllCandidates()

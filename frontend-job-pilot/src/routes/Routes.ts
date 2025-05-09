@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/dashboard',
-                Component: Dashboard
+                Component: Dashboard,
             },
             {
                 path: '/calendar',
