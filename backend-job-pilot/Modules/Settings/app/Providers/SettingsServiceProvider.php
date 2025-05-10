@@ -7,9 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use Modules\Settings\app\Repositories\PermissionRepository;
 use Modules\Settings\app\Repositories\CandidateRepositories;
-use Modules\Settings\app\Repositories\EmployerRepositories;
+use Modules\Settings\app\Repositories\EmployerInformationRepositories;
+use Modules\Settings\app\Repositories\PermissionRepositories;
 
 class SettingsServiceProvider extends ServiceProvider
 {
@@ -39,14 +39,14 @@ class SettingsServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
-        $this->app->bind(PermissionRepository::class, function(){
-            return new PermissionRepository();
+        $this->app->bind(PermissionRepositories::class, function(){
+            return new PermissionRepositories();
         });
         $this->app->bind(CandidateRepositories::class, function(){
             return new CandidateRepositories();
         });
-        $this->app->bind(EmployerRepositories::class, function(){
-            return new EmployerRepositories();
+        $this->app->bind(EmployerInformationRepositories::class, function(){
+            return new EmployerInformationRepositories();
         });
     }
 

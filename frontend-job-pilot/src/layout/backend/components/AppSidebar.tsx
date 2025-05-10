@@ -7,11 +7,14 @@ import Icon from "@/components/Icon";
 import React, { useState } from "react";
 import { usePermission } from "@/context/features/PermissionContext";
 import { hasPermissions } from "@/utils/permission";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AppSidebar() {
   const [openItems, setOpenItems] = useState<{ [key: number]: boolean }>({});
 
   const { permissions } = usePermission();
+
+  if(!permissions) return <Skeleton />
   const userPermissions = permissions.map((item) => item.name);
 
   const handleCollapse = (id: number) => {
@@ -42,7 +45,7 @@ export default function AppSidebar() {
                     {!item.subNavigation ? (
                       <SidebarMenuButton asChild>
                         {checkPermissions && (
-                          <Link to={item.href} className="flex items-center font-semibold gap-2 text-neutral-600 hover:text-blue-500">
+                          <Link to={item.href} className="flex items-center font-semibold gap-2 hover:text-blue-500">
                             <Icon iconName={item.icon} className="text-neutral-600" />
                             {item.label}
                           </Link>
@@ -54,7 +57,7 @@ export default function AppSidebar() {
                         onOpenChange={() => handleCollapse(item.id)}
                       >
                         <CollapsibleTrigger asChild>
-                          <div className="flex items-center justify-between cursor-pointer p-2 font-semibold text-gray-700 hover:text-blue-500">
+                          <div className="flex items-center justify-between cursor-pointer p-2 font-semibold hover:text-blue-500">
                             <span className="flex items-center gap-2">
                               <Icon iconName={item.icon} />
                               {item.label}
@@ -80,7 +83,7 @@ export default function AppSidebar() {
                                         <Link
                                           key={subItem.id}
                                           to={subItem.href}
-                                          className="block font-medium text-gray-600 hover:text-blue-500"
+                                          className="block font-medium hover:text-blue-500"
                                         >
                                           {subItem.label}
                                         </Link>

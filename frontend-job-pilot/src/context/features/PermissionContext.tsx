@@ -1,5 +1,6 @@
 import useFetch from "@/hooks/api/useFetch";
 import { createContext, Dispatch, ReactNode, SetStateAction, use, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 interface permissionsContextProps {
     children: ReactNode
@@ -18,18 +19,18 @@ interface PermissionContextValue {
 const Permission = createContext<PermissionContextValue | undefined>(undefined);
 
 export default function PermissionContext({ children }: permissionsContextProps) {
-    const [permissions, setPermissions] = useState<permissionsContextType>([]);
-    
-    const {data: permission} = useFetch("/api/v1/dashboard")
-    
-    const permissionData = Array.isArray(permission?.userRolePermissions) ? permission?.userRolePermissions : []
+    const [permissions, setPermissions] = useState<permissionsContextType>([]);  
+    const { token } = useAuth()
+
+    const { data: permission, isLoading } = useFetch(token ? "/api/v1/dashboard" : "");
 
     useEffect(() => {
-        if(!permissionData) return
+        if (permission?.userRolePermissions && Array.isArray(permission.userRolePermissions)) {
+            setPermissions(permission.userRolePermissions);
+        }
+    }, [permission]);
 
-       setPermissions(permissionData)
-
-    }, [ permissionData]);
+    if (!token || isLoading) return null;
 
     return (
         <Permission.Provider value={{ permissions, setPermissions }}>
@@ -47,5 +48,5 @@ export function usePermission() {
     const hasPermission = (permission: string) => {
         return context.permissions.some(p => p.name === permission);
     }
-    return {permissions: context.permissions, setPermissions: context.setPermissions, hasPermission };
+    return { permissions: context.permissions, setPermissions: context.setPermissions, hasPermission };
 }

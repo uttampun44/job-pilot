@@ -106,4 +106,44 @@ return [
         'name' => 'delete permissions',
         'guard_name' => 'web',
     ],
+    [
+        'title' => 'settings',
+        'name' => 'view settings',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'permissions',
+        'name' => 'view permissions',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'permissions',
+        'name' => 'add permissions',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'permissions',
+        'name' => 'edit permissions',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'candidate Profile',
+        'name' => 'view candidate profile',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'candidate Profile',
+        'name' => 'edit candidate profile',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'employer Profile',
+        'name' => 'view employer profile',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'employer Profile',
+        'name' => 'edit employer profile',
+        'guard_name' => 'web',
+    ]
 ];

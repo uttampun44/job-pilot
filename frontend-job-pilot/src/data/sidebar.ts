@@ -79,7 +79,7 @@ export interface SidebarLink {
             label: "Company Information",
             href: "/settings/company-information",
             icon: "company",
-            permissions: ["view company information"],
+            permissions: ["view employer profile"],
           },
           {
             id: 173,

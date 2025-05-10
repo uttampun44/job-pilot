@@ -2,6 +2,7 @@ import React from "react"
 import AppSidebar from "./components/AppSidebar"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import TopNav from "./components/TopNavigation"
+import PermissionContext from "@/context/features/PermissionContext"
 
 type LayoutProps = {
     children: React.ReactNode
@@ -11,7 +12,8 @@ export default function Layout({ children }: LayoutProps) {
 
     return (
         <React.Fragment>
-            <SidebarProvider>
+            <PermissionContext>
+                <SidebarProvider>
                 <div className="flex min-h-screen">
                     <AppSidebar />
                 </div>
@@ -20,6 +22,7 @@ export default function Layout({ children }: LayoutProps) {
                     <main className="p-4">{children}</main>
                 </div>
             </SidebarProvider>
+            </PermissionContext>
         </React.Fragment>
     )
 }

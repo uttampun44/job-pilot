@@ -3,9 +3,8 @@
 namespace Modules\Authentication\app\Repositories;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Modules\Settings\app\Models\CandidateInformation;
-use Modules\Settings\app\Models\Employer;
+use Modules\Settings\app\Models\EmployerInformation;
 
 class DashboardRepository
 {
@@ -15,6 +14,12 @@ class DashboardRepository
 
         // calling fetch allcandidates and fetch allemployers
         
+        if(!$user) 
+        {
+            return response()->json([
+                'message' => 'You are not logged in !',
+            ], 401);
+        }
         
         if($user->hasRole('Employer'))
         {
@@ -44,7 +49,7 @@ class DashboardRepository
 
     public function fetchAllEmployers()
     {
-        $employers = Employer::with('user')->select('id', 'company_name', 'company_address', 'company_phone_number', 'company_email', 'company_website_url', 'linkedin_url', 'industry', 'company_size', 'founded_year', 'logo')->get()->toArray();
+        $employers = EmployerInformation::with('user')->select('id', 'company_name', 'company_address', 'company_phone_number', 'company_email', 'company_website_url', 'linkedin_url', 'industry', 'company_size', 'founded_year', 'logo')->get()->toArray();
         return $employers;
     }
 }

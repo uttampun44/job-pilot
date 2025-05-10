@@ -11,10 +11,10 @@ export default function useFetch<T = any>(url: string, customHeaders:Record<stri
         return response.data;
     };
  
-    const { isPending, isSuccess, isError, data } = useQuery<T>({
+    const { isPending, isSuccess, isError, data, isLoading } = useQuery<T>({
         queryKey: ["fetchData", url, customHeaders, id],
         queryFn: fetchData,    
     })
     
-    return { data, isError, isPending, isSuccess };
+    return { data, isError, isPending, isSuccess, isLoading };
 }
