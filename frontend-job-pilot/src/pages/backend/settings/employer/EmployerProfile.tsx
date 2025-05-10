@@ -2,11 +2,36 @@ import React from "react";
 import CompanyDetails from "./components/CompanyDetails";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { FormProvider, useForm } from "react-hook-form";
+import { tCompanyDetailsTypes } from "./types/CompanyDetailsType";
+import usePost from "@/hooks/api/usePost";
+import { toast } from "sonner";
 
-export default function EmployerProfile(){
+export default function EmployerProfile() {
+
+    const methods = useForm<tCompanyDetailsTypes>();
+
+    const post = usePost("/api/v1/employer-informations")
+    const onSubmit = async (data: tCompanyDetailsTypes) => {
+       console.log(data)
+       try {
+           const response = await post.mutateAsync({ data: data })
+           console.log(response)
+           if (response.status === 200) {
+               toast.success("Company details saved successfully !")
+           }
+       } catch (error) {
+           if (error instanceof Error) {
+               toast.error(error.message);
+           } else {
+               toast.error("Something went wrong");
+           }
+       }
+    }
     return (
         <React.Fragment>
-             <form>
+            <FormProvider {...methods}>
+                <form onSubmit={methods.handleSubmit(onSubmit)}>
                 <CompanyDetails />
 
                 <div className="button flex justify-center items-end gap-4">
@@ -17,7 +42,8 @@ export default function EmployerProfile(){
                         Cancel
                     </Link>
                 </div>
-             </form>
+            </form>
+            </FormProvider>
         </React.Fragment>
     )
 }

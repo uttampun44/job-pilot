@@ -1,7 +1,26 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
+import { useFormContext } from "react-hook-form";
+import { tCompanyDetailsTypes } from "../types/CompanyDetailsType";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import React from "react";
+import { Button } from "@/components/ui/button";
 
 export default function CompanyDetails() {
+
+    const { register, setValue } = useFormContext<tCompanyDetailsTypes>();
+    const [image, setImage] = React.useState<File | null>(null);
+    const [imagePreview, setImagePreview] = React.useState<string>("");
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImage(file);
+            setImagePreview(URL.createObjectURL(file));
+            setValue("logo", file);
+        }
+    }
+
     return (
         <div className="flex items-center justify-center px-4 py-10">
             <div className="w-full max-w-4xl p-8 md:p-10">
@@ -12,47 +31,61 @@ export default function CompanyDetails() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Company Name</Label>
-                        <Input type="text" id="company_name" placeholder="e.g. OpenAI" />
+                        <Input type="text" id="company_name" placeholder="e.g. OpenAI" {...register("company_name")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Company Address</Label>
-                        <Input type="text" id="company_address" placeholder="123 Street, City" />
+                        <Input type="text" id="company_address" placeholder="123 Street, City" {...register("company_address")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Phone Number</Label>
-                        <Input type="text" id="company_phone_number" placeholder="e.g. +1234567890" />
+                        <Input type="text" id="company_phone_number" placeholder="e.g. +1234567890" {...register("company_phone_number")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Email</Label>
-                        <Input type="email" id="company_email" placeholder="e.g. hr@openai.com" />
+                        <Input type="email" id="company_email" placeholder="e.g. hr@openai.com" {...register("company_email")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Website URL</Label>
-                        <Input type="url" id="company_website_url" placeholder="https://example.com" />
+                        <Input type="url" id="company_website_url" placeholder="https://example.com" {...register("company_website_url")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">LinkedIn URL</Label>
-                        <Input type="url" id="linkedin_url" placeholder="https://linkedin.com/company/xyz" />
+                        <Input type="url" id="linkedin_url" placeholder="https://linkedin.com/company/xyz" {...register("linkedin_url")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Industry</Label>
-                        <Input type="text" id="industry" placeholder="e.g. Technology" />
+                        <Select {...register("industry")}>
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select a fruit" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Fruits</SelectLabel>
+                                    <SelectItem value="apple">Apple</SelectItem>
+                                    <SelectItem value="banana">Banana</SelectItem>
+                                    <SelectItem value="blueberry">Blueberry</SelectItem>
+                                    <SelectItem value="grapes">Grapes</SelectItem>
+                                    <SelectItem value="pineapple">Pineapple</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Company Size</Label>
-                        <Input type="text" id="company_size" placeholder="e.g. 100-500 employees" />
+                        <Input type="text" id="company_size" placeholder="e.g. 100-500 employees" {...register("company_size")} />
                     </div>
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Founded Year</Label>
-                        <Input type="number" id="founded_year" placeholder="e.g. 2015" />
+                        <Input type="text" id="founded_year" placeholder="e.g. 2015" {...register("founded_year")} />
                     </div>
 
                     <div className="md:col-span-2">
@@ -61,7 +94,20 @@ export default function CompanyDetails() {
                             type="file"
                             id="logo"
                             className="file:py-2 file:px-4 file:border file:border-gray-300 file:rounded file:bg-white"
+                            {...register("logo")}
+                            accept="image/*"
+                            onChange={handleImageUpload}
                         />
+                        {(image && imagePreview) && (
+                            <div className="imagePreview my-4 flex gap-x-2.5">
+                                <img src={imagePreview} alt="avatar" className="w-full h-full object-cover" />
+                                <Button variant="outline" onClick={() => {
+                                    setImage(null);
+                                    setImagePreview("");
+                                }}>Remove</Button>
+                            </div>
+                        )}
+
                     </div>
                 </div>
             </div>

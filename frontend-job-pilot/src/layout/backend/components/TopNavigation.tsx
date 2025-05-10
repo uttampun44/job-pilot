@@ -29,6 +29,7 @@ export default function TopNav() {
             if (response.status === 200) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+                localStorage.removeItem("role");
                 setToken("");
                 setUser("");
                 navigate("/login");

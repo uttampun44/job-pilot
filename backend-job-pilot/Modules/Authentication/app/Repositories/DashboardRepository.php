@@ -8,11 +8,20 @@ use Modules\Settings\app\Models\EmployerInformation;
 
 class DashboardRepository
 {
-    public function fetchDashboard()
+    public function fetchPermissions()
     {
         $user = Auth::user();
 
         // calling fetch allcandidates and fetch allemployers
+        
+        if($user->hasRole(['Super Admin', 'Admin']))
+        {
+            return response()->json([
+                'candidates' => $this->fetchAllCandidates(),
+                'employers' => $this->fetchAllEmployers(),
+                'userRolePermissions' => $user->getPermissionsViaRoles(),
+            ], 200);
+        }
         
         if(!$user) 
         {

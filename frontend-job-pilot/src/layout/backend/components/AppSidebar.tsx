@@ -14,7 +14,10 @@ export default function AppSidebar() {
 
   const { permissions } = usePermission();
 
-  if(!permissions) return <Skeleton />
+  const role = localStorage.getItem("role");
+
+  if(!permissions && !role) return <Skeleton />
+
   const userPermissions = permissions.map((item) => item.name);
 
   const handleCollapse = (id: number) => {
@@ -37,9 +40,7 @@ export default function AppSidebar() {
           <SidebarGroupContent className="py-4">
             <SidebarMenu>
               {sidebarLink.map((item) => {
-                const checkPermissions = hasPermissions(userPermissions, item.permissions);
-                if (!checkPermissions) return null;
-                
+                const checkPermissions = role === "Super Admin" || role == "Admin" ? true : hasPermissions(userPermissions, item.permissions);
                 return (
                   <SidebarMenuItem key={item.id}>
                     {!item.subNavigation ? (
@@ -71,9 +72,7 @@ export default function AppSidebar() {
                         <CollapsibleContent>
                           <div className="pl-6 mt-2 space-y-2">
                             {item.subNavigation?.map((subItem) => {
-
-                              const checkSubNaviationPermissions = hasPermissions(userPermissions, subItem.permissions);
-                              if (!checkSubNaviationPermissions) return null;
+                             const checkSubNaviationPermissions = role === "Super Admin" || role == "Admin" ? true : hasPermissions(userPermissions, subItem.permissions);
                               return (
                                 <div className="flex gap-3" key={subItem.id}>
                                   {
