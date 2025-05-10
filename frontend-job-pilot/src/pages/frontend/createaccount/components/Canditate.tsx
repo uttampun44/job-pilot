@@ -25,11 +25,11 @@ export default function Canditate() {
 
     const onSubmit = async (formData: tsignupTypes) => {
 
-        console.log("formdata", formData)
+
         try {
             if (formData.password !== formData.password_confirmation) return toast.warning("Password and confirm Password not match !")
             const response = await post.mutateAsync({ data: formData })
-            console.log(response)
+          
             if(response.status === 201) {
                 toast.success("Account created successfully !")
                 navigate("/dashboard")

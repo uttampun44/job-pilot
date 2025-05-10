@@ -2,8 +2,8 @@
 
 namespace Modules\Authentication\app\Repositories;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\Settings\app\Models\CandidateInformation;
 use Modules\Settings\app\Models\Employer;
 
@@ -15,26 +15,23 @@ class DashboardRepository
 
         // calling fetch allcandidates and fetch allemployers
         
-        if(!$user || $user->hasAnyRole(['Employer', 'Candidate']))
-        {
-            return response()->json(['error' => 'Unauthorized access'], 401);
-        }
-
+        
         if($user->hasRole('Employer'))
         {
-            $employers = $this->fetchAllEmployers();
-            return [
-                'employers' => $employers,
+           
+           return response()->json([
+                'candidates' => $this->fetchAllCandidates(),
                 'userRolePermissions' => $user->getPermissionsViaRoles(),
-            ];
+            ], 200);
         }
+        
         if($user->hasRole('Candidate'))
         {
-            $candidates = $this->fetchAllCandidates();
-            return [
-                'candidates' => $candidates,
+           
+           return response()->json([
+                'employers' => $this->fetchAllEmployers(),
                 'userRolePermissions' => $user->getPermissionsViaRoles(),
-            ];
+            ], 200);
         }
         
     }

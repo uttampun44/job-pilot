@@ -63,7 +63,6 @@ export default function RolePermission() {
 
         } catch (error) {
             if (error instanceof Error) {
-                console.log(error);
                 toast.error(error.message);
             } else {
                 toast.error("An unknown error occurred.");

@@ -20,7 +20,7 @@ export default function Employers() {
     const { handleSubmit, register, formState: { errors } } = useForm<tsignupTypes>()
 
     const onSubmit = async (formdata: tsignupTypes) => {
-        console.log(formdata)
+       
         try {
             if (formdata.password !== formdata.password_confirmation) return toast.warning("Password and confirm Password not match !")
             const response = await post.mutateAsync({ data: formdata })

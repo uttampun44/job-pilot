@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/api/usePost";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTheme } from "@/context/features/ThemeContext";
 
 export default function TopNav() {
     const {token, user, setToken, setUser } = useAuth();
+    const {setTheme} = useTheme();
     const navigate = useNavigate();
 
     const { handleSubmit } = useForm();
@@ -56,6 +58,28 @@ export default function TopNav() {
                     <Icon iconName="bell" className="h-6 w-6" />
                     <span className="absolute top-0 right-0 inline-block w-2 h-2 bg-red-500 rounded-full"></span>
                 </Button>
+
+                <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                           <div className="theme">
+                             <Icon iconName="sun" className="h-6 w-6" />
+                           </div>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => {
+                            setTheme("light")
+                            document.documentElement.classList.remove("dark")
+                        }}>
+                            Light Mode
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600" onClick={() => {
+                            setTheme("dark")
+                            document.documentElement.classList.add("dark")
+                        }}>
+                            Dark Mode
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

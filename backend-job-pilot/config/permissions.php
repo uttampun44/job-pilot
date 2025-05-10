@@ -2,6 +2,31 @@
 
 return [
     [
+        'title' => 'Dashboard',
+        'name' => 'view dashboard',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'Jobs',
+        'name' => 'view jobs',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'Jobs',
+        'name' => 'add jobs',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'jobs',
+        'name' => 'edit jobs',
+        'guard_name' => 'web',
+    ],
+    [
+        'title' => 'jobs',
+        'name' => 'delete jobs',
+        'guard_name' => 'web',
+    ],
+    [
         'title' => 'Jobs',
         'name' => 'view jobs',
         'guard_name' => 'web',

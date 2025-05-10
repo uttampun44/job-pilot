@@ -73,7 +73,7 @@ export default function Login() {
                                 <Input placeholder="Email"
                                  {...register("email")}
                                 />
-                                <div className="password relative my-2.5">
+                                <div className="password relative my-4">
                                     <Input placeholder="Password" type={password ? "text" : "password"}
                                      {...register("password")}
                                     className="w-full" />
