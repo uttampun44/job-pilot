@@ -21,8 +21,7 @@ class CandidateProfileController extends Controller
     }
     public function index()
     {
-        $data =$this->candidateRepository->fetchCandidates();
-       return response()->json($data, 200);
+        return view('settings::index');
     }
 
     /**
@@ -30,7 +29,8 @@ class CandidateProfileController extends Controller
      */
     public function create()
     {
-        return view('settings::create');
+          $data =$this->candidateRepository->fetchCandidates();
+       return response()->json($data, 200);
     }
 
     /**
