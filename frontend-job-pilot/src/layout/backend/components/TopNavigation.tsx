@@ -8,10 +8,11 @@ import usePost from "@/hooks/api/usePost";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useTheme } from "@/context/features/ThemeContext";
+import { Label } from "@radix-ui/react-dropdown-menu";
 
 export default function TopNav() {
-    const {token, user, setToken, setUser } = useAuth();
-    const {setTheme} = useTheme();
+    const { token, user, setToken, setUser } = useAuth();
+    const { setTheme } = useTheme();
     const navigate = useNavigate();
 
     const { handleSubmit } = useForm();
@@ -46,11 +47,14 @@ export default function TopNav() {
 
     return (
         <header className="w-full border-b bg-muted/50 py-4 flex justify-between items-center shadow-sm">
-            
-             <div className="row pl-4">
-             <h1 className="text-xl font-semibold">Dashboard</h1>
-             </div>
+
+            <div className="row pl-4">
+                <h1 className="text-xl font-semibold">Dashboard</h1>
+            </div>
             <div className="flex items-center gap-6">
+
+                <Label>{new Date().toLocaleTimeString()}</Label>
+
                 <Button
                     type="button"
                     className="relative text-gray-600 hover:text-black cursor-pointer"
@@ -61,12 +65,12 @@ export default function TopNav() {
                 </Button>
 
                 <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                           <div className="theme">
-                             <Icon iconName="sun" className="h-6 w-6" />
-                           </div>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuTrigger asChild>
+                        <div className="theme">
+                            <Icon iconName="sun" className="h-6 w-6" />
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
                         <DropdownMenuItem onClick={() => {
                             setTheme("light")
                             document.documentElement.classList.remove("dark")
