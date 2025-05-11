@@ -25,16 +25,20 @@ class EmployerController extends Controller
     public function store(EmployerInformationRequest $request)
     {
 
+        Log::error('Employer store data: ' . json_encode($request->validate()));
+        
         try {
             $user = Auth::user();
 
-            if (!$user->hasRole('Employer')) {
+            if (!$user->hasRole(['Employer', 'Super Admin', 'Admin'])) {
                 return response()->json([
                     'message' => 'You are not authorized to perform this action !',
                 ], 401);
             }
 
             $data = $request->validated();
+
+
             $this->employerRepository->createUpdate($data);
             return response()->json([
                 'message' => 'Employer Information created successfully !',

@@ -11,7 +11,7 @@ export default function EmployerProfile() {
 
     const methods = useForm<tCompanyDetailsTypes>();
 
-    const post = usePost("/api/v1/employer-informations")
+    const post = usePost("/api/v1/employer-information")
     const onSubmit = async (data: tCompanyDetailsTypes) => {
        console.log(data)
        try {

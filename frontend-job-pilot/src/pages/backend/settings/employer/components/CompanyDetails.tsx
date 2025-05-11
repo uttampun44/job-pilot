@@ -1,19 +1,22 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { tCompanyDetailsTypes } from "../types/CompanyDetailsType";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/features/AuthContext";
 
 export default function CompanyDetails() {
 
-    const { register, setValue } = useFormContext<tCompanyDetailsTypes>();
+    const { register, setValue, control } = useFormContext<tCompanyDetailsTypes>();
     const [image, setImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string>("");
+    const {user} = useAuth()
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
+        console.log(file)
         if (file) {
             setImage(file);
             setImagePreview(URL.createObjectURL(file));
@@ -29,6 +32,9 @@ export default function CompanyDetails() {
                 </h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="hidden">
+                        <Input type="hidden" id="user_id" value={user?.id as number} {...register("user_id")} />
+                    </div>
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Company Name</Label>
                         <Input type="text" id="company_name" placeholder="e.g. OpenAI" {...register("company_name")} />
@@ -61,21 +67,26 @@ export default function CompanyDetails() {
 
                     <div>
                         <Label className="text-sm text-gray-700 mb-1">Industry</Label>
-                        <Select {...register("industry")}>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select a fruit" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Fruits</SelectLabel>
-                                    <SelectItem value="apple">Apple</SelectItem>
-                                    <SelectItem value="banana">Banana</SelectItem>
-                                    <SelectItem value="blueberry">Blueberry</SelectItem>
-                                    <SelectItem value="grapes">Grapes</SelectItem>
-                                    <SelectItem value="pineapple">Pineapple</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
+                        <Controller
+                            control={control}
+                            name="industry"
+                            render={({ field }) => (
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue placeholder="Select a fruit" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Fruits</SelectLabel>
+                                            <SelectItem value="apple">Apple</SelectItem>
+                                            <SelectItem value="banana">Banana</SelectItem>
+                                            <SelectItem value="blueberry">Blueberry</SelectItem>
+                                            <SelectItem value="grapes">Grapes</SelectItem>
+                                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>)}
+                        />
                     </div>
 
                     <div>

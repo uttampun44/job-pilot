@@ -76,20 +76,7 @@ export default function Permission() {
               </TableRow>
             ))  
           }
-          {/* {roles.map((role: any, idx: number) => (
-            <TableRow
-              key={role.id}
-              className={`hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${idx % 2 === 0 ? "bg-white dark:bg-gray-900" : "bg-gray-50 dark:bg-gray-800"
-                }`}
-            >
-              <TableCell className="py-3 px-4 font-medium">{role.name.trim()}</TableCell>
-              <TableCell className="py-3 px-4">
-                <Link to={`/settings/role/${role.id}`} className={buttonVariants({ variant: "outline" })}>
-                  View
-                </Link>
-              </TableCell>
-            </TableRow>
-          ))} */}
+         
         </TableBody>
       </Table>
     </div>

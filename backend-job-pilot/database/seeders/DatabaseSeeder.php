@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
         $user =  [
             [
                 'name' => 'Admin',
-                'email' => 'admin@example.com',
-                'password' => Hash::make('admin@gmail.com'),
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('admin@123'),
             ],
             [
                 'name' => 'Super Admin',
-                'email' => 'superadmin@example.com',
-                'password' => Hash::make('superadmin@gmail.com'),
+                'email' => 'superadmin@gmail.com',
+                'password' => Hash::make('superadmin@123'),
             ]
         ];
 

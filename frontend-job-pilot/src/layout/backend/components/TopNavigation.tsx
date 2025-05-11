@@ -31,7 +31,7 @@ export default function TopNav() {
                 localStorage.removeItem("user");
                 localStorage.removeItem("role");
                 setToken("");
-                setUser("");
+                setUser(null);
                 navigate("/login");
             }
         } catch (error) {
@@ -86,10 +86,10 @@ export default function TopNav() {
                     <DropdownMenuTrigger asChild>
                         <div className="flex items-center gap-3 cursor-pointer">
                             <Avatar className="cursor-pointer">
-                                <AvatarImage src="/avatar.png" alt={user as string} />
-                                <AvatarFallback>{user?.charAt(0)?.toUpperCase() as string}</AvatarFallback>
+                                <AvatarImage src="/avatar.png" alt={user?.name as string} />
+                                <AvatarFallback></AvatarFallback>
                             </Avatar>
-                            <span className="font-medium text-gray-800">{user as string}</span>
+                            <span className="font-medium text-gray-800">{user?.name as string}</span>
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">

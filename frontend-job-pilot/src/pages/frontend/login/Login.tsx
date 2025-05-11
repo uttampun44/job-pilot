@@ -13,13 +13,14 @@ import { useNavigate } from "react-router";
 import { useAuth } from "@/context/features/AuthContext";
 import Overlary from "@/components/ui/overlary";
 
+
 export default function Login() {
 
     const [password, setPassword] = useToggle();
     const [remember, setRemember] = useState<trememberType | null>(null);
 
     const post = usePost("/api/v1/login")
-    const {setToken} = useAuth()
+    const {setToken, setUser} = useAuth()
     const navigation = useNavigate()
 
     const {handleSubmit, register} = useForm<tLoginType>();
@@ -30,7 +31,9 @@ export default function Login() {
             if (response.status === 200) {
                 localStorage.setItem("role", response.data.role as string)
                 localStorage.setItem("token", response.token as string)
+                localStorage.setItem("user", JSON.stringify(response.data.user))
                 setToken(response.token as string)
+                setUser(response.data.user)
                 toast.success("Login successfully !")
                 navigation("/dashboard")
                 if (remember) {

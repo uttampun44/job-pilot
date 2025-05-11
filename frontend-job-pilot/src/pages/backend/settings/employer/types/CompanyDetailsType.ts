@@ -8,5 +8,6 @@ export type tCompanyDetailsTypes = {
     industry: string,
     company_size: string,
     founded_year: string,    
-    logo: File
+    logo: File,
+    user_id: number
 }
