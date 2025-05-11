@@ -38,10 +38,9 @@ class EmployerController extends Controller
                     'message' => 'You are not authorized to perform this action !',
                 ], 401);
             }
-
+             
             $data = $request->validated();
-
-
+            
             $this->employerRepository->createUpdate($data);
             return response()->json([
                 'message' => 'Employer Information created successfully !',
