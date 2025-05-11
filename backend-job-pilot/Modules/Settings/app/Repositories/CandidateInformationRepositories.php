@@ -21,19 +21,26 @@ class CandidateRepositories
         DB::beginTransaction();
         $auth_user = Auth::user();
 
-        if(!$auth_user) {
-            return throw new \Exception('Not logged in');
+        if(!$auth_user->hasRole(['Candidate', 'Super Admin', 'Admin']))
+        {
+            return throw new \Exception('You are not authorized to perform this action !');
         }
 
-        if(isset($data['image'])) {
-            $data['image'] = Storage::put('public/images/'.$data['image'], file_get_contents($data['image']));
+       if (isset($data['image'])) {
+           
+            // generate uuid and add extension to filename
+            $uuid = Str::uuid()->toString();
+            $extension = $data['image']->getClientOriginalExtension();
+            $filename = $uuid . '.' . $extension;
+
+            $path = Storage::putFileAs('candidate/image', $data['image'], $filename, 'public');
+            $data['image'] = $path;
         }
 
-        CandidateInformation::createOrUpdate($data);
-        CandidateExperience::createOrUpdate($data);
+        CandidateInformation::updateOrCreate($data);
+        CandidateExperience::updateOrCreate($data);
         
-        DB::commit();
-        
+        DB::commit();        
         return true;
     }
 }

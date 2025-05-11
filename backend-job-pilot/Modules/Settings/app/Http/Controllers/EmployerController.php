@@ -23,10 +23,7 @@ class EmployerController extends Controller
     }
 
     public function store(EmployerInformationRequest $request)
-    {
-
-        Log::error('Employer store data: ' . json_encode($request->validate()));
-        
+    {        
         try {
             $user = Auth::user();
 
@@ -44,6 +41,7 @@ class EmployerController extends Controller
                 'message' => 'Employer Information created successfully !',
             ], 201);
         } catch (\Throwable $th) {
+            Log::error($th->getMessage());
             return response()->json([
                 'message' => $th->getMessage(),
             ], 500);

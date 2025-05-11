@@ -8,9 +8,13 @@ import { useState } from "react"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { useFormContext } from "react-hook-form"
+import { tProfileType } from "../types/profile"
 
 export default function CandidateInformation() {
   const [date, setDate] = useState<Date>()
+
+  const {register}  = useFormContext<tProfileType>();
 
   return (
     <div className="p-8 md:p-10">

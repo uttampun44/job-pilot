@@ -40,7 +40,7 @@ class CandidateProfileController extends Controller
         try {
             $data = $request->validated();
             $this->candidateRepository->createUpdate($data);
-            return response()->json(['message' => 'Candidate profile updated successfully'], 200);
+            return response()->json(['message' => 'Candidate profile updated successfully'], 201);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
             return response()->json(['message' => $th->getMessage()], 400);

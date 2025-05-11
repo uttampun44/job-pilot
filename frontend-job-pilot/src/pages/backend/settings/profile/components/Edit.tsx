@@ -1,20 +1,37 @@
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronLeft, ChevronRight, Save, X } from "lucide-react"
+import {Save, X } from "lucide-react"
 import { Link } from "react-router-dom"
 import CandidateInformation from "./CandidateInformation"
 import CandidateWorkExperience from "./CandidateWorkExperience"
+import { FormProvider, useForm } from "react-hook-form"
+import { tProfileType } from "../types/profile"
+import usePost from "@/hooks/api/usePost"
+import { toast } from "sonner"
 
 export default function CandidateEdit() {
-  const [activeTab, setActiveTab] = useState("personal")
 
-  const handleNext = () => {
-    if (activeTab === "personal") setActiveTab("experience")
-  }
 
-  const handlePrevious = () => {
-    if (activeTab === "experience") setActiveTab("personal")
+  const methods = useForm<tProfileType>()
+  const post = usePost("/api/v1/profie");
+
+
+
+  const onSubmit = async (data: tProfileType) => {
+    try {
+      const response = await post.mutateAsync({ data: data });
+      if (response.status === 200) {
+        toast.success("Profile updated successfully");
+      } else {
+        toast.success("Profile updated successfully");
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
   }
 
   return (
@@ -28,57 +45,37 @@ export default function CandidateEdit() {
           </p>
         </div>
 
-        <form className="space-y-8">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <div className="w-full max-w-md mx-auto mb-8">
-              <TabsList className="grid grid-cols-2 w-full">
-                <TabsTrigger
-                  value="personal"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                >
-                  Personal Information
-                </TabsTrigger>
-                <TabsTrigger
-                  value="experience"
-                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                >
-                  Work Experience
-                </TabsTrigger>
-              </TabsList>
-            </div>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
+            <Tabs value="personal" onValueChange={setActiveTab} className="w-full">
+              <div className="w-full max-w-md mx-auto mb-8">
+                <TabsList className="grid grid-cols-2 w-full">
+                  <TabsTrigger
+                    value="personal"
+                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  >
+                    Personal Information
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="experience"
+                    className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                  >
+                    Work Experience
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-            <div className="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden transition-all duration-300">
-              <TabsContent value="personal" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                <CandidateInformation />
-              </TabsContent>
+              <div className="bg-white rounded-xl shadow-lg border border-slate-100 overflow-hidden transition-all duration-300">
+                <TabsContent value="personal" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <CandidateInformation />
+                </TabsContent>
 
-              <TabsContent value="experience" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                <CandidateWorkExperience />
-              </TabsContent>
+                <TabsContent value="experience" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <CandidateWorkExperience />
+                </TabsContent>
 
-              {/* Navigation and action buttons */}
-              <div className="bg-slate-50 p-6 border-t border-slate-100">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-                  <div className="flex gap-3 w-full sm:w-auto">
-                    {activeTab === "experience" && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={handlePrevious}
-                        className="flex items-center gap-2"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                        Previous
-                      </Button>
-                    )}
-
-                    {activeTab === "personal" && (
-                      <Button type="button" onClick={handleNext} className="flex items-center gap-2 w-full sm:w-auto">
-                        Next
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    )}
-                  </div>
+                {/* Navigation and action buttons */}
+                <div className="bg-slate-50 p-6 border-t border-slate-100">
 
                   <div className="flex gap-3 w-full sm:w-auto">
                     <Link
@@ -88,19 +85,17 @@ export default function CandidateEdit() {
                       <X className="h-4 w-4" />
                       Cancel
                     </Link>
+                    <Button type="submit" className="flex items-center gap-2 w-full sm:w-auto">
+                      <Save className="h-4 w-4" />
+                      Save Profile
+                    </Button>
 
-                    {activeTab === "experience" && (
-                      <Button type="submit" className="flex items-center gap-2 w-full sm:w-auto">
-                        <Save className="h-4 w-4" />
-                        Save Profile
-                      </Button>
-                    )}
                   </div>
                 </div>
               </div>
-            </div>
-          </Tabs>
-        </form>
+            </Tabs>
+          </form>
+        </FormProvider>
       </div>
     </div>
   )

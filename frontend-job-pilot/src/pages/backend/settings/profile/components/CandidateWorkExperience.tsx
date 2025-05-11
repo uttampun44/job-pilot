@@ -1,7 +1,11 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
+import { useFormContext } from "react-hook-form";
 
 export default function CandidateWorkExperience() {
+    
+    const { register} = useFormContext<tProfileType>();
+    
     return (
         <div className="flex items-center justify-center  px-4 py-10">
             <div className="w-full max-w-4xl  p-8 md:p-10">
