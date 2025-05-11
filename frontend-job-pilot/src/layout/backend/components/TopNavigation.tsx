@@ -96,7 +96,7 @@ export default function TopNav() {
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className="flex items-center gap-3 cursor-pointer">
+                        <div className="flex items-center gap-3 px-2.5 cursor-pointer">
                             <Avatar className="cursor-pointer">
                                 <AvatarImage src="/avatar.png" alt={user?.name as string} />
                                 <AvatarFallback></AvatarFallback>
