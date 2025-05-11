@@ -17,6 +17,7 @@ import Permission from '@/pages/backend/settings/permissions/Permission';
 import EmployerProfile from '@/pages/backend/settings/employer/EmployerProfile';
 import RolePermission from '@/pages/backend/settings/permissions/RolePermission';
 import CandidateEdit from '@/pages/backend/settings/profile/components/Edit';
+import ProfileView from '@/pages/backend/settings/employer/ProfileView';
 
 
 
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/settings/company-information',
+                Component: ProfileView
+            },
+            {
+                path: '/settings/company-information/edit',
                 Component: EmployerProfile
             },
             {

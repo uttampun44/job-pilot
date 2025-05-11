@@ -1,7 +1,7 @@
 import React from "react";
-import CompanyDetails from "./components/CompanyDetails";
+import CompanyDetails from "./components/CompanyForm";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormProvider, useForm } from "react-hook-form";
 import { tCompanyDetailsTypes } from "./types/CompanyDetailsType";
 import usePost from "@/hooks/api/usePost";
@@ -10,15 +10,17 @@ import { toast } from "sonner";
 export default function EmployerProfile() {
 
     const methods = useForm<tCompanyDetailsTypes>();
+    const navigation = useNavigate()
 
     const post = usePost("/api/v1/employer-information")
     const onSubmit = async (data: tCompanyDetailsTypes) => {
-       console.log(data)
+        
        try {
            const response = await post.mutateAsync({ data: data })
-           console.log(response)
-           if (response.status === 200) {
+        
+           if (response.status === 201) {
                toast.success("Company details saved successfully !")
+               navigation("/settings/employer/profile")
            }
        } catch (error) {
            if (error instanceof Error) {

@@ -4,7 +4,6 @@ namespace Modules\Settings\app\Repositories;
 
 use App\Models\Permission;
 use App\Models\Role;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PermissionRepositories
@@ -14,12 +13,14 @@ class PermissionRepositories
         return Role::query()->select('id', 'name')->get()->toArray();
     }
 
-    public function fetchPermissions()
+    public function fetchPermissions($roleId)
     {
+         $role = Role::with('permissions')->findOrFail($roleId);
         $permissions = Permission::with('permissionsTitles')->get();
 
         $grouped = [];
 
+       
         foreach ($permissions as $permission) {
             $action = strtolower(Str::before($permission->name, ' '));
 
@@ -45,7 +46,7 @@ class PermissionRepositories
                     $grouped[$titleName][] = [
                         'id' => $permission->id,
                         'name' => $permission->name,
-                        'selected' => Auth::user()->roles->first()->permissions->contains($permission)
+                        'selected' => $role->permissions->contains('id', $permission->id),
                     ];
                 }
             }
@@ -57,6 +58,7 @@ class PermissionRepositories
     public function createUpdatePermission(array $data)
     {
         $role = Role::find($data['role_id']);
+        
         $permissions = $data['permissions'];
 
         return  $role->syncPermissions($permissions);

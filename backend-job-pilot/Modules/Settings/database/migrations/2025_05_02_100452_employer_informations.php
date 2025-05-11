@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('linkedin_url')->nullable();
             $table->string('industry');
             $table->string('company_size');
+            $table->longText('about')->nullable();
             $table->integer('founded_year')->nullable();
             $table->longText('logo')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

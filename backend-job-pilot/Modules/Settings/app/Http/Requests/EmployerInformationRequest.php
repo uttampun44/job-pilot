@@ -21,7 +21,7 @@ class EmployerInformationRequest extends FormRequest
             'industry' => 'required|string|max:100',
             'company_size' => 'required|string|max:50',
             'founded_year' => 'nullable|integer|min:1800|max:' . date('Y'),
-            'logo' => 'nullable|file|mimes:jpg,jpeg,png,svg|max:2048',
+            // 'logo' => 'nullable|file|mimes:jpg,jpeg,png,svg|max:2048',
             'user_id' => 'required|exists:users,id',
         ];
     }

@@ -21,11 +21,9 @@ class PermissionController extends Controller
     }
     public function index()
     {
-        $permissions = $this->permissionRepository->fetchPermissions();
+        
         $roles = $this->permissionRepository->fetchRoles();
-
         return response()->json([
-            'permissions' => $permissions,
             'roles' => $roles,
         ], 200);
     }
@@ -45,7 +43,8 @@ class PermissionController extends Controller
     {
         try {
             $data = $request->validated();
-            $this->permissionRepository->createUpdatePermission($data);
+            $permissionsData = $data['permissions'];
+            $this->permissionRepository->createUpdatePermission($permissionsData);
             return response()->json(['message' => 'Permission given successfully'], 200);
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -58,7 +57,10 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        return view('settings::show');
+        $permissions = $this->permissionRepository->fetchPermissions($id);
+        return response()->json([
+            'permissions' => $permissions,
+        ], 200);
     }
 
     /**

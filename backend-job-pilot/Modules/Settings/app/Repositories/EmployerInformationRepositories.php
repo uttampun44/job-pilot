@@ -2,27 +2,26 @@
 
 namespace Modules\Settings\app\Repositories;
 
+use App\Enum\IndustrySector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Modules\Settings\app\Models\EmployerInformation;
-use Enum\IndustrySector;
 
 class EmployerInformationRepositories
 {
     public function fetchEmployer()
     {
-        return EmployerInformation::with("user")->select('id', 'company_name', 'company_address', 'company_phone_number', 'company_email', 'company_website_url', 'linkedin_url', 'industry', 'company_size', 'founded_year', 'logo')->get()->toArray();
+        //  eager loading
+       return EmployerInformation::with("user")->select("id", "company_name", "company_address", "company_phone_number", "company_email", "company_website_url", "linkedin_url", "industry", "company_size", "founded_year", "logo", "user_id")->get();
     }
 
     public function fetchEmployerIndustries()
     {
-        $industry_sectors = collect(IndustrySector::cases())->map(fn($industry) =>[
-            'label' => $industry->name,
-            'value' => $industry->value
-        ] )
-
-        return $industry_sectors;
+       return collect(IndustrySector::cases())->map(fn($industry) => [
+        'label' => $industry->name,
+        'value' => $industry->value
+    ]);
     }
 
     public function createUpdate(array $data)

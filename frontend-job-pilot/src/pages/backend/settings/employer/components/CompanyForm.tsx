@@ -2,16 +2,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { Controller, useFormContext } from "react-hook-form";
 import { tCompanyDetailsTypes } from "../types/CompanyDetailsType";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/features/AuthContext";
 import useFetch from "@/hooks/api/useFetch";
 
-export default function CompanyDetails() {
+export default function CompanyForm() {
 
     const { register, setValue, control } = useFormContext<tCompanyDetailsTypes>();
-    const [image, setImage] = React.useState<File | null>(null);
+
     const [imagePreview, setImagePreview] = React.useState<string>("");
     const {user} = useAuth()
 
@@ -19,9 +19,8 @@ export default function CompanyDetails() {
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        console.log(file)
+       
         if (file) {
-            setImage(file);
             setImagePreview(URL.createObjectURL(file));
             setValue("logo", file);
         }
@@ -76,17 +75,14 @@ export default function CompanyDetails() {
                             render={({ field }) => (
                                 <Select onValueChange={field.onChange} value={field.value}>
                                     <SelectTrigger className="w-full">
-                                        <SelectValue placeholder="Select a fruit" />
+                                        <SelectValue placeholder="Select an industry" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectGroup>
-                                            <SelectLabel>Fruits</SelectLabel>
-                                            <SelectItem value="apple">Apple</SelectItem>
-                                            <SelectItem value="banana">Banana</SelectItem>
-                                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                                            <SelectItem value="grapes">Grapes</SelectItem>
-                                            <SelectItem value="pineapple">Pineapple</SelectItem>
-                                        </SelectGroup>
+                                     { 
+                                        industries?.map((industry: any) => (
+                                            <SelectItem value={industry.value} key={industry.value}>{industry.label}</SelectItem>
+                                        ))
+                                     }
                                     </SelectContent>
                                 </Select>)}
                         />
@@ -106,17 +102,15 @@ export default function CompanyDetails() {
                         <Label className="text-sm text-gray-700 mb-1">Company Logo</Label>
                         <Input
                             type="file"
-                            id="logo"
                             className="file:py-2 file:px-4 file:border file:border-gray-300 file:rounded file:bg-white"
-                            {...register("logo")}
+                           {...register("logo")}
                             accept="image/*"
                             onChange={handleImageUpload}
                         />
-                        {(image && imagePreview) && (
+                        { imagePreview && (
                             <div className="imagePreview my-4 flex gap-x-2.5">
                                 <img src={imagePreview} alt="avatar" className="w-full h-full object-cover" />
                                 <Button variant="outline" onClick={() => {
-                                    setImage(null);
                                     setImagePreview("");
                                 }}>Remove</Button>
                             </div>

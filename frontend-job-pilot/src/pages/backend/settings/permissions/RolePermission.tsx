@@ -6,9 +6,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/api/useFetch";
 import usePost from "@/hooks/api/usePost";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import React, {useState } from "react";
-import { useForm} from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 type permissions = {
@@ -23,6 +23,7 @@ export default function RolePermission() {
 
     const [selectedPermission, setSelectedPermission] = useState<string[]>([]);
     const navigation = useNavigate()
+    const { id } = useParams()
 
     const { handleSubmit, register } = useForm<tRolePermission>({
         defaultValues: {
@@ -30,7 +31,8 @@ export default function RolePermission() {
         }
     });
 
-    const { data: rolePermission, isPending } = useFetch(`/api/v1/permission`);
+
+    const { data: rolePermission, isPending } = useFetch(`/api/v1/permission/${id}`);
 
     const permissions = rolePermission?.permissions
 
@@ -38,11 +40,16 @@ export default function RolePermission() {
 
     const onSubmit = async () => {
 
-        const dataToSend =  selectedPermission.map(id => {
-            return {
-                name: permissions?.find((permission :any) => permission.id === id)?.name
-            }
+        const seletedValue = selectedPermission.filter((item: any) => typeof item === "string")
+
+        const selectedName = seletedValue.map(item => {
+            return item
         })
+
+        const dataToSend = {
+            role_id: id,
+            permissions: selectedName
+        }
 
         try {
 
@@ -65,6 +72,8 @@ export default function RolePermission() {
 
     if (isPending) return <Skeleton />;
 
+    
+
     return (
         <React.Fragment>
             <h1 className="text-2xl font-medium">Permissions</h1>
@@ -83,16 +92,18 @@ export default function RolePermission() {
 
                                     {
                                         permissions[permission].map((permission: any, index: number) => {
+                                            
                                             return (
                                                 <CardContent key={permission.id} className="flex items-center gap-4">
                                                     <Checkbox
                                                         {...register(`permissions.${index}.name`)}
                                                         value={permission.name}
                                                         onCheckedChange={() => setSelectedPermission(prev => {
-                                                            if (prev.includes(permission.id)) {
-                                                                return prev.filter(id => id !== permission.id);
+                                                            if (prev.includes(permission.name)) {
+                                                                // Remove only this specific permission
+                                                                return prev.filter(item => item !== permission.name);
                                                             } else {
-                                                                return [...prev, permission.id];
+                                                                return [...prev, permission.name];
                                                             }
                                                         })}
                                                         defaultChecked={permission.selected == true ? true : false}
@@ -110,14 +121,14 @@ export default function RolePermission() {
                     }
                 </div>
 
-               <div className="button flex gap-2.5 items-end">
-                 <Button type="submit" className="mt-4">
-                    Save
-                </Button>
-                <Link to="/settings/permissions" className={buttonVariants({ variant: "outline" })}>
-                    Cancel
-                </Link>
-               </div>
+                <div className="button flex gap-2.5 items-end">
+                    <Button type="submit" className="mt-4">
+                        Save
+                    </Button>
+                    <Link to="/settings/permissions" className={buttonVariants({ variant: "outline" })}>
+                        Cancel
+                    </Link>
+                </div>
             </form >
         </React.Fragment>
     );

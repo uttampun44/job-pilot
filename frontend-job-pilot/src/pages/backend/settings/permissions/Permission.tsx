@@ -9,13 +9,13 @@ import { Link } from "react-router-dom";
 
 
 export default function Permission() {
-
-  const { data: rolesPermissions, isPending } = useFetch("/api/v1/permission")
+  
+  const { data: rolesPermissions, isPending } = useFetch("/api/v1/permission/")
   const  [searchTerm, setSearchTerm] = useState<string>("")
   const  [filterRoles, setFilterRoles] = useState<any>([])
 
   const roles = Array.isArray(rolesPermissions?.roles) ? rolesPermissions?.roles : []
-
+  
   const debouncedSearch = useDebounce(searchTerm, 200)
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
