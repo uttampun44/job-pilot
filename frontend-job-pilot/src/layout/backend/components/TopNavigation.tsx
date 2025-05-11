@@ -9,14 +9,16 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useTheme } from "@/context/features/ThemeContext";
 import { Label } from "@radix-ui/react-dropdown-menu";
+import { useEffect, useState } from "react";
 
 export default function TopNav() {
+    
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
+
     const { token, user, setToken, setUser } = useAuth();
     const { setTheme } = useTheme();
     const navigate = useNavigate();
-
     const { handleSubmit } = useForm();
-
     const logout = usePost("/api/v1/logout")
 
     const onSubmit = async (): Promise<void> => {
@@ -45,6 +47,14 @@ export default function TopNav() {
         }
     };
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date().toLocaleTimeString());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <header className="w-full border-b bg-muted/50 py-4 flex justify-between items-center shadow-sm">
 
@@ -52,9 +62,7 @@ export default function TopNav() {
                 <h1 className="text-xl font-semibold">Dashboard</h1>
             </div>
             <div className="flex items-center gap-6">
-
-                <Label>{new Date().toLocaleTimeString()}</Label>
-
+                <Label>{new Date().toLocaleDateString()} {time}</Label>
                 <Button
                     type="button"
                     className="relative text-gray-600 hover:text-black cursor-pointer"
