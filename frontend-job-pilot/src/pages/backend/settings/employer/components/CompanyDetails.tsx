@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/features/AuthContext";
+import useFetch from "@/hooks/api/useFetch";
 
 export default function CompanyDetails() {
 
@@ -13,6 +14,8 @@ export default function CompanyDetails() {
     const [image, setImage] = React.useState<File | null>(null);
     const [imagePreview, setImagePreview] = React.useState<string>("");
     const {user} = useAuth()
+
+    const {data: industries} = useFetch("/api/v1/industries")
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

@@ -16,6 +16,30 @@ class CandidateRepositories
         return CandidateInformation::with("user")->select('id', 'date_of_birth', 'nationality', 'gender', 'marital_status', 'religion', 'education', 'work_experience', 'phone_number', 'address')->get()->toArray();
     }
 
+    public function getCandidateEnums()
+    {
+        $gender = collect(Gender::cases())->map(fn($gender) =>[
+            'label' => $gender->name,
+            'value' => $gender->value
+        ] )
+
+        $education = collect(Education::cases())->map(fn($education) =>[
+            'label' => $education->name,
+            'value' => $education->value
+        ] )
+
+        $employment = collect(Employment::cases())->map(fn($employment) =>[
+            'label' => $employment->name,
+            'value' => $employment->value
+        ] )
+
+        return [
+            'gender' => $gender,
+            'education' => $education,
+            'employment' => $employment
+        ]
+    }
+
     public function createUpdate(array $data)
     {
         DB::beginTransaction();

@@ -19,7 +19,13 @@ class EmployerController extends Controller
 
     public function index()
     {
-        return $this->employerRepository->fetchEmployers();
+        return $this->employerRepository->fetchEmployer();
+    }
+
+    public function getIndustries()
+    {
+        $data = $this->employerRepository->fetchEmployerIndustries();
+        return response()->json($data, 200);
     }
 
     public function store(EmployerInformationRequest $request)

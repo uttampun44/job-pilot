@@ -4,7 +4,7 @@ namespace Enum;
 
 use MyCLabs\Enum\Enum;
 
-class Employer extends Enum
+class IndustrySector extends Enum
 {
     const HealthSector = 'Health Sector';
     const EducationSector = 'Education Sector';

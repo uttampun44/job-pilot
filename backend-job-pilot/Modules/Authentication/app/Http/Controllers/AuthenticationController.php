@@ -20,7 +20,7 @@ class AuthenticationController extends Controller {
     public function fetchRoles()
     {
         $roles = $this->authenticationRepository->fetchRoles();
-        return response()->json($roles);
+        return response()->json($roles, 200);
     }
 
     public function postRegister(RegisterRequest $request)
