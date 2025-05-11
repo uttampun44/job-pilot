@@ -13,8 +13,6 @@ class PermissionRequest extends FormRequest
     {
         return [
             'permissions' => 'required|array',
-            'permissions.*.id' => 'required|integer|distinct',
-            'permissions.*.name' => 'required|string|distinct',
         ];
     }
 

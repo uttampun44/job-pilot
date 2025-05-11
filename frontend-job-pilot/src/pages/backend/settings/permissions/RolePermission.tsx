@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -12,9 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 type permissions = {
-    id: string;
     name: string;
-    status: boolean;
 }
 
 type tRolePermission = {
@@ -26,7 +24,7 @@ export default function RolePermission() {
     const [selectedPermission, setSelectedPermission] = useState<string[]>([]);
     const navigation = useNavigate()
 
-    const { handleSubmit, register, control } = useForm<tRolePermission>({
+    const { handleSubmit, register } = useForm<tRolePermission>({
         defaultValues: {
             permissions: [],
         }
@@ -40,18 +38,11 @@ export default function RolePermission() {
 
     const onSubmit = async () => {
 
-        const dataToSend = selectedPermission.map((permissionId: string) => {
-
-            const permissionObj = Object.values(permissions || {}).flat().find(
-                (p: any) => p.id === permissionId
-            );
-
+        const dataToSend =  selectedPermission.map(id => {
             return {
-                id: permissionId,
-                name: permissionObj?.name || "",
-                status: permissionObj?.selected === true ? true : false
-            };
-        });
+                name: permissions?.find((permission :any) => permission.id === id)?.name
+            }
+        })
 
         try {
 
