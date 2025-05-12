@@ -72,7 +72,7 @@ export interface SidebarLink {
             label: "Profile",
             href: "/settings/candidate-profile",
             icon: "profile",
-            permissions: ["view profile"],
+            permissions: ["view candidate profile"],
           },
           {
             id: 172,
