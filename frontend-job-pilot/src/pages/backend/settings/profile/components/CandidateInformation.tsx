@@ -10,10 +10,21 @@ import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { useFormContext } from "react-hook-form"
 import { tProfileType } from "../types/profile"
+import useFetch from "@/hooks/api/useFetch"
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function CandidateInformation() {
   const [date, setDate] = useState<Date>()
 
+  const {data: data} = useFetch("/api/v1/candidate-profile")
+    
+  if(data === null) return <Skeleton />
+  
+  const gender = data?.gender
+  const education = data?.education
+  const employment = data?.employment
+
+  
   const {register}  = useFormContext<tProfileType>();
 
   return (
@@ -32,29 +43,11 @@ export default function CandidateInformation() {
             <p className="text-xs text-slate-500 mt-2">JPG, PNG or GIF (max. 2MB)</p>
           </div>
         </div>
-
-        <div className="flex-1">
-          <h2 className="text-xl font-semibold text-slate-800 mb-6">Personal Details</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <Label  className="text-sm font-medium text-slate-700">
-                First Name
-              </Label>
-              <Input type="text" id="first_name" name="first_name" placeholder="John" className="mt-1" />
-            </div>
-            <div>
-              <Label className="text-sm font-medium text-slate-700">
-                Last Name
-              </Label>
-              <Input type="text" id="last_name" name="last_name" placeholder="Doe" className="mt-1" />
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <Label className="text-sm font-medium text-slate-700">
+          <Label className="text-sm font-medium">
             Date of Birth
           </Label>
           <Popover>
@@ -74,7 +67,7 @@ export default function CandidateInformation() {
           <Label className="text-sm font-medium text-slate-700">
             Nationality
           </Label>
-          <Select>
+          <Select {...register("nationality")}>
             <SelectTrigger className="mt-1">
               <SelectValue placeholder="Select nationality" />
             </SelectTrigger>
@@ -98,10 +91,11 @@ export default function CandidateInformation() {
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="male">Male</SelectItem>
-              <SelectItem value="female">Female</SelectItem>
-              <SelectItem value="non-binary">Non-binary</SelectItem>
-              <SelectItem value="prefer-not">Prefer not to say</SelectItem>
+            {
+              gender?.map((gender: any) => (
+                <SelectItem value={gender.value} key={gender.value}>{gender.label}</SelectItem>
+              ))
+            }
             </SelectContent>
           </Select>
         </div>
@@ -135,16 +129,16 @@ export default function CandidateInformation() {
           <Label className="text-sm font-medium text-slate-700">
             Highest Education
           </Label>
-          <Select>
+          <Select {...register("education")}>
             <SelectTrigger className="mt-1">
               <SelectValue placeholder="Select education" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="high-school">High School</SelectItem>
-              <SelectItem value="associate">Associate Degree</SelectItem>
-              <SelectItem value="bachelor">Bachelor's Degree</SelectItem>
-              <SelectItem value="master">Master's Degree</SelectItem>
-              <SelectItem value="doctorate">Doctorate</SelectItem>
+              {
+                education?.map((education: any) => (
+                  <SelectItem value={education.value} key={education.value}>{education.label}</SelectItem>
+                ))
+              }
             </SelectContent>
           </Select>
         </div>
@@ -153,21 +147,21 @@ export default function CandidateInformation() {
           <Label className="text-sm font-medium text-slate-700">
             Phone Number
           </Label>
-          <Input type="tel" id="phone_number" name="phone_number" placeholder="+1 (555) 000-0000" className="mt-1" />
+          <Input type="tel" id="phone_number" 
+           placeholder="+1 (555) 000-0000" className="mt-1" 
+           {...register("phone_number")}
+           />
         </div>
 
-        <div>
-          <Label  className="text-sm font-medium text-slate-700">
-            Email Address
-          </Label>
-          <Input type="email" id="email" name="email" placeholder="your.email@example.com" className="mt-1" />
-        </div>
 
         <div className="md:col-span-2">
           <Label  className="text-sm font-medium text-slate-700">
             Address
           </Label>
-          <Input type="text" id="address" name="address" placeholder="123 Main St, City, Country" className="mt-1" />
+          <Input type="text" id="address" 
+          placeholder="123 Main St, City, Country" className="mt-1"
+          {...register("address")}
+          />
         </div>
       </div>
     </div>

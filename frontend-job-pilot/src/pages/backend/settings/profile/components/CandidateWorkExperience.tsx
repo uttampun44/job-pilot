@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-dropdown-menu";
 import { useFormContext } from "react-hook-form";
+import { tProfileType } from "../types/profile";
 
 export default function CandidateWorkExperience() {
     
@@ -20,7 +21,7 @@ export default function CandidateWorkExperience() {
                             <Input
                                 type="text"
                                 id="work_experience"
-                                name="work_experience"
+                                {...register("work_experience")}
                                 className="input-style"
                                 placeholder="e.g. 5 years in Software Development"
                             />
@@ -33,9 +34,9 @@ export default function CandidateWorkExperience() {
                             <Input
                                 type="text"
                                 id="position"
-                                name="position"
                                 className="input-style"
                                 placeholder="e.g. Frontend Developer"
+                                {...register("position")}
                             />
                         </div>
 
@@ -46,7 +47,7 @@ export default function CandidateWorkExperience() {
                             <Input
                                 type="text"
                                 id="skills"
-                                name="skills"
+                                {...register("skills")}
                                 className="input-style"
                                 placeholder="e.g. JavaScript, React, Tailwind CSS"
                             />

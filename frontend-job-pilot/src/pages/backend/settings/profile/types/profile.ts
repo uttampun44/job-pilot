@@ -10,6 +10,7 @@ export type tProfileType = {
     phone_number: string;
     address: string;        
     image: string;
-    user_id: number;
+    position: string;
     skills: [];
+    user_id: number;
 }

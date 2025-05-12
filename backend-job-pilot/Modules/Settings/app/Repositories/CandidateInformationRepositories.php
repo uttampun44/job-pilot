@@ -2,14 +2,17 @@
 
 namespace Modules\Settings\app\Repositories;
 
-use App\Models\User;
+use App\Enum\Education;
+use App\Enum\Employment;
+use App\Enum\Gender;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Modules\Settings\app\Models\CandidateInformation;
 use Modules\Settings\app\Models\CandidateExperience;
+use Illuminate\Support\Str;
 
-class CandidateRepositories
+class CandidateInformationRepositories
 {
     public function fetchCandidates()
     {
@@ -21,23 +24,23 @@ class CandidateRepositories
         $gender = collect(Gender::cases())->map(fn($gender) =>[
             'label' => $gender->name,
             'value' => $gender->value
-        ] )
+        ] );
 
         $education = collect(Education::cases())->map(fn($education) =>[
             'label' => $education->name,
             'value' => $education->value
-        ] )
+        ] );
 
         $employment = collect(Employment::cases())->map(fn($employment) =>[
             'label' => $employment->name,
             'value' => $employment->value
-        ] )
+        ] );
 
         return [
             'gender' => $gender,
             'education' => $education,
             'employment' => $employment
-        ]
+        ];
     }
 
     public function createUpdate(array $data)

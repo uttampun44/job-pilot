@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
                 Component: Profile
             },
             {
-                path: "/settings/candidate-profile/edit",
+                path: "/settings/candidate-profile/edit/:id",
                 Component: CandidateEdit
             },
             {

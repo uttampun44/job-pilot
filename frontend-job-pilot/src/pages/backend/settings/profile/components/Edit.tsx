@@ -11,11 +11,8 @@ import { toast } from "sonner"
 
 export default function CandidateEdit() {
 
-
   const methods = useForm<tProfileType>()
   const post = usePost("/api/v1/profie");
-
-
 
   const onSubmit = async (data: tProfileType) => {
     try {
@@ -35,7 +32,7 @@ export default function CandidateEdit() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 py-12 px-4 md:px-10">
+    <div className="min-h-screen bg-gradient-to-b bg-gray-50 dark:bg-gray-900 py-12 px-4 md:px-10">
       <div className="max-w-6xl mx-auto">
         {/* Header with progress indicator */}
         <div className="mb-8 text-center">
@@ -47,7 +44,7 @@ export default function CandidateEdit() {
 
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-8">
-            <Tabs value="personal" onValueChange={setActiveTab} className="w-full">
+            <Tabs defaultValue="personal"  className="w-full">
               <div className="w-full max-w-md mx-auto mb-8">
                 <TabsList className="grid grid-cols-2 w-full">
                   <TabsTrigger
@@ -74,12 +71,11 @@ export default function CandidateEdit() {
                   <CandidateWorkExperience />
                 </TabsContent>
 
-                {/* Navigation and action buttons */}
                 <div className="bg-slate-50 p-6 border-t border-slate-100">
 
                   <div className="flex gap-3 w-full sm:w-auto">
                     <Link
-                      to="/settings/profile"
+                      to="/settings/candidate-profile/"
                       className="flex items-center justify-center gap-2 h-10 px-4 py-2 rounded-md border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 w-full sm:w-auto"
                     >
                       <X className="h-4 w-4" />
@@ -89,7 +85,6 @@ export default function CandidateEdit() {
                       <Save className="h-4 w-4" />
                       Save Profile
                     </Button>
-
                   </div>
                 </div>
               </div>

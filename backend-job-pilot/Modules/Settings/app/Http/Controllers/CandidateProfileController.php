@@ -4,7 +4,7 @@ namespace Modules\Settings\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Settings\app\Repositories\CandidateRepositories;
+use Modules\Settings\app\Repositories\CandidateInformationRepositories;
 use Illuminate\Support\Facades\Log;
 
 class CandidateProfileController extends Controller
@@ -13,15 +13,16 @@ class CandidateProfileController extends Controller
      * Display a listing of the resource.
      */
 
-     protected $candidateRepository;
+    protected $candidateRepository;
 
-    public function __construct(CandidateRepositories $candidateRepository)
+    public function __construct(CandidateInformationRepositories $candidateInformationRepository)
     {
-        $this->candidateRepository = $candidateRepository;
+        $this->candidateRepository = $candidateInformationRepository;
     }
     public function index()
     {
-        return view('settings::index');
+        $data = $this->candidateRepository->getCandidateEnums();
+        return response()->json($data, 200);
     }
 
     /**
@@ -29,14 +30,13 @@ class CandidateProfileController extends Controller
      */
     public function create()
     {
-          $data =$this->candidateRepository->fetchCandidates();
-       return response()->json($data, 200);
+        return view('settings::index');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
         try {
             $data = $request->validated();

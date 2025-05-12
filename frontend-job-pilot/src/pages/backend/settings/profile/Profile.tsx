@@ -1,16 +1,18 @@
 import {buttonVariants } from "@/components/ui/button";
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
 
-    const { id } = useParams();
+    const  user = localStorage.getItem("user");
+    const userLocalDetail = JSON.parse(user as string);
+
     return (
         <React.Fragment>
             <div className="container min-h-screen bg-neutral-100 py-10 px-4 w-full max-w-full">
 
                 <div className="flex justify-end  items-center">
-                <Link to={`/settings/candidate-profile/edit/${id}`} className={buttonVariants({ variant: "outline" })}>Update Profile</Link>
+                <Link to={`/settings/candidate-profile/edit/${userLocalDetail.id}`} className={buttonVariants({ variant: "outline" })}>Update Profile</Link>
 
                 </div>
                 <div className="flex justify-center items-start">
