@@ -30,12 +30,12 @@ export default function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="p-0">
-        <div className="flex items-center gap-x-2.5 py-3.5 bg-muted/50 border-b w-full">
+        <div className="flex items-center gap-x-2.5 py-3.5 bg-gray-50 dark:bg-gray-900 border-b w-full">
           <Icon iconName="mainIcon" />
           <h1 className="text-lg font-semibold">Job Pilot</h1>
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-gray-50 dark:bg-gray-900">
         <SidebarGroup>
           <SidebarGroupContent className="py-4">
             <SidebarMenu>

@@ -17,10 +17,10 @@ export default function EmployerProfile() {
         
        try {
            const response = await post.mutateAsync({ data: data })
-        
+         
            if (response.status === 201) {
                toast.success("Company details saved successfully !")
-               navigation("/settings/employer/profile")
+               navigation("/settings/company-information")
            }
        } catch (error) {
            if (error instanceof Error) {
@@ -33,14 +33,14 @@ export default function EmployerProfile() {
     return (
         <React.Fragment>
             <FormProvider {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <form onSubmit={methods.handleSubmit(onSubmit)} encType="multipart/form-data">
                 <CompanyDetails />
 
                 <div className="button flex justify-center items-end gap-4">
                     <Button type="submit" className="max-w-xs w-full mt-4">
                         Save
                     </Button>
-                    <Link to="/settings/employer" className={buttonVariants({ variant: "outline" })}>
+                    <Link to="/settings/company-information" className={buttonVariants({ variant: "outline" })}>
                         Cancel
                     </Link>
                 </div>

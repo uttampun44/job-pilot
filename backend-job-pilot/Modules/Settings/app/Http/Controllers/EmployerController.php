@@ -3,10 +3,10 @@
 namespace Modules\Settings\app\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Modules\Settings\app\Http\Requests\EmployerInformationRequest;
 use Modules\Settings\app\Repositories\EmployerInformationRepositories;
 
 class EmployerController extends Controller
@@ -28,7 +28,7 @@ class EmployerController extends Controller
         return response()->json($data, 200);
     }
 
-    public function store(EmployerInformationRequest $request)
+    public function store(Request $request)
     {        
         try {
             $user = Auth::user();
@@ -39,7 +39,7 @@ class EmployerController extends Controller
                 ], 401);
             }
              
-            $data = $request->validated();
+            $data = $request->all();
             
             $this->employerRepository->createUpdate($data);
             return response()->json([

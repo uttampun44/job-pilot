@@ -26,8 +26,9 @@ class EmployerInformationRepositories
 
     public function createUpdate(array $data)
     {
+        $userId = Auth::user()->id;
 
-        if (isset($data['logo'])) {
+        if (isset($data['logo']) && $data['logo'] instanceof \Illuminate\Http\UploadedFile) {
            
             // generate uuid and add extension to filename
             $uuid = Str::uuid()->toString();
@@ -37,10 +38,19 @@ class EmployerInformationRepositories
             $path = Storage::putFileAs('company/logos', $data['logo'], $filename, 'public');
             $data['logo'] = $path;
         }
+      
+        $employer = EmployerInformation::where('user_id', $userId)->first();
 
-        EmployerInformation::updateOrCreate(
-            ['user_id' => Auth::user()->id],
-            $data
-        );
+        if($employer){
+            $employer->update($data);
+        }else{
+            EmployerInformation::createOrUpdate(
+                ['user_id' => $userId],
+                $data
+            );
+        }
+
+
     }
+    
 }

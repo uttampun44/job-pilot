@@ -56,7 +56,7 @@ export default function TopNav() {
     }, []);
 
     return (
-        <header className="w-full border-b bg-muted/50 py-4 flex justify-between items-center shadow-sm">
+        <header className="w-full border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
 
             <div className="row pl-4">
                 <h1 className="text-xl font-semibold">Dashboard</h1>
@@ -101,7 +101,7 @@ export default function TopNav() {
                                 <AvatarImage src="/avatar.png" alt={user?.name as string} />
                                 <AvatarFallback></AvatarFallback>
                             </Avatar>
-                            <span className="font-medium text-gray-800">{user?.name as string}</span>
+                            <Label>{user?.name as string}</Label>
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
