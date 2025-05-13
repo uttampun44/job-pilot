@@ -3,8 +3,9 @@
 namespace Modules\Settings\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Settings\app\Models\EmployerInformation;
 
-class SettingsDatabaseSeeder extends Seeder
+class EmployerSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,8 +13,7 @@ class SettingsDatabaseSeeder extends Seeder
     public function run(): void
     {
         // $this->call([]);
-        // $this->call(EmployerSeeder::class);
-        // $this->call(CandidateInformationSeeder::class);
-        $this->call(CandidateExperienceSeeder::class);
+
+        EmployerInformation::factory(700)->create();
     }
 }

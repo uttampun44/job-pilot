@@ -3,6 +3,7 @@
 namespace Modules\Authentication\database\seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Authentication\Database\Seeders\UserFakeSeeder;
 
 class AuthenticationDatabaseSeeder extends Seeder
 {

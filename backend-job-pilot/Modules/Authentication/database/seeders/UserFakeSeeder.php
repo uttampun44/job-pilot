@@ -2,6 +2,8 @@
 
 namespace Modules\Authentication\Database\Seeders;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class UserFakeSeeder extends Seeder

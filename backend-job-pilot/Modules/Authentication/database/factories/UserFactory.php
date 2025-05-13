@@ -3,13 +3,14 @@
 namespace Modules\Authentication\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
-class UserFactoryFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      */
-    protected $model = \Modules\Authentication\Models\UserFactory::class;
+    protected $model = \Modules\Authentication\Database\Factories\UserFactory::class;
 
     /**
      * Define the model's default state.
