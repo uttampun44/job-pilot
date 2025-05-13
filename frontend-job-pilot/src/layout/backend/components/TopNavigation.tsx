@@ -7,13 +7,18 @@ import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/api/usePost";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useTheme } from "@/context/features/ThemeContext";
+import { Label } from "@radix-ui/react-dropdown-menu";
+import { useEffect, useState } from "react";
 
 export default function TopNav() {
-    const {token, user, setToken, setUser } = useAuth();
+    
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+    const { token, user, setToken, setUser } = useAuth();
+    const { setTheme } = useTheme();
     const navigate = useNavigate();
-
     const { handleSubmit } = useForm();
-
     const logout = usePost("/api/v1/logout")
 
     const onSubmit = async (): Promise<void> => {
@@ -27,8 +32,9 @@ export default function TopNav() {
             if (response.status === 200) {
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+                localStorage.removeItem("role");
                 setToken("");
-                setUser("");
+                setUser(null);
                 navigate("/login");
             }
         } catch (error) {
@@ -41,13 +47,22 @@ export default function TopNav() {
         }
     };
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date().toLocaleTimeString());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <header className="w-full border-b bg-muted/50 py-4 flex justify-between items-center shadow-sm">
-            
-             <div className="row pl-4">
-             <h1 className="text-xl font-semibold">Dashboard</h1>
-             </div>
+        <header className="w-full border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
+
+            <div className="row pl-4">
+                <h1 className="text-xl font-semibold">Dashboard</h1>
+            </div>
             <div className="flex items-center gap-6">
+                <Label>{new Date().toLocaleDateString()} {time}</Label>
                 <Button
                     type="button"
                     className="relative text-gray-600 hover:text-black cursor-pointer"
@@ -59,12 +74,34 @@ export default function TopNav() {
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className="flex items-center gap-3 cursor-pointer">
+                        <div className="theme">
+                            <Icon iconName="sun" className="h-6 w-6" />
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => {
+                            setTheme("light")
+                            document.documentElement.classList.remove("dark")
+                        }}>
+                            Light Mode
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600" onClick={() => {
+                            setTheme("dark")
+                            document.documentElement.classList.add("dark")
+                        }}>
+                            Dark Mode
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <div className="flex items-center gap-3 px-2.5 cursor-pointer">
                             <Avatar className="cursor-pointer">
-                                <AvatarImage src="/avatar.png" alt={user as string} />
-                                <AvatarFallback>{user?.charAt(0)?.toUpperCase() as string}</AvatarFallback>
+                                <AvatarImage src="/avatar.png" alt={user?.name as string} />
+                                <AvatarFallback></AvatarFallback>
                             </Avatar>
-                            <span className="font-medium text-gray-800">{user as string}</span>
+                            <Label>{user?.name as string}</Label>
                         </div>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">

@@ -2,7 +2,7 @@ import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/components/ui/lib/utils";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function EmailVerification() {
     return (

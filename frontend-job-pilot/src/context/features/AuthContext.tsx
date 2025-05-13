@@ -4,19 +4,25 @@ interface AuthContextProps {
     children: React.ReactNode
 }
 
+type userType = {
+    id:number,
+    email:string,
+    name:string
+} | null
+
 interface AuthContextValue {
     token: string,
-    user: string,
+    user: userType
     isLoading: boolean,
     setToken: React.Dispatch<React.SetStateAction<string>>,
-    setUser: React.Dispatch<React.SetStateAction<string>>
+    setUser: React.Dispatch<React.SetStateAction<userType>>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export  default function AutProvider({ children }: AuthContextProps) {
    
-    const [user, setUser] = useState<string>("");
+    const [user, setUser] = useState<userType>(null);
     const [token, setToken] = useState<string>("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -28,10 +34,10 @@ export  default function AutProvider({ children }: AuthContextProps) {
         }
 
         if (localUser) {
-            setUser(localUser as string);
+            setUser(JSON.parse(localUser as string));
         }
         setIsLoading(false);
-    }, [token, user]);
+    }, [token]);
     
     return(
         <AuthContext.Provider value={{user,token, isLoading, setToken, setUser}}>

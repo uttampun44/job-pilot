@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { createContext, Dispatch, SetStateAction, use, useEffect, useState } from "react";
 
 interface ThemeContextProps {
     children: React.ReactNode
@@ -31,7 +31,7 @@ export  default function ThemeContext({ children }: ThemeContextProps) {
 }
 
 export function useTheme() {
-    const context = useContext(Theme);
+    const context = use(Theme);
     if (context === undefined) {
         throw new Error("useTheme must be used within a ThemeContext");
     }

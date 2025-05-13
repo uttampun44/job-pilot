@@ -1,7 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
 import { useMutation } from "@tanstack/react-query";
-import { error } from "console";
-
 
 // custom request config for the post request
 // data is the request body

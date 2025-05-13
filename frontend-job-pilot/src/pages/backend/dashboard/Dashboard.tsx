@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Briefcase, Heart, Bell } from "lucide-react";
 
 export default function Dashboard() {
+
   const stats = [
     {
       title: "Active Users",

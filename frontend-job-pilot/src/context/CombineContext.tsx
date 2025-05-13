@@ -5,13 +5,13 @@ export interface CombineContextProps {
     children: React.ReactNode
 }
 
-
 export default function CombineContext({ children }: CombineContextProps) {
+
     return (
-        <AuthContext>
-           <ThemeContext>
-               {children}
-           </ThemeContext>
-        </AuthContext>
+        <ThemeContext>
+            <AuthContext>
+                {children}
+            </AuthContext>
+        </ThemeContext>
     )
 }

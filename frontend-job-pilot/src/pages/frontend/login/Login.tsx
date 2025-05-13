@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { tLoginType, trememberType } from "./types/login";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/context/features/AuthContext";
+import Overlary from "@/components/ui/overlary";
+
 
 export default function Login() {
 
@@ -18,7 +20,7 @@ export default function Login() {
     const [remember, setRemember] = useState<trememberType | null>(null);
 
     const post = usePost("/api/v1/login")
-    const {setToken} = useAuth()
+    const {setToken, setUser} = useAuth()
     const navigation = useNavigate()
 
     const {handleSubmit, register} = useForm<tLoginType>();
@@ -27,9 +29,11 @@ export default function Login() {
         try {
             const response = await post.mutateAsync({ data: formData })
             if (response.status === 200) {
-                console.log(response.data)
+                localStorage.setItem("role", response.data.role as string)
                 localStorage.setItem("token", response.token as string)
+                localStorage.setItem("user", JSON.stringify(response.data.user))
                 setToken(response.token as string)
+                setUser(response.data.user)
                 toast.success("Login successfully !")
                 navigation("/dashboard")
                 if (remember) {
@@ -72,7 +76,7 @@ export default function Login() {
                                 <Input placeholder="Email"
                                  {...register("email")}
                                 />
-                                <div className="password relative my-2.5">
+                                <div className="password relative my-4">
                                     <Input placeholder="Password" type={password ? "text" : "password"}
                                      {...register("password")}
                                     className="w-full" />
@@ -94,7 +98,8 @@ export default function Login() {
                         </form>
                     </div>
                 </div>
-                <div className="hidden md:block w-1/2 h-screen">
+                <div className="hidden md:block w-1/2 h-screen relative ">
+                 <Overlary />
                     <img
                         src={TeamImage}
                         alt="Team"

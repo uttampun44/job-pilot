@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Settings\app\Models\EmployerInformation;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -46,5 +47,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function employerProfile()
+    {
+        return $this->hasOne(EmployerInformation::class);
     }
 }
