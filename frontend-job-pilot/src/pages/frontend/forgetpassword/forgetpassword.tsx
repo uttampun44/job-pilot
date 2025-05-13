@@ -10,7 +10,6 @@ export default function ForgetPassword() {
     const formMethods = useForm()
 
     const handleSubmit = (formData: any) => {
-
         console.log(formData)
     }
 

@@ -5,6 +5,7 @@ namespace Modules\Authentication\app\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Authentication\app\Repositories\AuthenticationRepository;
+use Moudles\Authentication\app\Repositories\DashboardRepository;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -39,6 +40,9 @@ class AuthenticationServiceProvider extends ServiceProvider
         $this->app->register(RouteServiceProvider::class);
         $this->app->bind(AuthenticationRepository::class, function () {
             return new AuthenticationRepository();
+        });
+        $this->app->bind(DashboardRepository::class, function () {
+            return new DashboardRepository();
         });
     }
 

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { headerLinks } from "@/data/header";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router-dom";
 
 const multiLanguages = [
     { code: "en", name: "English" },

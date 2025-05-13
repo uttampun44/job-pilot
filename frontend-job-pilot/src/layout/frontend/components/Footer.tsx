@@ -1,6 +1,6 @@
 import Icon from "@/components/Icon";
 import { quickLink } from "@/data/quicklink";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
     
@@ -22,11 +22,9 @@ export default function Footer() {
                         </p>
                     </div>
 
-                  
                     <div>
                         <h3 className="text-white text-xl font-semibold mb-4">About</h3>
                         <ul className="space-y-2">
-
                             {
                                 quickLink && quickLink.length > 0 && quickLink.map((link, index) => (
                                     <li key={index}>
