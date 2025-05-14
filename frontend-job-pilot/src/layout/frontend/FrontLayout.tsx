@@ -8,11 +8,11 @@ import { store } from "../../Store";
 export default function FrontLayout() {
     return (
         <React.Fragment>
-           <Provider store={store}>
+          
               <Header />
              <Outlet />
             <Footer />
-           </Provider>
+          
         </React.Fragment>
     )
 }

@@ -1,3 +1,4 @@
+import AuthContext from "./features/AuthContext";
 import ThemeContext from "./features/ThemeContext";
 
 export interface CombineContextProps {
@@ -5,5 +6,9 @@ export interface CombineContextProps {
 }
 
 export default function CombineContext({ children }: CombineContextProps) {
-  return <ThemeContext>{children}</ThemeContext>;
+  return (
+    <ThemeContext>
+      <AuthContext>{children}</AuthContext>
+    </ThemeContext>
+  );
 }
