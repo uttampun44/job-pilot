@@ -39,10 +39,10 @@ export interface SidebarLink {
       subNavigation: [
         {
           id: 131,
-          label: "Create Job",
-          href: "/create-job",
+          label: "view job",
+          href: "/jobs",
           icon: "dashboard",
-          permissions: ["create job"],
+          permissions: ["view job"],
         },
       ],
     },

@@ -3,5 +3,6 @@
     "CreateForgetPasswordsLogs": true,
     "CreateOnlineUsers": true,
     "Settings": true,
-    "Jobs": true
+    "Jobs": true,
+    "Factory": true
 }

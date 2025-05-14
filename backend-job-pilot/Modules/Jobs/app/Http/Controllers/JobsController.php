@@ -4,15 +4,21 @@ namespace Modules\Jobs\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Jobs\app\Repositories\JobsRepositories;
 
 class JobsController extends Controller
 {
+     protected $jobsRepositories;
+    public function __construct(JobsRepositories $jobsRepositories)
+    {
+        $this->jobsRepositories = $jobsRepositories;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('jobs::index');
+       return $this->jobsRepositories->getAllJobs();
     }
 
     /**

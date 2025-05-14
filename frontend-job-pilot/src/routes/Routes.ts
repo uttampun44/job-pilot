@@ -18,6 +18,7 @@ import EmployerProfile from '@/pages/backend/settings/employer/EmployerProfile';
 import RolePermission from '@/pages/backend/settings/permissions/RolePermission';
 import CandidateEdit from '@/pages/backend/settings/profile/components/Edit';
 import ProfileView from '@/pages/backend/settings/employer/ProfileView';
+import Jobs from '@/pages/backend/jobs/Jobs';
 
 
 
@@ -80,7 +81,10 @@ export const router = createBrowserRouter([
                 path: '/calendar',
                 Component: Calendar
             },
-           
+            {
+                path: '/jobs',
+                Component: Jobs
+            },
             {
                 path: '/settings/candidate-profile',
                 Component: Profile
