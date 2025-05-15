@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -10,15 +11,32 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useFetch from "@/hooks/api/useFetch";
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 
 export default function Jobs() {
-  const { data: data } = useFetch("/api/v1/jobs");
+  // const { data: data } = useFetch("/api/v1/jobs");
 
-  console.log(data);
+  // console.log(data);
+
+  const fetchJobs = async () => {
+    const response = await axios.get("/api/v1/jobs");
+    const data = response.data;
+    console.log(data);
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
     <React.Fragment>
+      <div className="jobs-backend-pagination my-2.5">
+        <Input type="text" placeholder="Search..." />
+        <Button type="button" variant="outline" color="primary">
+          Create Jobs
+        </Button>
+      </div>
       <Table>
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
