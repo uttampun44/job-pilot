@@ -1,6 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
   Table,
   TableBody,
   TableCaption,
@@ -11,11 +20,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useFetch from "@/hooks/api/useFetch";
+import useDebounce from "@/hooks/useDebounce";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function Jobs() {
   // const { data: data } = useFetch("/api/v1/jobs");
+  const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
+
+  const debounce = useDebounce(search, 500);
+
+  const fetchSearchJobs = async () => {
+    const response = await axios.get(`/api/v1/jobs?search=${search}`);
+    const data = response.data;
+    setData(data);
+  };
+  useEffect(() => {
+    if (debounce) {
+      fetchSearchJobs();
+    }
+  }, [debounce]);
 
   // console.log(data);
 
@@ -32,7 +57,11 @@ export default function Jobs() {
   return (
     <React.Fragment>
       <div className="jobs-backend-pagination my-2.5">
-        <Input type="text" placeholder="Search..." />
+        <Input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <Button type="button" variant="outline" color="primary">
           Create Jobs
         </Button>
@@ -69,6 +98,33 @@ export default function Jobs() {
           </TableRow>
         </TableFooter>
       </Table>
+
+      <div className="my-4">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </div>
     </React.Fragment>
   );
 }
