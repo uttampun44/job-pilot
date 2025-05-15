@@ -9,6 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -25,7 +26,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export default function Jobs() {
-  // const { data: data } = useFetch("/api/v1/jobs");
+  const { data: jobsData, isLoading, isError } = useFetch("/api/v1/jobs");
+
+  const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
+
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
 
@@ -42,25 +46,18 @@ export default function Jobs() {
     }
   }, [debounce]);
 
-  // console.log(data);
+  if(isLoading) return <Skeleton />
 
-  const fetchJobs = async () => {
-    const response = await axios.get("/api/v1/jobs");
-    const data = response.data;
-    console.log(data);
-  };
-
-  useEffect(() => {
-    fetchJobs();
-  }, []);
-
+   if(isError) return <div>Something went wrong</div>
   return (
     <React.Fragment>
-      <div className="jobs-backend-pagination my-2.5">
+      <div className="jobs-backend-pagination flex justify-between gap-x-4 my-2.5">
         <Input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search jobs ..."
+          className="w-1/3"
         />
         <Button type="button" variant="outline" color="primary">
           Create Jobs
@@ -70,11 +67,21 @@ export default function Jobs() {
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Method</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-            <TableHead>Action</TableHead>
+            <TableHead className="w-[100px]">Job Description</TableHead>
+            <TableHead>Requirements</TableHead>
+            <TableHead>Desirable</TableHead>
+            <TableHead className="text-right">Benefits</TableHead>
+            <TableHead>Job Type</TableHead>
+            <TableHead>Job Benefits Tags</TableHead>
+            <TableHead>Job Posted</TableHead>
+            <TableHead>Job Expires</TableHead>
+            <TableHead>Job Location</TableHead>
+            <TableHead>Level</TableHead>
+            <TableHead>Salary Start</TableHead>
+            <TableHead>Salary End</TableHead>
+            <TableHead>Negotiable</TableHead>
+            <TableHead>Job Tags</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -92,10 +99,49 @@ export default function Jobs() {
           </TableRow>
         </TableBody>
         <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">$2,500.00</TableCell>
-          </TableRow>
+          {jobs?.length > 0 &&
+            jobs?.map((job: any, index: number) => {
+
+              console.log(job);
+              return (
+                <TableRow key={index}>
+                  <TableCell className="truncate"> {job.job_description?.split(" ").slice(0, 50).join(" ")}{job.job_description?.split(" ").length > 50 && "..."}</TableCell>
+                  <TableCell>{job.requirements}</TableCell>
+                  <TableCell>{job.desirable}</TableCell>
+                  <TableCell className="text-right">{job.benefits}</TableCell>
+                  <TableCell>{job.jobType}</TableCell>
+                  <TableCell>{job.jobBenefitsTags}</TableCell>
+                  <TableCell>{job.jobPosted}</TableCell>
+                  <TableCell>{job.jobExpires}</TableCell>
+                  <TableCell>{job.jobLocation}</TableCell>
+                  <TableCell>{job.level}</TableCell>
+                  <TableCell>{job.salaryStart}</TableCell>
+                  <TableCell>{job.salaryEnd}</TableCell>
+                  <TableCell>{job.negotiable}</TableCell>
+                  <TableCell>{job.jobTags}</TableCell>
+                  <TableCell>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      color="primary"
+                      onClick={() => console.log("Edit")}
+                    >
+                      Edit
+                    </Button>
+                    <TableCell>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        color="primary"
+                        onClick={() => console.log("Delete")}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
         </TableFooter>
       </Table>
 
