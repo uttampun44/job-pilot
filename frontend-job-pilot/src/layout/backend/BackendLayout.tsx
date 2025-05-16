@@ -12,8 +12,8 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   return (
     <React.Fragment>
+       
       <PermissionContext>
-        <AuthContext>
           <SidebarProvider>
             <div className="flex min-h-screen">
               <AppSidebar />
@@ -23,8 +23,8 @@ export default function Layout({ children }: LayoutProps) {
               <main className="p-4">{children}</main>
             </div>
           </SidebarProvider>
-        </AuthContext>
       </PermissionContext>
+       
     </React.Fragment>
   );
 }
