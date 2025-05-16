@@ -32,13 +32,13 @@ export const sidebarLink: SidebarLink[] = [
   },
   {
     id: 14,
-    label: "Jobs",
+    label: "Employer",
     icon: "calendar",
-    permissions: ["view jobs"],
+    permissions: ["view employer"],
     subNavigation: [
       {
-        id: 131,
-        label: "view job",
+        id: 141,
+        label: "Jobs",
         href: "/jobs",
         icon: "view",
         permissions: ["view job"],
