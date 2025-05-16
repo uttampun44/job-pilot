@@ -48,14 +48,14 @@ export const sidebarLink: SidebarLink[] = [
   {
     id: 15,
     label: "Candidates",
-    icon: "view",
+    icon: "candidate",
     permissions: ["view candidates"],
     subNavigation: [
       {
         id: 151,
         label: "view candidate",
         href: "/candidates",
-        icon: "dashboard",
+        icon: "view",
         permissions: ["view candidate"],
       },
     ],

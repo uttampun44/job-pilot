@@ -18,11 +18,11 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex min-h-screen">
             <AppSidebar />
           </div>
-          <div className="w-full flex flex-col">
+          <div className={isTogglePin ? "ml-0 bg-white w-full overflow-x-auto" : "max-w-full w-full"}>
             <TopNav />
-            <main className="p-4 bg-[#F0F5F9] dark:bg-gray-700">
+            <main className="p-4 dark:bg-gray-700">
               <section>
-                <div className={isTogglePin ? "w-72" : "w-20"}>{children}</div>
+                <div >{children}</div>
               </section>
             </main>
           </div>

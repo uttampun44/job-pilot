@@ -26,7 +26,7 @@ export default function AuthContext({ children }: AuthContextProps) {
   const [user, setUser] = useState<userType>(null);
   const [token, setToken] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const [isTogglePin, setIsTogglePin] = useState(false);
+  const [isTogglePin, setIsTogglePin] = useState(true);
 
   useEffect(() => {
     const localUser = localStorage.getItem("user");
@@ -43,8 +43,6 @@ export default function AuthContext({ children }: AuthContextProps) {
 
   useEffect(() => {
     localStorage.setItem("isPin", JSON.stringify(isTogglePin));
-    setIsTogglePin(false);
-
   }, [isTogglePin]);
 
   return (

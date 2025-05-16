@@ -84,13 +84,14 @@ export default function Jobs() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search jobs ..."
-          className="w-1/3"
+          className="w-1/3 bg-white"
         />
         <Button type="button" variant="outline" color="primary">
           Create Jobs
         </Button>
       </div>
-      <Table>
+      <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+      <Table >
         <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
@@ -107,15 +108,15 @@ export default function Jobs() {
             <TableHead>Salary End</TableHead>
             <TableHead>Negotiable</TableHead>
             <TableHead>Company Name</TableHead>
-            <TableHead>Actions</TableHead>
+            <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
 
-        <TableBody>
+        <TableBody className="overflow-x-scroll">
           {jobs?.length > 0 &&
             jobs?.map((job: any, index: number) => {
               return (
-                <TableRow key={index}>
+                <TableRow key={index} >
                   <TableCell className="text-center">#{job.id}</TableCell>
                   <TableCell className="truncate">
                     {job.job_description.substring(0, 40)}...
@@ -167,11 +168,9 @@ export default function Jobs() {
                   <TableCell>{job.salary_start}</TableCell>
                   <TableCell>{job.salary_end}</TableCell>
                   <TableCell>{job.negotioable}</TableCell>
-                  <TableCell>
-                    {job.job_tags.map((tag: any) => tag.tag)}
-                  </TableCell>
+            
                   <TableCell>{job.employer_information.company_name}</TableCell>
-                  <TableCell>
+                  <TableCell className="flex gap-x-2.5">
                     <Button
                       type="button"
                       variant="outline"
@@ -199,7 +198,7 @@ export default function Jobs() {
             })}
         </TableBody>
       </Table>
-
+    </div>
       <div className="my-4">
         <Pagination>
           <PaginationContent>

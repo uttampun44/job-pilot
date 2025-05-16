@@ -8,11 +8,13 @@ import React, { useState } from "react";
 import { usePermission } from "@/context/features/PermissionContext";
 import { hasPermissions } from "@/utils/permission";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/context/features/AuthContext";
 
 export default function AppSidebar() {
   const [openItems, setOpenItems] = useState<{ [key: number]: boolean }>({});
 
   const { permissions } = usePermission();
+  const { isTogglePin } = useAuth();
 
   const role = localStorage.getItem("role");
 
@@ -28,14 +30,14 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar className="p-4 bg-white dark:bg-gray-900 border-[#F0F5F9] shadow-sm">
+    <Sidebar className={`${isTogglePin ? "w-[13.1%]" : "w-32"} p-4 bg-[#F0F5F9] rounded-md dark:bg-gray-900 border-[#F0F5F9] shadow-sm`}>
       <SidebarHeader className="p-0">
-        <div className="flex items-center gap-x-2.5 py-3.5 w-full">
+        <div className="flex items-center gap-x-2.5 py-3.5 px-1 w-full bg-white dark:bg-gray-900">
           <Icon iconName="mainIcon" />
           <h1 className="text-lg font-semibold">Job Pilot</h1>
         </div>
       </SidebarHeader>
-      <SidebarContent className="bg-gray-50 dark:bg-gray-900">
+      <SidebarContent className={` bg-white dark:bg-gray-900`}>
         <SidebarGroup>
           <SidebarGroupContent className="py-4">
             <SidebarMenu>
@@ -46,7 +48,7 @@ export default function AppSidebar() {
                     {!item.subNavigation ? (
                       <SidebarMenuButton asChild>
                         {checkPermissions && (
-                          <Link to={item.href} className="flex items-center font-semibold gap-2 hover:text-blue-500">
+                          <Link to={item.href as string} className="flex items-center font-semibold gap-2 hover:text-blue-500">
                             <Icon iconName={item.icon} className="text-neutral-600" />
                             {item.label}
                           </Link>
