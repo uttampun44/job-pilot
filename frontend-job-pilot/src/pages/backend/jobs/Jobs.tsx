@@ -1,4 +1,9 @@
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogDescription,
+  DialogHeader,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -15,7 +20,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -24,6 +28,7 @@ import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import SelectedModal from "./components/Modal";
 
 const bgColors = [
   "bg-blue-100 text-blue-800",
@@ -37,13 +42,17 @@ const bgColors = [
 
 export default function Jobs() {
   const { data: jobsData, isLoading, isError } = useFetch("/api/v1/jobs");
-
   const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
 
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
+  const [selectedEmplyerDetails, setSelectedEmplyerDetails] = useState({});
+  const [selectedId, setSelectedId] = useState("");
   const debounce = useDebounce(search, 500);
+
+  const { data: editJobData } = useFetch(`/api/v1/jobs/${selectedId}/edit`);
 
   const fetchSearchJobs = async () => {
     const response = await axios.get(`/api/v1/jobs?search=${search}`);
@@ -93,96 +102,94 @@ export default function Jobs() {
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
-      
-          <TableFooter>
-            {jobs?.length > 0 &&
-              jobs?.map((job: any, index: number) => {
-                console.log(job);
-                return (
-                  <TableRow key={index}>
-                    <TableCell className="text-center">#{job.id}</TableCell>
-                    <TableCell className="truncate">
-                      {job.job_description.substring(0, 40)}...
-                    </TableCell>
-                    <TableCell>
-                      {job.requirements.substring(0, 40)}...
-                    </TableCell>
-                    <TableCell className="p-1 text-xs font-medium">
-                      {(Array.isArray(job.job_tags)
-                        ? job.job_tags
-                        : typeof job.job_tags === "string"
-                        ? job.job_tags.split(",")
-                        : []
-                      ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
 
-                        return (
-                          <span
-                            key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
-                        );
-                      })}
-                    </TableCell>
+        <TableBody>
+          {jobs?.length > 0 &&
+            jobs?.map((job: any, index: number) => {
+              return (
+                <TableRow key={index}>
+                  <TableCell className="text-center">#{job.id}</TableCell>
+                  <TableCell className="truncate">
+                    {job.job_description.substring(0, 40)}...
+                  </TableCell>
+                  <TableCell>{job.requirements.substring(0, 40)}...</TableCell>
+                  <TableCell className="p-1 text-xs font-medium">
+                    {(Array.isArray(job.job_tags)
+                      ? job.job_tags
+                      : typeof job.job_tags === "string"
+                      ? job.job_tags.split(",")
+                      : []
+                    ).map((tag: string, index: number) => {
+                      const colorClass = bgColors[index % bgColors.length];
 
-                    <TableCell className="p-1 text-xs font-medium">
-                      {(Array.isArray(job.job_benefits_tags)
-                        ? job.job_benefits_tags
-                        : typeof job.job_benefits_tags === "string"
-                        ? job.job_benefits_tags.split(",")
-                        : []
-                      ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
+                      return (
+                        <span
+                          key={index}
+                          className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
+                        >
+                          {tag.trim()}
+                        </span>
+                      );
+                    })}
+                  </TableCell>
 
-                        return (
-                          <span
-                            key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
-                        );
-                      })}
-                    </TableCell>
+                  <TableCell className="p-1 text-xs font-medium">
+                    {(Array.isArray(job.job_benefits_tags)
+                      ? job.job_benefits_tags
+                      : typeof job.job_benefits_tags === "string"
+                      ? job.job_benefits_tags.split(",")
+                      : []
+                    ).map((tag: string, index: number) => {
+                      const colorClass = bgColors[index % bgColors.length];
 
-                    <TableCell>{job.job_posted}</TableCell>
-                    <TableCell>{job.job_expires}</TableCell>
-                    <TableCell>{job.job_location}</TableCell>
-                    <TableCell>{job.job_level}</TableCell>
-                    <TableCell>{job.salary_start}</TableCell>
-                    <TableCell>{job.salary_end}</TableCell>
-                    <TableCell>{job.negotioable}</TableCell>
-                    <TableCell>
-                      {job.job_tags.map((tag: any) => tag.tag)}
-                    </TableCell>
-                    <TableCell>
-                      {job.employer_information.company_name}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        color="primary"
-                        onClick={() => console.log("Edit")}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        color="primary"
-                        onClick={() => console.log("Delete")}
-                      >
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-          </TableFooter>
-       
+                      return (
+                        <span
+                          key={index}
+                          className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
+                        >
+                          {tag.trim()}
+                        </span>
+                      );
+                    })}
+                  </TableCell>
+                  <TableCell>{job.job_posted}</TableCell>
+                  <TableCell>{job.job_expires}</TableCell>
+                  <TableCell>{job.job_location}</TableCell>
+                  <TableCell>{job.job_level}</TableCell>
+                  <TableCell>{job.salary_start}</TableCell>
+                  <TableCell>{job.salary_end}</TableCell>
+                  <TableCell>{job.negotioable}</TableCell>
+                  <TableCell>
+                    {job.job_tags.map((tag: any) => tag.tag)}
+                  </TableCell>
+                  <TableCell>{job.employer_information.company_name}</TableCell>
+                  <TableCell>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      color="primary"
+                      onClick={(rowData:any) => {
+                        if(!rowData.id) return
+                        setSelectedId(rowData?.id);
+                        setSelectedEmplyerDetails(rowData);
+                        setIsModalOpen(true);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      color="primary"
+                      onClick={() => console.log("Delete")}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+        </TableBody>
       </Table>
 
       <div className="my-4">
@@ -211,6 +218,47 @@ export default function Jobs() {
           </PaginationContent>
         </Pagination>
       </div>
+      <SelectedModal
+        selectid={selectedId}
+        isOpen={isModalOpen}
+        selectedEmplyerDetails={selectedEmplyerDetails}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedId("");
+          setSelectedEmplyerDetails({});
+        }}
+      >
+        <DialogDescription>
+          {editJobData?.data?.job_description}
+          jobs details
+        </DialogDescription>
+      </SelectedModal>
+
+      <Dialog key={selectedId} open={isdeleteModalOpen}>
+        <DialogHeader>Are you sure you want to delete this job?</DialogHeader>
+        <DialogDescription>
+          <p>This action cannot be undone.</p>
+        </DialogDescription>
+        <div className="button">
+          <Button
+            variant="outline"
+            color="primary"
+            onClick={() => {
+              setIsdeleteModalOpen(false);
+              setSelectedId("");
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="outline"
+            color="primary"
+            onClick={() => console.log("Delete")}
+          >
+            Delete
+          </Button>
+        </div>
+      </Dialog>
     </React.Fragment>
   );
 }

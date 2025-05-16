@@ -22,7 +22,7 @@ export default function PermissionContext({ children }: permissionsContextProps)
     const [permissions, setPermissions] = useState<permissionsContextType>([]);  
     const { token } = useAuth()
 
-    const { data: permission, isLoading } = useFetch(token ? "/api/v1/dashboard" : "");
+    const { data: permission, isLoading } = useFetch(token ? "/api/v1/all-permissions" : "");
 
     useEffect(() => {
         if (permission?.userRolePermissions && Array.isArray(permission.userRolePermissions)) {

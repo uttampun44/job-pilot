@@ -47,7 +47,7 @@ class JobsController extends Controller
      */
     public function edit($id)
     {
-        return view('jobs::edit');
+       return $this->jobsRepositories->showJobsDetails($id);
     }
 
     /**
@@ -58,5 +58,8 @@ class JobsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function destroy($id) 
+    {
+        return $this->jobsRepositories->deleteJob($id);
+    }
 }

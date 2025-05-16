@@ -28,9 +28,9 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar>
+    <Sidebar className="p-4 bg-white dark:bg-gray-900 border-[#F0F5F9] shadow-sm">
       <SidebarHeader className="p-0">
-        <div className="flex items-center gap-x-2.5 py-3.5 bg-gray-50 dark:bg-gray-900 border-b w-full">
+        <div className="flex items-center gap-x-2.5 py-3.5 w-full">
           <Icon iconName="mainIcon" />
           <h1 className="text-lg font-semibold">Job Pilot</h1>
         </div>

@@ -10,6 +10,7 @@ use App\Mail\ResetPassword;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AuthenticationRepository
 {
@@ -31,6 +32,7 @@ class AuthenticationRepository
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'email_verified_at' => Carbon::now(),
         ]);
 
         if ($data['role'] == 'Employer') {

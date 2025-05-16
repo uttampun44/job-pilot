@@ -14,6 +14,8 @@ interface AuthContextValue {
   token: string;
   user: userType;
   isLoading: boolean;
+  isTogglePin: boolean;
+  setIsTogglePin: React.Dispatch<React.SetStateAction<boolean>>;
   setToken: React.Dispatch<React.SetStateAction<string>>;
   setUser: React.Dispatch<React.SetStateAction<userType>>;
 }
@@ -24,6 +26,7 @@ export default function AuthContext({ children }: AuthContextProps) {
   const [user, setUser] = useState<userType>(null);
   const [token, setToken] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isTogglePin, setIsTogglePin] = useState(false);
 
   useEffect(() => {
     const localUser = localStorage.getItem("user");
@@ -38,8 +41,24 @@ export default function AuthContext({ children }: AuthContextProps) {
     setIsLoading(false);
   }, [token]);
 
+  useEffect(() => {
+    localStorage.setItem("isPin", JSON.stringify(isTogglePin));
+    setIsTogglePin(false);
+
+  }, [isTogglePin]);
+
   return (
-    <Auth.Provider value={{ user, token, isLoading, setToken, setUser }}>
+    <Auth.Provider
+      value={{
+        user,
+        token,
+        isLoading,
+        isTogglePin,
+        setIsTogglePin,
+        setToken,
+        setUser,
+      }}
+    >
       {children}
     </Auth.Provider>
   );
