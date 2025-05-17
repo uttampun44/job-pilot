@@ -39,7 +39,7 @@ class JobsController extends Controller
      */
     public function show($id)
     {
-        return view('jobs::show');
+        return $this->jobsRepositories->showJobsDetails($id);
     }
 
     /**

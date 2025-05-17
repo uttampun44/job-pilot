@@ -41,11 +41,13 @@ const bgColors = [
 ];
 
 type paginationType = {
-  currentPage: number;
-  totalPages: number;
-  previousPage: number;
-  nextPage: number;
-}
+  first: string;
+  prev: string | null;
+  next: string | null;
+  last: string;
+};
+
+
 export default function Jobs() {
   const { data: jobsData, isLoading, isError } = useFetch("/api/v1/jobs");
   const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
@@ -56,11 +58,19 @@ export default function Jobs() {
   const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
   const [selectedEmplyerDetails, setSelectedEmplyerDetails] = useState({});
   const [selectedId, setSelectedId] = useState("");
-  const [pagination, setPagination] = useState<paginationType>({currentPage: 1,totalPages: 1, previousPage: 0, nextPage: 0});
+  
+  const pagination = {
+  first: jobsData?.links?.first,
+  last: jobsData?.links?.last,
+  prev: jobsData?.links?.prev,
+  next: jobsData?.links?.next,
+};
+
+console.log(selectedId)
 
   const debounce = useDebounce(search, 500);
 
-  const { data: editJobData } = useFetch(`/api/v1/jobs/${selectedId}/edit`);
+  const { data: editJobData } = useFetch(`/api/v1/jobs/${selectedId}`);
 
   const fetchSearchJobs = async () => {
     const response = await axios.get(`/api/v1/jobs?search=${search}`);
@@ -176,6 +186,7 @@ export default function Jobs() {
                       variant="outline"
                       color="primary"
                       onClick={(rowData:any) => {
+                        console.log(job)
                         if(!rowData.id) return
                         setSelectedId(rowData?.id);
                         setSelectedEmplyerDetails(rowData);
@@ -224,6 +235,7 @@ export default function Jobs() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+        
       </div>
       <SelectedModal
         selectid={selectedId}

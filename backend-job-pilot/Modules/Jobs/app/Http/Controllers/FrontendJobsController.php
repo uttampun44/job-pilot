@@ -10,7 +10,7 @@ class FrontendJobsController extends Controller
    protected $jobsRepositories;
    public function __construct(JobsRepositories $jobsRepositories)
    {
-      $this->jobsRepositories = $jobsRepositories
+      $this->jobsRepositories = $jobsRepositories;
    }
 
    public function fetchHomePageJobs()
