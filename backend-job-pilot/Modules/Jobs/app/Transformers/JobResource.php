@@ -13,6 +13,7 @@ class JobResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'job_description' => $this->job_description,
             'requirements' => $this->requirements,
             'desirable' => $this->desirable,

@@ -59,6 +59,8 @@ export default function Jobs() {
   const [selectedEmplyerDetails, setSelectedEmplyerDetails] = useState({});
   const [selectedId, setSelectedId] = useState("");
   
+  console.log(selectedEmplyerDetails)
+  console.log(isModalOpen)
   const pagination = {
   first: jobsData?.links?.first,
   last: jobsData?.links?.last,
@@ -185,11 +187,9 @@ console.log(selectedId)
                       type="button"
                       variant="outline"
                       color="primary"
-                      onClick={(rowData:any) => {
-                        console.log(job)
-                        if(!rowData.id) return
-                        setSelectedId(rowData?.id);
-                        setSelectedEmplyerDetails(rowData);
+                      onClick={() => {
+                        setSelectedId(job?.id);
+                        setSelectedEmplyerDetails(job);
                         setIsModalOpen(true);
                       }}
                     >
@@ -238,6 +238,8 @@ console.log(selectedId)
         
       </div>
       <SelectedModal
+        title="View Job Details"
+        headerClass="font-semibold text-lg"
         selectid={selectedId}
         isOpen={isModalOpen}
         selectedEmplyerDetails={selectedEmplyerDetails}
@@ -248,12 +250,20 @@ console.log(selectedId)
         }}
       >
         <DialogDescription>
-          {editJobData?.data?.job_description}
-          jobs details
+          <div className="description mb-1">
+            <strong>Job Description:</strong>
+            <p className="my-1 font-light">{editJobData?.data?.job_description}</p>
+          </div>
+          
+          <div className="desirable my-1">
+            <strong>Desirable:</strong>
+            <p className="my-1 font-light">{editJobData?.data?.desirable}</p>
+          </div>
+
         </DialogDescription>
       </SelectedModal>
 
-      <Dialog key={selectedId} open={isdeleteModalOpen}>
+      {/* <Dialog key={selectedId} open={isdeleteModalOpen}>
         <DialogHeader>Are you sure you want to delete this job?</DialogHeader>
         <DialogDescription>
           <p>This action cannot be undone.</p>
@@ -277,7 +287,7 @@ console.log(selectedId)
             Delete
           </Button>
         </div>
-      </Dialog>
+      </Dialog> */}
     </React.Fragment>
   );
 }
