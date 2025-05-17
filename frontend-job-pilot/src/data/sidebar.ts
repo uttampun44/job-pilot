@@ -58,6 +58,13 @@ export const sidebarLink: SidebarLink[] = [
         icon: "view",
         permissions: ["view candidate"],
       },
+      {
+        id: 152,
+        label: "Apply for job",
+        href: "/candidates/apply-for-job",
+        icon: "jobs",
+        permissions: ["apply for job"],
+      }
     ],
   },
   {

@@ -9,7 +9,7 @@ class JobsRepositories
 {
     public function getAllJobs()
     {
-       $jobs = Jobs::with('user.employerInformation')->paginate(30);
+       $jobs = Jobs::with('user.employerInformation')->paginate(25);
       
        return JobResource::collection($jobs);
     }

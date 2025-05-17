@@ -84,7 +84,7 @@ export default function AppSidebar() {
                                         <Link
                                           key={subItem.id}
                                           to={subItem.href}
-                                          className="block font-medium hover:text-blue-500"
+                                          className="block font-medium hover:text-blue-500 my-1"
                                         >
                                           {subItem.label}
                                         </Link>
