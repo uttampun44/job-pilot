@@ -82,7 +82,7 @@ export default function HeroSection() {
                 </div>
 
                 <div className="number w-full">
-                  <span className="font-bold text-2xl">100</span>{" "}
+                  <span className="font-medium text-2xl">17,500</span>{" "}
                   <br className="hidden sm:block" />
                   <span className="text-sm font-light">Jobs</span>
                 </div>
@@ -97,7 +97,7 @@ export default function HeroSection() {
                   <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
                 </div>
                 <div className="number w-full">
-                  <span className="font-bold text-2xl">100</span>{" "}
+                  <span className="font-medium text-2xl">31,000</span>{" "}
                   <br className="hidden sm:block" />
                   <span className="text-sm font-light">Jobs</span>
                 </div>
@@ -112,7 +112,7 @@ export default function HeroSection() {
                   <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
                 </div>
                 <div className="number w-full">
-                  <span className="font-bold text-2xl">100</span>{" "}
+                  <span className="font-medium text-2xl">45,000</span>{" "}
                   <br className="hidden sm:block" />
                   <span className="text-sm font-light">Jobs</span>
                 </div>
@@ -127,7 +127,7 @@ export default function HeroSection() {
                   <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
                 </div>
                 <div className="number w-full">
-                  <span className="font-bold text-2xl">100</span>{" "}
+                  <span className="font-medium text-2xl">49,800</span>{" "}
                   <br className="hidden sm:block" />
                   <span className="text-sm font-light">Jobs</span>
                 </div>
