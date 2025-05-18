@@ -1,5 +1,6 @@
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import HeroImage from "@assets/images/hero.svg";
 
@@ -17,13 +18,17 @@ export default function HeroSection() {
           <p className="text-[#5E6670] leading-relaxed">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit.
             <br className="hidden sm:block" />
-            Rerum aut nulla sint reprehenderit perferendis ipsum eos nam aspernatur laudantium eum.
+            Rerum aut nulla sint reprehenderit perferendis ipsum eos nam
+            aspernatur laudantium eum.
           </p>
 
           <div className="flex flex-col bg-white p-4 rounded-md sm:flex-row gap-2.5 max-w-2xl my-4 w-full">
             <div className="flex flex-grow bg-white rounded-md overflow-hidden shadow-sm">
               <div className="relative w-1/2 border-r border-gray-200">
-                <Icon iconName="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                <Icon
+                  iconName="search"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                />
                 <Input
                   type="text"
                   placeholder="Job Title, Keywords ..."
@@ -31,7 +36,10 @@ export default function HeroSection() {
                 />
               </div>
               <div className="relative w-1/2">
-                <Icon iconName="location" className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+                <Icon
+                  iconName="location"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                />
                 <Input
                   type="text"
                   placeholder="Your location ..."
@@ -39,7 +47,10 @@ export default function HeroSection() {
                 />
               </div>
             </div>
-            <Button type="button" className="bg-blue-700 px-6 py-2 w-full sm:w-auto">
+            <Button
+              type="button"
+              className="bg-blue-700 px-6 py-2 w-full sm:w-auto"
+            >
               Find Jobs
             </Button>
           </div>
@@ -48,7 +59,8 @@ export default function HeroSection() {
             <span className="font-normal">Suggestion for you:</span> &nbsp;
             <span className="font-medium">HR</span>, &nbsp;
             <span>Digital Marketing</span>, &nbsp;
-            <span className="text-blue-700 font-medium">Mobile Developer</span>, &nbsp;
+            <span className="text-blue-700 font-medium">Mobile Developer</span>,
+            &nbsp;
             <span>Web Developer</span>
           </div>
         </div>
@@ -58,6 +70,70 @@ export default function HeroSection() {
             alt="hero"
             className="w-full max-w-sm md:max-w-full"
           />
+        </div>
+      </div>
+      <div className="container mx-auto">
+        <div className="flex gap-4 my-20 md:gap-y-0 md:gap-x-8 justify-items-center">
+          <div className="jobs w-full">
+            <Card>
+              <div className="flex gap-x-4 px-4">
+                <div className="icon w-1/2 bg-blue-50 rounded-md flex items-center justify-center">
+                  <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
+                </div>
+
+                <div className="number w-full">
+                  <span className="font-bold text-2xl">100</span>{" "}
+                  <br className="hidden sm:block" />
+                  <span className="text-sm font-light">Jobs</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <div className="jobs w-full">
+            <Card>
+              <div className="flex gap-x-4 px-4">
+                <div className="icon w-1/2 bg-blue-50 rounded-md flex items-center justify-center">
+                  <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
+                </div>
+                <div className="number w-full">
+                  <span className="font-bold text-2xl">100</span>{" "}
+                  <br className="hidden sm:block" />
+                  <span className="text-sm font-light">Jobs</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <div className="jobs w-full">
+            <Card>
+              <div className="flex gap-x-4 px-6">
+                <div className="icon w-1/2 bg-blue-50 rounded-md flex items-center justify-center">
+                  <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
+                </div>
+                <div className="number w-full">
+                  <span className="font-bold text-2xl">100</span>{" "}
+                  <br className="hidden sm:block" />
+                  <span className="text-sm font-light">Jobs</span>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          <div className="jobs w-full">
+            <Card>
+              <div className="flex gap-x-4 px-4">
+                <div className="icon w-1/2 bg-blue-50 rounded-md flex items-center justify-center">
+                  <Icon iconName="jobs" className="text-blue-700 w-10 h-10" />
+                </div>
+                <div className="number w-full">
+                  <span className="font-bold text-2xl">100</span>{" "}
+                  <br className="hidden sm:block" />
+                  <span className="text-sm font-light">Jobs</span>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </section>
