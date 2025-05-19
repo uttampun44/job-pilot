@@ -30,7 +30,7 @@ class JobsRepositories
 
     public function showHomePageJobs()
     {
-        $jobs = Jobs::with('user.employerInformation')->take(6)->get();
+        $jobs = Jobs::with('user.employerInformation')->take(12)->get();
       
        return JobResource::collection($jobs);
     }
