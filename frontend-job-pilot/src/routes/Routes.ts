@@ -20,6 +20,7 @@ import CandidateEdit from "@/pages/backend/settings/profile/components/Edit";
 import ProfileView from "@/pages/backend/settings/employer/ProfileView";
 import Jobs from "@/pages/backend/jobs/Jobs";
 import JobList from "@/pages/frontend/joblist/JobList";
+import JobDetail from "@/pages/frontend/jobdetail/JobDetail";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
         path: "/job-list",
         Component: JobList,
       },
+      {
+        path: "/job-detail/:id",
+        Component: JobDetail,
+      }
     ],
   },
   {

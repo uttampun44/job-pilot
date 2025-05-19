@@ -1,5 +1,5 @@
 import Icon from "@/components/Icon";
-import {buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useFetch from "@/hooks/api/useFetch";
 import Google from "@assets/images/Google.png";
@@ -15,16 +15,20 @@ export default function ViewJobs() {
       <div className="container mx-auto py-16 px-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mt-10 mb-8">
           <h1 className="text-3xl sm:text-4xl font-semibold">Featured Jobs</h1>
-          <Link to="/job-list" className={buttonVariants({ variant: "outline" })}>
-             View Jobs
-           </Link>
+          <Link
+            to="/job-list"
+            className={buttonVariants({ variant: "outline" })}
+          >
+            View Jobs
+          </Link>
         </div>
 
         <div className="grid mb-20 gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {jobsData.map((job: any, index: number) => (
-            <Card
+            <Link to={`/job-detail/${job.id}`} key={index}>
+              <Card
               key={index}
-              className="hover:shadow-lg gap-0 transition-shadow duration-300"
+              className="hover:shadow-lg gap-0 p-2 transition-shadow duration-300"
             >
               <CardHeader>
                 <CardTitle className="text-lg font-semibold">
@@ -36,7 +40,9 @@ export default function ViewJobs() {
                   <span className="inline-block font-medium px-2 py-0.5 bg-green-300/20 rounded mr-2">
                     {job.job_type}
                   </span>
-                  <span className="font-medium">Salary: ${job.salary_start}</span>
+                  <span className="font-medium">
+                    Salary: ${job.salary_start}
+                  </span>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="img bg-[#EDEFF5] w-8 h-8">
@@ -58,8 +64,10 @@ export default function ViewJobs() {
                 </div>
               </CardContent>
             </Card>
+            </Link>
           ))}
         </div>
+      
       </div>
     </section>
   );

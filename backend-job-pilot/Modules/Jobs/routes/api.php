@@ -11,3 +11,4 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
  Route::get('/jobs/home-page-jobs', [FrontendJobsController::class, 'fetchHomePageJobs'])->name('home-page-jobs');
  Route::get('/jobs/{id}', [FrontendJobsController::class, 'fetchJobDetails'])->name('job-details');
  Route::get('/jobs', [FrontendJobsController::class, 'fetchHomePageJobs'])->name('all-jobs');
+ Route::get('/jobs-lists', [FrontendJobsController::class, 'fetchAllJobs'])->name('job-list');
