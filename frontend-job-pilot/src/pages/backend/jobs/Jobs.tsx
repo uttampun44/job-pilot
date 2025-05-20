@@ -28,7 +28,6 @@ import {
 } from "@/components/ui/table";
 import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SelectedModal from "./components/Modal";
 import Icon from "@/components/Icon";
@@ -43,45 +42,33 @@ const bgColors = [
   "bg-indigo-100 text-indigo-800",
 ];
 
-type paginationType = {
-  first: string;
-  prev: string | null;
-  next: string | null;
-  last: string;
-};
 
 export default function Jobs() {
-  const { data: jobsData, isLoading, isError } = useFetch("/api/v1/jobs");
+  const [currentPage, setCurrentPage] = useState(1);
+  const {
+    data: jobsData,
+    isLoading,
+    isError,
+  } = useFetch(`/api/jobs-lists?page=${currentPage}`);
+  const [displayJobs, setDisplayJobs] = useState<any[]>([]);
   const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
 
+  const totalPages = jobs?.meta?.last_page || 1;
+
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
 
-  const pagination = {
-    first: jobsData?.links?.first,
-    last: jobsData?.links?.last,
-    prev: jobsData?.links?.prev,
-    next: jobsData?.links?.next,
-  };
-
   const debounce = useDebounce(search, 500);
 
   const { data: editJobData } = useFetch(`/api/v1/jobs/${selectedId}`);
-
-  console.log(editJobData);
-  const fetchSearchJobs = async () => {
-    const response = await axios.get(`/api/v1/jobs?search=${search}`);
-    const data = response.data;
-    setData(data);
-  };
+ 
   useEffect(() => {
-    if (debounce) {
-      fetchSearchJobs();
+     if(!isLoading && Array.isArray(jobs?.data)) {
+      setDisplayJobs(jobs.data);
     }
-  }, [debounce]);
+  }, [jobsData, isLoading]);
 
   if (isLoading) return <Skeleton />;
 
@@ -130,13 +117,13 @@ export default function Jobs() {
                     <TableCell className="truncate">
                       {job.job_description.substring(0, 40)}...
                     </TableCell>
-                
+
                     <TableCell className="p-1 text-xs font-medium">
                       {(Array.isArray(job.job_tags)
                         ? job.job_tags
                         : typeof job.job_tags === "string"
-                          ? job.job_tags.split(",")
-                          : []
+                        ? job.job_tags.split(",")
+                        : []
                       ).map((tag: string, index: number) => {
                         const colorClass = bgColors[index % bgColors.length];
 
@@ -155,8 +142,8 @@ export default function Jobs() {
                       {(Array.isArray(job.job_benefits_tags)
                         ? job.job_benefits_tags
                         : typeof job.job_benefits_tags === "string"
-                          ? job.job_benefits_tags.split(",")
-                          : []
+                        ? job.job_benefits_tags.split(",")
+                        : []
                       ).map((tag: string, index: number) => {
                         const colorClass = bgColors[index % bgColors.length];
 
@@ -191,7 +178,7 @@ export default function Jobs() {
                           setIsModalOpen(true);
                         }}
                       >
-                       View Job Details
+                        View Job Details
                       </Button>
                       <Button
                         type="button"
@@ -215,24 +202,83 @@ export default function Jobs() {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious href="#" />
+              <PaginationPrevious
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage > 1) setCurrentPage(currentPage - 1);
+                }}
+              />
             </PaginationItem>
+
+            {currentPage > 2 && (
+              <PaginationItem>
+                <PaginationLink
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage(1);
+                  }}
+                >
+                  1
+                </PaginationLink>
+              </PaginationItem>
+            )}
+
+            {currentPage > 3 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {[currentPage - 1, currentPage, currentPage + 1].map((page) => {
+              if (page > 0 && page <= totalPages) {
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      href="#"
+                      isActive={page === currentPage}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setCurrentPage(page);
+                      }}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              }
+              return null;
+            })}
+
+            {currentPage < totalPages - 2 && (
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+            )}
+
+            {currentPage < totalPages - 1 && (
+              <PaginationItem>
+                <PaginationLink
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage(totalPages);
+                  }}
+                >
+                  {totalPages}
+                </PaginationLink>
+              </PaginationItem>
+            )}
+
             <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#" isActive>
-                2
-              </PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">3</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
+              <PaginationNext
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+                }}
+              />
             </PaginationItem>
           </PaginationContent>
         </Pagination>
@@ -242,7 +288,6 @@ export default function Jobs() {
         headerClass="font-semibold text-lg"
         selectid={selectedId}
         isOpen={isModalOpen}
-
         onClose={() => {
           setIsModalOpen(false);
           setSelectedId("");
@@ -250,7 +295,12 @@ export default function Jobs() {
       >
         <DialogDescription>
           <div className="description mb-1">
-            <h5 className="font-medium">Company Name: <span className="font-bold">{editJobData?.data?.employer_information?.company_name}</span></h5>
+            <h5 className="font-medium">
+              Company Name:{" "}
+              <span className="font-bold">
+                {editJobData?.data?.employer_information?.company_name}
+              </span>
+            </h5>
             <strong>Job Description:</strong>
             <p className="my-1 font-light">
               {editJobData?.data?.job_description}
@@ -266,25 +316,34 @@ export default function Jobs() {
             <div className="skills flex items-center gap-x-2.5">
               <Icon iconName="skills" className="text-green-700" />
               <p className={` font-medium`}>
-                {
-                  Array.isArray(editJobData?.data?.job_tags) ? editJobData?.data?.job_tags.join(", ") : editJobData?.data?.job_tags
-                }
+                {Array.isArray(editJobData?.data?.job_tags)
+                  ? editJobData?.data?.job_tags.join(", ")
+                  : editJobData?.data?.job_tags}
               </p>
             </div>
           </div>
           <div className="experienceLevel my-2.5">
             <strong>Experience Level:</strong>
             <div className="skills flex items-center gap-x-2.5">
-              <Icon iconName="skills" className="text-green-700" />  <p className={` font-medium`}>{editJobData?.data?.job_level}</p>
+              <Icon iconName="skills" className="text-green-700" />{" "}
+              <p className={` font-medium`}>{editJobData?.data?.job_level}</p>
             </div>
           </div>
           <div className="companyLocation my-2.5">
             <strong>Company Location:</strong>
             <div className="location flex items-center gap-x-2.5">
-              <Icon iconName="location" className="text-red-700" />  <p className={` font-medium`}>{editJobData?.data?.job_location}</p>
+              <Icon iconName="location" className="text-red-700" />{" "}
+              <p className={` font-medium`}>
+                {editJobData?.data?.job_location}
+              </p>
             </div>
             <div className="flex items-center gap-x-2.5 my-2.5">
-              <Icon iconName="phone" className="text-blue-700" /> <p className=" font-medium">  Contact No: {editJobData?.data?.employer_information?.company_phone_number}</p>
+              <Icon iconName="phone" className="text-blue-700" />{" "}
+              <p className=" font-medium">
+                {" "}
+                Contact No:{" "}
+                {editJobData?.data?.employer_information?.company_phone_number}
+              </p>
             </div>
           </div>
         </DialogDescription>
