@@ -7,7 +7,7 @@ use Modules\Authentication\app\Http\Controllers\DashboardController;
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     // Route::apiResource('authentication', AuthenticationController::class)->names('authentication');
     Route::post('logout', [AuthenticationController::class, 'postLogout'])->name('authentication.logout');
-    Route::get('dashboard', [DashboardController::class, 'fetchDashboard'])->name('dashboard');
+    Route::get('all-permissions', [DashboardController::class, 'fetchPermission'])->name('dashboard.fetchPermission');
 });
 Route::prefix('v1')->group(function () {
     Route::get('all-roles', [AuthenticationController::class, 'fetchRoles'])->name('authentication.fetchRoles');

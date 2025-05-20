@@ -15,7 +15,7 @@ export default function TopNav() {
     
     const [time, setTime] = useState(new Date().toLocaleTimeString());
 
-    const { token, user, setToken, setUser } = useAuth();
+    const { token, user, setToken, setUser, setIsTogglePin } = useAuth();
     const { setTheme } = useTheme();
     const navigate = useNavigate();
     const { handleSubmit } = useForm();
@@ -59,7 +59,10 @@ export default function TopNav() {
         <header className="w-full border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
 
             <div className="row pl-4">
-                <h1 className="text-xl font-semibold">Dashboard</h1>
+               <Icon iconName="dashboard" 
+               className="h-8 w-8" 
+                 onClick={() => setIsTogglePin(prev => !prev)}
+               />
             </div>
             <div className="flex items-center gap-6">
                 <Label>{new Date().toLocaleDateString()} {time}</Label>
