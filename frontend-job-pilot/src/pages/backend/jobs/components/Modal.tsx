@@ -18,7 +18,7 @@ type ModalProps = {
   onClose: () => void;
 };
 
-export default function SelectedModal({
+export default function JobsModal({
   selectid,
   isOpen,
   headerClass,

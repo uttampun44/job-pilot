@@ -1,11 +1,4 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -29,8 +22,8 @@ import {
 import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
-import SelectedModal from "./components/Modal";
-import Icon from "@/components/Icon";
+import SelectedModal from "./components/SelectedModal";
+import Dialogbox from "./components/Dialogbox";
 
 const bgColors = [
   "bg-blue-100 text-blue-800",
@@ -42,30 +35,27 @@ const bgColors = [
   "bg-indigo-100 text-indigo-800",
 ];
 
-
 export default function Jobs() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+  const [displayJobs, setDisplayJobs] = useState<any[]>([]);
+
   const {
     data: jobsData,
     isLoading,
     isError,
   } = useFetch(`/api/jobs-lists?page=${currentPage}`);
-  const [displayJobs, setDisplayJobs] = useState<any[]>([]);
+
   const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
 
   const totalPages = jobs?.meta?.last_page || 1;
-
-  const [search, setSearch] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
-
   const debounce = useDebounce(search, 500);
 
-  const { data: editJobData } = useFetch(`/api/v1/jobs/${selectedId}`);
- 
   useEffect(() => {
-     if(!isLoading && Array.isArray(jobs?.data)) {
+    if (!isLoading && Array.isArray(jobs?.data)) {
       setDisplayJobs(jobs.data);
     }
   }, [jobsData, isLoading]);
@@ -73,6 +63,7 @@ export default function Jobs() {
   if (isLoading) return <Skeleton />;
 
   if (isError) return <div>Something went wrong</div>;
+
   return (
     <React.Fragment>
       <div className="jobs-backend-pagination flex justify-between gap-x-4 my-2.5">
@@ -282,101 +273,25 @@ export default function Jobs() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+        <SelectedModal
+          title="Job Details"
+          headerClass="font-semibold text-lg"
+          selectId={selectedId}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          setSelectedId={setSelectedId}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedId("");
+          }}
+        />
+        <Dialogbox
+          isdeleteModalOpen={isdeleteModalOpen}
+          setIsdeleteModalOpen={setIsdeleteModalOpen}
+          selectedId={selectedId}
+          setSelectedId={setSelectedId}
+        />
       </div>
-      <SelectedModal
-        title="Job Details"
-        headerClass="font-semibold text-lg"
-        selectid={selectedId}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setSelectedId("");
-        }}
-      >
-        <DialogDescription>
-          <div className="description mb-1">
-            <h5 className="font-medium">
-              Company Name:{" "}
-              <span className="font-bold">
-                {editJobData?.data?.employer_information?.company_name}
-              </span>
-            </h5>
-            <strong>Job Description:</strong>
-            <p className="my-1 font-light">
-              {editJobData?.data?.job_description}
-            </p>
-          </div>
-
-          <div className="desirable my-1">
-            <strong>Desirable:</strong>
-            <p className="my-1 font-light">{editJobData?.data?.desirable}</p>
-          </div>
-          <div className="skills">
-            <strong>Skills:</strong>
-            <div className="skills flex items-center gap-x-2.5">
-              <Icon iconName="skills" className="text-green-700" />
-              <p className={` font-medium`}>
-                {Array.isArray(editJobData?.data?.job_tags)
-                  ? editJobData?.data?.job_tags.join(", ")
-                  : editJobData?.data?.job_tags}
-              </p>
-            </div>
-          </div>
-          <div className="experienceLevel my-2.5">
-            <strong>Experience Level:</strong>
-            <div className="skills flex items-center gap-x-2.5">
-              <Icon iconName="skills" className="text-green-700" />{" "}
-              <p className={` font-medium`}>{editJobData?.data?.job_level}</p>
-            </div>
-          </div>
-          <div className="companyLocation my-2.5">
-            <strong>Company Location:</strong>
-            <div className="location flex items-center gap-x-2.5">
-              <Icon iconName="location" className="text-red-700" />{" "}
-              <p className={` font-medium`}>
-                {editJobData?.data?.job_location}
-              </p>
-            </div>
-            <div className="flex items-center gap-x-2.5 my-2.5">
-              <Icon iconName="phone" className="text-blue-700" />{" "}
-              <p className=" font-medium">
-                {" "}
-                Contact No:{" "}
-                {editJobData?.data?.employer_information?.company_phone_number}
-              </p>
-            </div>
-          </div>
-        </DialogDescription>
-      </SelectedModal>
-
-      <Dialog key={selectedId} open={isdeleteModalOpen}>
-        <DialogContent>
-          <DialogTitle> Delete Job</DialogTitle>
-          <DialogHeader>Are you sure you want to delete this job?</DialogHeader>
-          <DialogDescription>
-            <p>This action cannot be undone.</p>
-          </DialogDescription>
-          <div className="button flex gap-x-2.5">
-            <Button
-              variant="outline"
-              color="primary"
-              onClick={() => {
-                setIsdeleteModalOpen(false);
-                setSelectedId("");
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="outline"
-              color="primary"
-              onClick={() => console.log("Delete")}
-            >
-              Delete
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </React.Fragment>
   );
 }
