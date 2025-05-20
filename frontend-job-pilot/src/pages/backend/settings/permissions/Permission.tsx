@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function Permission() {
   
-  const { data: rolesPermissions, isPending } = useFetch("/api/v1/permission/")
+  const { data: rolesPermissions, isPending } = useFetch("/api/v1/permission")
   const  [searchTerm, setSearchTerm] = useState<string>("")
   const  [filterRoles, setFilterRoles] = useState<any>([])
 

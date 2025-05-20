@@ -2,5 +2,7 @@
     "Authentication": true,
     "CreateForgetPasswordsLogs": true,
     "CreateOnlineUsers": true,
-    "Settings": true
+    "Settings": true,
+    "Jobs": true,
+    "Factory": true
 }

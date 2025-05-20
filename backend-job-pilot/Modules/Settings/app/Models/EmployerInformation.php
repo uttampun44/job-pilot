@@ -5,6 +5,8 @@ namespace Modules\Settings\app\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Jobs\app\Models\Jobs;
 use Modules\Settings\Database\Factories\EmployerInformationFactory;
 
 class EmployerInformation extends Model
@@ -26,4 +28,9 @@ class EmployerInformation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function employerJobs():HasMany
+    {
+        return $this->hasMany(Jobs::class);
+    } 
 }

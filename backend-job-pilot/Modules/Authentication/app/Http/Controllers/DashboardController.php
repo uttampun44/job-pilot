@@ -14,7 +14,7 @@ class DashboardController extends Controller {
         $this->dashboardRepository = $dashboardRepository;
     }
 
-    public function fetchDashboard()
+    public function fetchPermission()
     {   
         return $this->dashboardRepository->fetchPermissions();
     }
