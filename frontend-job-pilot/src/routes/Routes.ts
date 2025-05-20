@@ -21,6 +21,8 @@ import ProfileView from "@/pages/backend/settings/employer/ProfileView";
 import Jobs from "@/pages/backend/jobs/Jobs";
 import JobList from "@/pages/frontend/joblist/JobList";
 import JobDetail from "@/pages/frontend/jobdetail/JobDetail";
+import View from "@/pages/backend/candidate/view/View";
+import Applied from "@/pages/backend/candidate/appliedjobs/Applied";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -87,8 +89,16 @@ export const router = createBrowserRouter([
         Component: Calendar,
       },
       {
+        path: "/candidates",
+        Component: View,
+      },
+      {
         path: "/jobs",
         Component: Jobs,
+      },
+      {
+        path: "/candidates/apply-for-job",
+        Component: Applied
       },
       {
         path: "/settings/candidate-profile",

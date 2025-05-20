@@ -51,7 +51,7 @@ export default function Jobs() {
 
   const jobs = Array.isArray(jobsData?.data) ? jobsData.data : [];
 
-  const totalPages = jobs?.meta?.last_page || 1;
+  const totalPages = jobsData?.meta?.last_page || 1;
   const debounce = useDebounce(search, 500);
 
   useEffect(() => {
@@ -99,8 +99,9 @@ export default function Jobs() {
             </TableRow>
           </TableHeader>
 
+        
           <TableBody className="overflow-x-scroll">
-            {jobs?.length > 0 &&
+             {jobs?.length > 0 &&
               jobs?.map((job: any, index: number) => {
                 return (
                   <TableRow key={index}>
