@@ -1,14 +1,5 @@
+import { bgColors } from "@/data/bgcolors";
 import { cn } from "./ui/lib/utils";
-
-const bgColors = [
-  "bg-blue-300 text-blue-800",
-  "bg-green-300 text-green-800",
-  "bg-yellow-300 text-yellow-800",
-  "bg-purple-300 text-purple-800",
-  "bg-pink-300 text-pink-800",
-  "bg-red-300 text-red-800",
-  "bg-indigo-300 text-indigo-800",
-];
 
 export default function TagsBatch({ tags }: { tags: string[] }) {
   return (

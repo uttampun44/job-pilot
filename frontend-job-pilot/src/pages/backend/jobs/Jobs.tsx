@@ -24,16 +24,7 @@ import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
 import SelectedModal from "./components/SelectedModal";
 import Dialogbox from "./components/Dialogbox";
-
-const bgColors = [
-  "bg-blue-100 text-blue-800",
-  "bg-green-100 text-green-800",
-  "bg-yellow-100 text-yellow-800",
-  "bg-purple-100 text-purple-800",
-  "bg-pink-100 text-pink-800",
-  "bg-red-100 text-red-800",
-  "bg-indigo-100 text-indigo-800",
-];
+import TagsBatch from "@/components/TagsBatch";
 
 export default function Jobs() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +33,8 @@ export default function Jobs() {
   const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [displayJobs, setDisplayJobs] = useState<any[]>([]);
-
+ 
+  console.log(displayJobs);
   const {
     data: jobsData,
     isLoading,
@@ -56,7 +48,11 @@ export default function Jobs() {
 
   useEffect(() => {
     if (!isLoading && Array.isArray(jobs?.data)) {
-      setDisplayJobs(jobs.data);
+       if(debounce){
+         setDisplayJobs(jobs.data.filter((job: any) => job.job_title.toLowerCase().includes(debounce.toLowerCase())))
+       }else{
+         setDisplayJobs(jobs.data)
+       }
     }
   }, [jobsData, isLoading]);
 
@@ -98,8 +94,7 @@ export default function Jobs() {
               <TableHead className="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
-
-        
+       
           <TableBody className="overflow-x-scroll">
              {jobs?.length > 0 &&
               jobs?.map((job: any, index: number) => {
@@ -116,16 +111,14 @@ export default function Jobs() {
                         : typeof job.job_tags === "string"
                         ? job.job_tags.split(",")
                         : []
-                      ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
-
+                      ).map((tags: any, index: number) => {
+                     
                         return (
-                          <span
+                          <TagsBatch 
                             key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
+                            tags={tags}
+                           
+                          />
                         );
                       })}
                     </TableCell>
@@ -137,15 +130,12 @@ export default function Jobs() {
                         ? job.job_benefits_tags.split(",")
                         : []
                       ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
-
+                
                         return (
-                          <span
+                          <TagsBatch
                             key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
+                            tags={tag.split(",")}
+                            />
                         );
                       })}
                     </TableCell>

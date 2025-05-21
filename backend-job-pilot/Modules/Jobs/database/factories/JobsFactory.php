@@ -17,12 +17,14 @@ class JobsFactory extends Factory
      */
     public function definition(): array
     {
-
-        $role =  User::role('Employer')->inRandomOrder()->first();
-
+        
+        // only employer role seed data
+        $role =  User::role('Employer')->first();
+        
         return [
-            'job_description'     => $this->faker->paragraphs(3, true),
-            'requirements'        => $this->faker->paragraphs(2, true),
+            'title'               => $this->faker->sentence(rand(3, 6)),
+            'job_description'     => $this->faker->paragraphs(2, true),
+            'requirements'        => $this->faker->paragraphs(1, true),
             'desirable'           => $this->faker->paragraph(),
             'benefits'            => $this->faker->paragraph(),
             'job_type'            => $this->faker->randomElement(['Full-Time', 'Part-Time', 'Contract', 'Internship']),
@@ -40,16 +42,22 @@ class JobsFactory extends Factory
             'salary_start'        => $this->faker->numberBetween(30000, 70000),
             'salary_end'          => $this->faker->numberBetween(70001, 120000),
             'negotioable'         => $this->faker->boolean ? 'Yes' : 'No',
-            'job_tags'            => json_encode($this->faker->randomElements([
+            'skills'            => json_encode($this->faker->randomElements([
+                'React JS',
+                'Node.js',
+                'JavaScript',
+                'Python',
+                'C#',
+                'Java',
                 'PHP',
                 'Laravel',
                 'Vue.js',
                 'React',
                 'Docker',
                 'AWS'
-            ], rand(2, 4))),
-            'role_id'             => $role?->roles->first()->id ?? 1,
-            'user_id'             => $role?->id ?? 1,
+            ], rand(1, 6))),
+            'role_id'             => $role?->id ?? 1,
+            'user_id'             => $role?->user_id ?? 1,
         ];
     }
 }
