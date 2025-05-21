@@ -19,7 +19,7 @@ class JobsFactory extends Factory
     {
         
         // only employer role seed data
-        $role =  User::role('Employer')->first();
+        $role =  User::role('employer');
         
         return [
             'title'               => $this->faker->sentence(rand(3, 6)),
@@ -56,8 +56,8 @@ class JobsFactory extends Factory
                 'Docker',
                 'AWS'
             ], rand(1, 6))),
-            'role_id'             => $role?->id ?? 1,
-            'user_id'             => $role?->user_id ?? 1,
+            'role_id'             => $role?->id ?? 2,
+            'user_id'             => $role?->user_id,
         ];
     }
 }
