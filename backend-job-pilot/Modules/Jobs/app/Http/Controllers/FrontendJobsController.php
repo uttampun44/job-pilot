@@ -27,4 +27,9 @@ class FrontendJobsController extends Controller
    {
       return $this->jobsRepositories->showAllJobs();
    }
+
+   public function searchJobs(string $search)
+   {
+      return $this->jobsRepositories->searchJobs($search);
+   }
 }

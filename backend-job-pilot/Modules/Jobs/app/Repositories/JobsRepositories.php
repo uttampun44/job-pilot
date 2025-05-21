@@ -47,6 +47,18 @@ class JobsRepositories
       
        return JobResource::collection($jobs);
     }
-
-    
+   
+    public function searchJobs(string $search)
+    {
+        $jobs = Jobs::where(function ($query) {
+            return $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%')
+                ->orWhere('company', 'like', '%' . $search . '%')
+                ->orWhere('location', 'like', '%' . $search . '%')
+                ->orWhere('type', 'like', '%' . $search . '%')
+                ->orWhere('status', 'like', '%' . $search . '%')
+        })->paginate(15);
+      
+        return JobResource::collection($jobs);
+    }    
 }

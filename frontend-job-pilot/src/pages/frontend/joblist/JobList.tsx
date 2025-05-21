@@ -16,12 +16,19 @@ import {
 } from "@/components/ui/pagination";
 import { Link } from "react-router";
 import { Skeleton } from "@/components/ui/skeleton";
+import useDebounce from "@/hooks/useDebounce";
 
 export default function JobList() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsData, setJobsData] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filterJobs, setFilterJobs] = useState<any>([]);
+
   const { data: jobs, isLoading } = useFetch(`/api/jobs-lists?page=${currentPage}`);
+  const {data: searchJobs,} = useFetch(`/api/search-jobs?page=${currentPage}&search=${searchTerm}`);
+
+  const debounce = useDebounce(searchTerm, 500);
 
   const totalPages = jobs?.meta?.last_page || 1;
 
@@ -30,6 +37,17 @@ export default function JobList() {
       setJobsData(jobs.data);
     }
   }, [jobs, isLoading]);
+
+  useEffect(() => {
+    if (jobsData.length > 0) {
+      if(debounce.trim() === ""){
+        setFilterJobs(jobsData)
+      }else{
+        const filtered = jobsData.filter((job: any) => job.job_title.toLowerCase().includes(debounce.toLowerCase()))
+        setFilterJobs(filtered)
+      }
+    }
+  }, [jobsData, searchJobs, debounce])
 
   return (
     <React.Fragment>
@@ -51,7 +69,9 @@ export default function JobList() {
                   type="text"
                   placeholder="Job Title, Keywords ..."
                   className="pl-10 pr-3 py-2 w-full border-none outline-none focus:outline-none focus:ring-0"
-                />
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+               />
               </div>
               <div className="relative w-1/2">
                 <Icon
@@ -78,8 +98,8 @@ export default function JobList() {
             )}
 
             <div className="jobs grid grid-cols-4 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {jobsData.length > 0 ? (
-                jobsData.map((job, index) => (
+              {filterJobs.length > 0 ? (
+                 filterJobs.map((job: any, index:number) => (
                   <Link to={`/job-detail/${job.id}`} key={index}>
                     <Card className="hover:shadow-lg gap-0 p-2 cursor-pointer transition-shadow duration-300">
                       <CardHeader>
