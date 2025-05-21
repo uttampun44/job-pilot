@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import useFetch from "@/hooks/api/useFetch";
 import Facebook from "@assets/images/facebook.png";
+import { useParams } from "react-router";
 
 export default function JobDetail() {
+
+  const {id} = useParams();
+  const  {data: jobsDetails, isLoading, isError} = useFetch(`/api/jobs/${id}`);
+  console.log(jobsDetails);
+  if(isLoading) return <Skeleton />
+  if(isError) return <div>Something went wrong</div>
+
   return (
     <section className="mt-24">
       <div className="container mx-auto px-4">
