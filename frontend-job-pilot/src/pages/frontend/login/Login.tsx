@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import usePost from "@/hooks/api/usePost";
 import { toast } from "sonner";
 import { tLoginType, trememberType } from "./types/login";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "@/context/features/AuthContext";
 import Overlary from "@/components/ui/overlary";
 
@@ -59,8 +59,8 @@ export default function Login() {
         <main >
             <section className="min-h-screen w-full flex font-inter">
                 <div className="flex flex-col justify-center items-center w-full md:w-1/2 bg-white p-8 relative">
-                    <div className="icon_tile flex items-center gap-x-2.5 text-center absolute top-3.5 text-2xl font-semibold font-inter">
-                        <Icon iconName="mainIcon" /> <h1>JOB PILOT</h1>
+                    <div className="icon_tile  text-center absolute top-3.5 text-2xl font-semibold font-inter">
+                       <Link to="/" className="flex items-center gap-x-2.5"> <Icon iconName="mainIcon" /> <h1>JOB PILOT</h1></Link>
                     </div>
                     <div className="w-full max-w-lg items-end">
                         <h2 className="text-3xl font-bold mb-4 text-center md:text-left">Sign In</h2>

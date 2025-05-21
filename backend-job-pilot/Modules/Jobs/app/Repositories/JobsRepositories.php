@@ -9,9 +9,9 @@ class JobsRepositories
 {
     public function getAllJobs()
     {
-       $jobs = Jobs::with('user.employerInformation')->paginate(25);
-      
-       return JobResource::collection($jobs);
+        $jobs = Jobs::with('user.employerInformation')->paginate(25);
+
+        return JobResource::collection($jobs);
     }
 
     public function getJobById(int $id)
@@ -31,8 +31,8 @@ class JobsRepositories
     public function showHomePageJobs()
     {
         $jobs = Jobs::with('user.employerInformation')->take(12)->get();
-      
-       return JobResource::collection($jobs);
+
+        return JobResource::collection($jobs);
     }
 
     public function showJobsDetails(int $id)
@@ -43,22 +43,24 @@ class JobsRepositories
 
     public function showAllJobs()
     {
-       $jobs = Jobs::with('user.employerInformation')->paginate(30);
-      
-       return JobResource::collection($jobs);
+        $jobs = Jobs::with('user.employerInformation')->paginate(30);
+
+        return JobResource::collection($jobs);
     }
-   
+
     public function searchJobs(string $search)
     {
-        $jobs = Jobs::where(function ($query) {
-            return $query->where('title', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%')
-                ->orWhere('company', 'like', '%' . $search . '%')
-                ->orWhere('location', 'like', '%' . $search . '%')
-                ->orWhere('type', 'like', '%' . $search . '%')
-                ->orWhere('status', 'like', '%' . $search . '%')
-        })->paginate(15);
-      
+         if(empty($search))
+         {
+             return $this->showAllJobs();
+         }
+        $jobs = Jobs::where(function ($query) use ($search) {
+            return $query->where('job_level', 'like', '%' . $search . '%')
+                ->orWhere('job_type', 'like', '%' . $search . '%')
+                ->orWhere('job_location', 'like', '%' . $search . '%')
+                ->orWhere('job_level', 'like', '%' . $search . '%');
+        })->paginate(30);
+
         return JobResource::collection($jobs);
-    }    
+    }
 }
