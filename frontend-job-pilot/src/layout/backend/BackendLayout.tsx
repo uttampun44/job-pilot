@@ -21,7 +21,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className={isTogglePin ? "ml-0 bg-white w-full overflow-x-auto" : "max-w-full w-full"}>
             <TopNav />
             <main className="p-4 dark:bg-gray-700">
-              <section>
+              <section className="h-full max-h-full">
                 <div >{children}</div>
               </section>
             </main>
