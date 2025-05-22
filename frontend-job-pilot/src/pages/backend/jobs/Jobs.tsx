@@ -32,9 +32,8 @@ export default function Jobs() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-  const [displayJobs, setDisplayJobs] = useState<any[]>([]);
- 
-  console.log(displayJobs);
+  const [filterJobs, setFilterJobs] = useState<any[]>([]);
+
   const {
     data: jobsData,
     isLoading,
@@ -45,16 +44,17 @@ export default function Jobs() {
 
   const totalPages = jobsData?.meta?.last_page || 1;
   const debounce = useDebounce(search, 500);
-
+ 
   useEffect(() => {
-    if (!isLoading && Array.isArray(jobs?.data)) {
-       if(debounce){
-         setDisplayJobs(jobs.data.filter((job: any) => job.job_title.toLowerCase().includes(debounce.toLowerCase())))
-       }else{
-         setDisplayJobs(jobs.data)
-       }
+    if (!isLoading && Array.isArray(jobs)) {
+      if (!debounce.trim()) {
+          setFilterJobs(jobs || [])
+      } else {
+        const filter = jobs.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()))
+        setFilterJobs(filter)
+      }
     }
-  }, [jobsData, isLoading]);
+  }, [jobs, isLoading, debounce]);
 
   if (isLoading) return <Skeleton />;
 
@@ -94,10 +94,10 @@ export default function Jobs() {
               <TableHead className="text-center">Actions</TableHead>
             </TableRow>
           </TableHeader>
-       
+
           <TableBody className="overflow-x-scroll">
-             {jobs?.length > 0 &&
-              jobs?.map((job: any, index: number) => {
+            {filterJobs?.length > 0 &&
+              filterJobs?.map((job: any, index: number) => {
                 return (
                   <TableRow key={index}>
                     <TableCell className="text-center">#{job.id}</TableCell>
@@ -112,14 +112,7 @@ export default function Jobs() {
                         ? job.job_tags.split(",")
                         : []
                       ).map((tags: any, index: number) => {
-                     
-                        return (
-                          <TagsBatch 
-                            key={index}
-                            tags={tags}
-                           
-                          />
-                        );
+                        return <TagsBatch key={index} tags={tags.split(",")} />;
                       })}
                     </TableCell>
 
@@ -130,14 +123,9 @@ export default function Jobs() {
                         ? job.job_benefits_tags.split(",")
                         : []
                       ).map((tag: string, index: number) => {
-                
-                        return (
-                          <TagsBatch
-                            key={index}
-                            tags={tag.split(",")}
-                            />
-                        );
+                        return <TagsBatch key={index} tags={tag.split(",")} />;
                       })}
+
                     </TableCell>
                     <TableCell>{job.job_posted}</TableCell>
                     <TableCell>{job.job_expires}</TableCell>
