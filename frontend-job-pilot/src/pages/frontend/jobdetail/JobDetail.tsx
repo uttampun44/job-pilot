@@ -63,15 +63,16 @@ export default function JobDetail() {
               <div className="favorite bg-blue-50 p-4 rounded-sm">
                 <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
               </div>
-              <Button className="applyNowBtn bg-blue-500 text-white cursor-pointer"
-               onClick={() => setIsModalOpen(true)}
+              <Button
+                className="applyNowBtn bg-blue-500 text-white cursor-pointer"
+                onClick={() => setIsModalOpen(true)}
               >
                 Apply Now
               </Button>
             </div>
           </div>
 
-          <div className="flex gap-x-4 mb-16">
+          <div className="flex gap-x-4 mb-16 mt-4">
             <div className="details pr-10">
               <strong className="text-lg font-medium">Job Details</strong>
               <div className="para text-gray-400">
@@ -200,8 +201,10 @@ export default function JobDetail() {
           </div>
         </div>
       </section>
-      <ApplyJobModal isVisible={isModalOpen} selectedId={id as string}
-       setVisible={setIsModalOpen}
+      <ApplyJobModal
+        isVisible={isModalOpen}
+        jobId={id as string}
+        setVisible={setIsModalOpen}
       />
       <RelatedJobs />
     </React.Fragment>
