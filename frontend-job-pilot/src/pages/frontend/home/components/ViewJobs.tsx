@@ -1,14 +1,30 @@
 import Icon from "@/components/Icon";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import useFetch from "@/hooks/api/useFetch";
 import Google from "@assets/images/Google.png";
 import { Link } from "react-router-dom";
 
-export default function ViewJobs() {
-  const { data: data } = useFetch("/api/jobs");
+type tJobType = {
+  job_level: string,
+  job_type: string,
+  salary_start: string,
+  employer_information: {
+    company_name: string,
+    company_logo: string,
+    company_location: string,
+  },
+  job_location: string,
+}
 
-  const jobsData = Array.isArray(data?.data) ? data?.data : [];
+type tJobsProps = {
+  data: {
+    jobs : tJobType[]
+  }
+}
+
+export default function ViewJobs({data}: tJobsProps) {
+ 
+  const jobsData = Array.isArray(data.jobs) ? data.jobs : [];
 
   return (
     <section>
@@ -67,7 +83,6 @@ export default function ViewJobs() {
             </Link>
           ))}
         </div>
-      
       </div>
     </section>
   );
