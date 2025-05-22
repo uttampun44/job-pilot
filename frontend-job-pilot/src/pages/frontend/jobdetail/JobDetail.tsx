@@ -56,7 +56,10 @@ export default function JobDetail() {
                 </div>
               </div>
             </div>
-            <div className="applyNow">
+            <div className="applyNow flex gap-x-2.5">
+             <div className="favorite">
+                <Icon iconName="eyeClose" className="w-4 h-4" />
+              </div> 
               <Button className="applyNowBtn bg-blue-500 text-white cursor-pointer">
                 Apply Now
               </Button>
