@@ -4,6 +4,7 @@ namespace Modules\Jobs\app\Repositories;
 
 use Modules\Jobs\app\Models\Jobs;
 use Modules\Jobs\app\Transformers\JobResource;
+use App\Enum\IndustrySector;
 
 class JobsRepositories
 {
@@ -62,5 +63,13 @@ class JobsRepositories
         })->paginate(30);
 
         return JobResource::collection($jobs);
+    }
+
+    public function fetchIndustries()
+    {
+        return collect(IndustrySector::cases())->map(fn($industry) => [
+        'label' => $industry->name,
+        'value' => $industry->value
+       ]);
     }
 }

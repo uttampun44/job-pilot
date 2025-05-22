@@ -15,7 +15,13 @@ class FrontendJobsController extends Controller
 
    public function fetchHomePageJobs()
    {
-     return $this->jobsRepositories->showHomePageJobs();
+     $jobs = $this->jobsRepositories->showHomePageJobs();
+     $industries = $this->jobsRepositories->fetchIndustries();
+
+     return  [
+       'jobs' => $jobs,
+       'industries' => $industries
+     ]
    }
 
    public function fetchJobDetails(int $id)
@@ -32,4 +38,6 @@ class FrontendJobsController extends Controller
    {
       return $this->jobsRepositories->searchJobs($search);
    }
+
+  
 }
