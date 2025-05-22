@@ -7,6 +7,7 @@ import Canditate from "./components/Canditate";
 import Employers from "./components/Employers";
 import useFetch from "@/hooks/api/useFetch";
 import { Link } from "react-router-dom";
+import Overlary from "@/components/ui/overlary";
 
 export default function CreateAccount() {
 
@@ -54,6 +55,7 @@ export default function CreateAccount() {
 
 
                 <div className={cn("hidden md:block w-1/2 h-screen")}>
+                  <Overlary />
                     <img
                         src={TeamImage}
                         alt="Team"

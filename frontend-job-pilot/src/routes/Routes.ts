@@ -23,6 +23,7 @@ import JobList from "@/pages/frontend/joblist/JobList";
 import JobDetail from "@/pages/frontend/jobdetail/JobDetail";
 import View from "@/pages/backend/candidate/view/View";
 import Applied from "@/pages/backend/candidate/appliedjobs/Applied";
+import ErrorPage from "@/pages/frontend/error/Error";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -74,6 +75,11 @@ export const router = createBrowserRouter([
   {
     path: "/forget-password",
     Component: ForgetPassword,
+  },
+
+  {
+    path: "*",
+    Component: ErrorPage
   },
 
   // Backend Routes

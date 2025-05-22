@@ -1,4 +1,3 @@
-import React from "react";
 import ViewJobs from "./components/ViewJobs";
 import HeroSection from "./components/HeroSection";
 import MostPopular from "./components/MostPopular";
@@ -11,7 +10,7 @@ export default function Home() {
   const jobDetails = Array.isArray(jobsData.jobs) ? jobsData.jobs : [];
 
     return (
-       <React.Fragment>
+       <main>
          <HeroSection />
          <MostPopular 
            data={industries}
@@ -20,6 +19,6 @@ export default function Home() {
          <ViewJobs 
            data={jobDetails}
          />
-       </React.Fragment>
+       </main>
     )
 }
