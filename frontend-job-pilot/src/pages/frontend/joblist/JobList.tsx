@@ -66,7 +66,7 @@ export default function JobList() {
 
   return (
     <React.Fragment>
-      <section>
+      <section className="mt-48">
         <div className="container mx-auto py-16 px-4">
           <div className="title font-semibold text-2xl">
             <h1>Find Job</h1>

@@ -74,7 +74,8 @@ export default function Jobs() {
           Create Jobs
         </Button>
       </div>
-      <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+     <div className="w-full overflow-x-auto">
+  <div className="max-h-[700px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
         <Table>
           <TableCaption>A list of jobs</TableCaption>
           <TableHeader>
@@ -167,6 +168,7 @@ export default function Jobs() {
               })}
           </TableBody>
         </Table>
+      </div>
       </div>
       <div className="my-4">
         <Pagination>

@@ -6,7 +6,7 @@ import HeroImage from "@assets/images/hero.svg";
 
 export default function HeroSection() {
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="bg-gray-100 py-16 mt-48">
       <div className="container mx-auto px-4 flex flex-col-reverse md:flex-row items-center gap-x-12">
         <div className="w-full md:basis-[60%]">
           <h1 className="text-5xl font-semibold mb-4">

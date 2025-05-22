@@ -20,9 +20,12 @@ const multiLanguages = [
 ];
 
 export default function Header() {
-  const name = localStorage.getItem("name");
+  const user = localStorage.getItem("user");
+
+  const userType = JSON.parse(user as string);
+  console.log(userType);
   return (
-    <header className="shadow-md">
+    <header className="shadow-md fixed top-0 z-50 w-full">
       <div className="navigation bg-gray-100">
         <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
           <nav className="w-full md:w-auto">
@@ -41,8 +44,8 @@ export default function Header() {
             <div className="flex items-center gap-2">
               <Icon iconName="phone" className="text-blue-500" />
               <span className="text-sm md:text-base">+1 234 567 8900</span>
-              {name && (
-                <div>
+              {userType && (
+                <div className="flex flex-col items-center">
                   <Avatar>
                     <AvatarImage
                       src="https://github.com/shadcn.png"
@@ -50,7 +53,7 @@ export default function Header() {
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                  <span className="text-sm md:text-base">{name}</span>
+                  <span className="text-sm md:text-base">{userType.name as string}</span>
                 </div>
               )}
             </div>
@@ -73,7 +76,8 @@ export default function Header() {
         </div>
       </div>
 
-      <div className="topNavigation container mx-auto flex flex-col justify-between md:flex-row items-center py-6 px-4 gap-x-2.5">
+     <div className="bg-white">
+       <div className="topNavigation container mx-auto flex flex-col justify-between md:flex-row items-center py-6 px-4 gap-x-2.5">
         <div className="flex w-full md:w-auto items-center flex-1/2 gap-4">
           <div className="flex items-center gap-x-2">
             <Icon iconName="mainIcon" className="text-blue-500" />
@@ -113,6 +117,7 @@ export default function Header() {
           </div>
         </div>
       </div>
+     </div>
     </header>
   );
 }
