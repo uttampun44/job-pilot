@@ -7,8 +7,6 @@ services:
      - "3000:3000"
    working_dir: /src  
    volumes:
-     - ./frontend-job-pilot/src
-     - ./frontend-job-pilot/src/node_modules
-   env:
-      - ./frontend-job-pilot/.env
-   command: npm run dev
+     - ./frontend-job-pilot:/src
+     - /src/node_modules
+   command: bun run dev

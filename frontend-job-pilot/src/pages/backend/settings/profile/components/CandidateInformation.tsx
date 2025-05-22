@@ -3,7 +3,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { CalendarIcon, Upload } from "lucide-react"
-import { format } from "date-fns"
 import { useState } from "react"
 import { Label } from "@radix-ui/react-dropdown-menu"
 import { Calendar } from "@/components/ui/calendar"
@@ -54,7 +53,7 @@ export default function CandidateInformation() {
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start text-left font-normal mt-1">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span className="text-slate-500">Select date</span>}
+                <span className="ml-2">Select Date</span>
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
