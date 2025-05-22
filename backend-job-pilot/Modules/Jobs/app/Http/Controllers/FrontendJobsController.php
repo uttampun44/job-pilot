@@ -5,7 +5,7 @@ namespace Modules\Jobs\app\Http\Controllers;
 use Illuminate\Routing\Controller;
 use Modules\Jobs\app\Repositories\JobsRepositories;
 
-class FrontendJobsController extends Controller 
+class FrontendJobsController extends Controller
 {
    protected $jobsRepositories;
    public function __construct(JobsRepositories $jobsRepositories)
@@ -15,13 +15,13 @@ class FrontendJobsController extends Controller
 
    public function fetchHomePageJobs()
    {
-     $jobs = $this->jobsRepositories->showHomePageJobs();
-     $industries = $this->jobsRepositories->fetchIndustries();
+      $jobs = $this->jobsRepositories->showHomePageJobs();
+      $industries = $this->jobsRepositories->fetchIndustries();
 
-     return  [
-       'jobs' => $jobs,
-       'industries' => $industries
-     ]
+      return  [
+         'jobs' => $jobs,
+         'industries' => $industries
+      ];
    }
 
    public function fetchJobDetails(int $id)
@@ -38,6 +38,4 @@ class FrontendJobsController extends Controller
    {
       return $this->jobsRepositories->searchJobs($search);
    }
-
-  
 }

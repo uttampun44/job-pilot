@@ -25,14 +25,6 @@ import React, { useEffect, useState } from "react";
 import SelectedModal from "./components/SelectedModal";
 import Dialogbox from "./components/Dialogbox";
 import TagsBatch from "@/components/TagsBatch";
-import Icon from "@/components/Icon";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { bgColors } from "@/data/bgcolors";
 
 export default function Jobs() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,16 +44,14 @@ export default function Jobs() {
 
   const totalPages = jobsData?.meta?.last_page || 1;
   const debounce = useDebounce(search, 500);
-
+ 
   useEffect(() => {
     if (!isLoading && Array.isArray(jobs)) {
       if (!debounce.trim()) {
-        setFilterJobs(jobs || []);
+          setFilterJobs(jobs || [])
       } else {
-        const filter = jobs.filter((job: any) =>
-          job.job_level.toLowerCase().includes(debounce.toLowerCase())
-        );
-        setFilterJobs(filter);
+        const filter = jobs.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()))
+        setFilterJobs(filter)
       }
     }
   }, [jobs, isLoading, debounce]);
@@ -122,13 +112,7 @@ export default function Jobs() {
                         ? job.job_tags.split(",")
                         : []
                       ).map((tags: any, index: number) => {
-                        return (
-                          <TagsBatch
-                            key={index}
-                            tags={tags.split(",")}
-                            bgColorIndex={index % bgColors.length}
-                          />
-                        );
+                        return <TagsBatch key={index} tags={tags.split(",")} />;
                       })}
                     </TableCell>
 
@@ -139,14 +123,9 @@ export default function Jobs() {
                         ? job.job_benefits_tags.split(",")
                         : []
                       ).map((tag: string, index: number) => {
-                        return (
-                          <TagsBatch
-                            key={index}
-                            tags={tag.split(",")}
-                            bgColorIndex={index % bgColors.length}
-                          />
-                        );
+                        return <TagsBatch key={index} tags={tag.split(",")} />;
                       })}
+
                     </TableCell>
                     <TableCell>{job.job_posted}</TableCell>
                     <TableCell>{job.job_expires}</TableCell>
@@ -160,36 +139,25 @@ export default function Jobs() {
                       {job.employer_information.company_name}
                     </TableCell>
                     <TableCell className="flex gap-x-2.5">
-                      <Icon
-                        iconName="ellipsis"
-                        className="text-blue-500 hover:text-blue-600"
-                      />
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild></DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setSelectedId(job?.id);
-                              setIsModalOpen(true);
-                            }}
-                          >
-                            View Job Details
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => {
-                              setSelectedId(job?.id);
-                              setIsdeleteModalOpen(true);
-                            }}
-                          >
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
                       <Button
                         type="button"
                         variant="outline"
                         color="primary"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setSelectedId(job?.id);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                        View Job Details
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        color="primary"
+                        onClick={() => {
+                          setSelectedId(job?.id);
+                          setIsdeleteModalOpen(true);
+                        }}
                       >
                         Delete
                       </Button>

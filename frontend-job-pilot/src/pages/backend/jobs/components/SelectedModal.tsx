@@ -36,7 +36,7 @@ export default function SelectedModal({
         setSelectedId("");
       }}
     >
-      <DialogDescription>
+      <DialogDescription  className="max-h-[80vh] overflow-y-auto px-4 sm:px-6">
         <div className="description mb-1">
           <h5 className="font-medium">
             Company Name:{" "}

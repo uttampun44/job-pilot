@@ -54,7 +54,7 @@ export default function CreateAccount() {
                 </div>
 
 
-                <div className={cn("hidden md:block w-1/2 h-screen")}>
+                <div className={cn("hidden md:block w-1/2 h-screen relative")}>
                   <Overlary />
                     <img
                         src={TeamImage}

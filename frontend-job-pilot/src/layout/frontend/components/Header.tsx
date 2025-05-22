@@ -79,15 +79,15 @@ export default function Header() {
             <Icon iconName="mainIcon" className="text-blue-500" />
             <h1 className="text-2xl font-bold text-gray-800">Job Pilot</h1>
           </div>
-          <div className="hidden md:flex flex-1/2 items-center border border-gray-300 rounded-md px-4 py-2 max-w-[700px]">
+          <div className="hidden relative md:flex flex-1/2 items-center rounded-md px-4 py-2 max-w-[700px]">
             <Icon
               iconName="search"
-              className="text-gray-500 mr-2 outline-none "
+              className="text-gray-500 mr-2 outline-none absolute left-6"
             />
             <Input
               type="text"
               placeholder="Search..."
-              className="border-none focus:ring-0 focus:outline-none w-full bg-transparent"
+              className="border focus:ring-0 focus:outline-none w-full bg-transparent pl-8"
             />
           </div>
         </div>

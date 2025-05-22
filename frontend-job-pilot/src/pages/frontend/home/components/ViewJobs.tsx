@@ -17,14 +17,12 @@ type tJobType = {
 }
 
 type tJobsProps = {
-  data: {
-    jobs : tJobType[]
-  }
+  data: tJobType
 }
 
 export default function ViewJobs({data}: tJobsProps) {
  
-  const jobsData = Array.isArray(data.jobs) ? data.jobs : [];
+  const jobsData = Array.isArray(data) ? data : [];
 
   return (
     <section>
@@ -40,7 +38,8 @@ export default function ViewJobs({data}: tJobsProps) {
         </div>
 
         <div className="grid mb-20 gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {jobsData.map((job: any, index: number) => (
+          { jobsData.length > 0 &&
+          jobsData.map((job: any, index: number) => (
             <Link to={`/job-detail/${job.id}`} key={index}>
               <Card
               key={index}

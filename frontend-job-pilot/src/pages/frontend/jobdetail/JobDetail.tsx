@@ -4,13 +4,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/api/useFetch";
 import Facebook from "@assets/images/facebook.png";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import RelatedJobs from "./components/RelatedJobs";
+import ApplyJobModal from "./components/ApplyJobModal";
 
 export default function JobDetail() {
   const { id } = useParams();
   const navigation = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export default function JobDetail() {
 
   const jobs = jobsDetails.data;
 
+  console.log(jobs);
   return (
     <React.Fragment>
       <section className="pt-24 pb-16">
@@ -56,11 +59,13 @@ export default function JobDetail() {
                 </div>
               </div>
             </div>
-            <div className="applyNow flex gap-x-2.5">
-             <div className="favorite">
-                <Icon iconName="eyeClose" className="w-4 h-4" />
-              </div> 
-              <Button className="applyNowBtn bg-blue-500 text-white cursor-pointer">
+            <div className="applyNow flex items-center gap-x-2.5">
+              <div className="favorite bg-blue-50 p-4 rounded-sm">
+                <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
+              </div>
+              <Button className="applyNowBtn bg-blue-500 text-white cursor-pointer"
+               onClick={() => setIsModalOpen(true)}
+              >
                 Apply Now
               </Button>
             </div>
@@ -102,15 +107,15 @@ export default function JobDetail() {
                 </div>
               </div>
             </div>
-            <div className="sideDetails w-full">
-              <Card className="rounded-2xl shadow-sm w-full">
+            <div className="sideDetails w-full mt-4">
+              <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
                 <CardHeader>
                   <CardTitle className="text-base text-black font-bold">
                     Job Overview
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-x-4 gap-y-2">
+                <CardContent className="border-b border-blue-50 pb-2">
+                  <div className="grid grid-cols-3 gap-4 pb-6">
                     <div className="jobPosted">
                       <Icon
                         iconName="calendar"
@@ -141,6 +146,53 @@ export default function JobDetail() {
                       </p>
                       <p className="text-sm font-medium">{jobs.job_location}</p>
                     </div>
+                    <div className="experience">
+                      <Icon
+                        iconName="experience"
+                        className="w-4 h-4 text-blue-500"
+                      />
+                      <p className="text-sm font-medium text-neutral-500">
+                        Salary
+                      </p>
+                      <p className="text-sm font-medium flex gap-x-1">
+                        $ {jobs.salary_end}
+                      </p>
+                    </div>
+                    <div className="jobLevel">
+                      <Icon
+                        iconName="level"
+                        className="w-4 h-4 text-blue-500"
+                      />
+                      <p className="text-sm font-medium text-neutral-500">
+                        Level
+                      </p>
+                      <p className="text-sm font-medium flex gap-x-1">
+                        {jobs.job_level}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardContent>
+                  <strong>Share this job:</strong>
+                  <div className="flex gap-x-2.5 my-2 items-center">
+                    <div className="share bg-blue-50 p-2 rounded-sm">
+                      <Icon
+                        iconName="facebook"
+                        className="w-4 h-4 text-blue-500"
+                      />
+                    </div>
+                    <div className="share bg-blue-50 p-2 rounded-sm">
+                      <Icon
+                        iconName="twitter"
+                        className="w-4 h-4 text-blue-500"
+                      />
+                    </div>
+                    <div className="share bg-blue-50 p-2 rounded-sm">
+                      <Icon
+                        iconName="linkedin"
+                        className="w-4 h-4 text-blue-500"
+                      />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -148,6 +200,9 @@ export default function JobDetail() {
           </div>
         </div>
       </section>
+      <ApplyJobModal isVisible={isModalOpen} selectedId={id as string}
+       setVisible={setIsModalOpen}
+      />
       <RelatedJobs />
     </React.Fragment>
   );

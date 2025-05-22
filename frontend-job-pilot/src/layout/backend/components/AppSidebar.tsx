@@ -30,7 +30,7 @@ export default function AppSidebar() {
   };
 
   return (
-    <Sidebar className={`${isTogglePin ? "w-[13.1%]" : "w-32"} p-4 bg-[#F0F5F9] rounded-md dark:bg-gray-900 border-[#F0F5F9] shadow-sm`}>
+    <Sidebar className={`${isTogglePin ? "w-[13.1%]" : "w-32"} p-4 rounded-md dark:bg-gray-900`}>
       <SidebarHeader className="p-0">
         <div className="flex items-center gap-x-2.5 py-3.5 px-1 w-full bg-white dark:bg-gray-900">
           <Icon iconName="mainIcon" />
