@@ -13,21 +13,29 @@ export default function Layout({ children }: LayoutProps) {
   const { isTogglePin } = useAuth();
   return (
     <React.Fragment>
-      <PermissionContext>
+      <div className="mainContainer relative">
         <SidebarProvider>
           <div className="flex min-h-screen">
-            <AppSidebar />
+            <PermissionContext>
+              <AppSidebar />
+            </PermissionContext>
           </div>
-          <div className={isTogglePin ? "ml-0 bg-white w-full overflow-x-auto" : "max-w-full w-full"}>
+          <div
+            className={
+              isTogglePin
+                ? "ml-0 bg-white w-full overflow-x-auto"
+                : "max-w-full w-full"
+            }
+          >
             <TopNav />
             <main className="p-4 dark:bg-gray-700">
               <section className="h-full max-h-full">
-                <div >{children}</div>
+                <div>{children}</div>
               </section>
             </main>
           </div>
         </SidebarProvider>
-      </PermissionContext>
+      </div>
     </React.Fragment>
   );
 }
