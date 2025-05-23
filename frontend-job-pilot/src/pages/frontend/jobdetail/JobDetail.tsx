@@ -68,8 +68,11 @@ export default function JobDetail() {
                 <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
               </div>
               <Button
+               type="button"
                 className="applyNowBtn bg-blue-500 text-white cursor-pointer"
-                onClick={() => {
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
                   if(!user){
                     messageModalRef.current.openModal()
                   }
@@ -211,11 +214,11 @@ export default function JobDetail() {
         </div>
       </section>
       {!user ? (
-           <>
+           <React.Fragment>
              <MessageModal 
                ref={messageModalRef}
              />
-           </>
+           </React.Fragment>
       ) : (
         <React.Fragment>
           <ApplyJobModal

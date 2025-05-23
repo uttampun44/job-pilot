@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Jobs\Http\Requests;
+namespace Modules\Jobs\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -12,10 +12,10 @@ class ApplyJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id' => 'required|exists:jobs,id',
+              'resume' => 'required|file|mimes:jpg,png,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv',
+             'cover_letter' => 'required|string',
+             'job_id' => 'required|exists:jobs,id',
              'user_id' => 'required|exists:users,id',
-             'role_id' => 'required|exists:roles,id',
-             'description' => 'required|string',
         ];
     }
 

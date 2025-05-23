@@ -1,25 +1,30 @@
 <?php
 
-namespace Modules\Jobs\Http\Controllers;
+namespace Modules\Jobs\app\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Jobs\app\Repositories\AppliedJobsRepositories;
+
 
 class JobAppliedController extends Controller 
 {
     protected $appliedJobsRepository;
-    public __construct(AppliedJobsRepositories $appliedJobsRepository)
+    public function __construct(AppliedJobsRepositories $appliedJobsRepository)
     {
         $this->appliedJobsRepository = $appliedJobsRepository;  
     }
 
-    public function frontendAppliedJobsStore(App $data)
+    public function frontendAppliedJobsStore(Request $request)
     {
         try {
-            $data = validate($data);
-            $this->appliedJobsRepository->frontendAppliedJobsStore($data);
+                Log::info('Job applied request received'); // add this
+
+            $this->appliedJobsRepository->frontendAppliedJobsStore($request->all());
             return response()->json(['message' => 'Job applied successfully !'], 201);
         } catch (\Throwable $th) {
-            Log::error($th->getMessage());
+              Log::error('Job application error: ' . $th->getMessage());
             return response()->json(['message' => $th->getMessage()], 500);
         }
     }

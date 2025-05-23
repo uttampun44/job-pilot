@@ -1,9 +1,12 @@
 <?php
 
-namespace Modules\Jobs\Models;
+namespace Modules\Jobs\app\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 // use Modules\Jobs\Database\Factories\FavouriteJobsFactory;
 
 class FavouriteJobs extends Model
@@ -21,7 +24,7 @@ class FavouriteJobs extends Model
     //     // return FavouriteJobsFactory::new();
     // }
 
-    public function user()
+    public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
     }

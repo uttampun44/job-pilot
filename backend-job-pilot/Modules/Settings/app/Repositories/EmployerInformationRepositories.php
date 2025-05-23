@@ -12,8 +12,8 @@ class EmployerInformationRepositories
 {
     public function fetchEmployer()
     {
-        //  eager loading
-       return EmployerInformation::with("user")->select("id", "company_name", "company_address", "company_phone_number", "company_email", "company_website_url", "linkedin_url", "industry", "company_size", "founded_year", "logo", "user_id")->get();
+        
+       return EmployerInformation::with("user")->where('user_id', Auth::user()->id)->select("id", "company_name", "company_address", "company_phone_number", "company_email", "company_website_url", "linkedin_url", "industry", "company_size", "founded_year", "logo", "user_id")->get();
     }
 
     public function fetchEmployerIndustries()

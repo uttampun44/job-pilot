@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('favourite_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string("is_favourite")->default(0);
             $table->foreignId('job_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

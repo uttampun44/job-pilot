@@ -1,6 +1,11 @@
-import { z, ZodType } from "zod";
+import { z } from "zod";
 
-export const ApplyJobSchema: ZodType<FormData> = z.object({
-    resume: z.string().min(1),
-    coverLetter: z.string().min(1),
+export const ApplyJobSchema = z.object({
+    
+  resume: z
+    .instanceof(File)
+    .refine((file) => file.size > 0, {
+      message: "Resume is required",
+    }),
+  cover_letter: z.string().min(1, "Cover letter is required"),
 });

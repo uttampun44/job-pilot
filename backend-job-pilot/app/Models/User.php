@@ -4,9 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Jobs\app\Models\ApplyJob;
+use Modules\Jobs\app\Models\FavouriteJobs;
 use Modules\Settings\app\Models\EmployerInformation;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -49,12 +53,12 @@ class User extends Authenticatable
         ];
     }
 
-     public function employerInformation():hasOne
+     public function employerInformation():HasOne
     {
         return $this->hasOne(EmployerInformation::class);
     }
    
-    public function applyJobs():hasMany
+    public function applyJobs():HasMany
     {
         return $this->hasMany(ApplyJob::class);
     }
