@@ -1,19 +1,23 @@
-# node version: 22.0.0-alpine
-FROM node:22.0.0-alpine
+FROM node:22.0.0-slim
 
-# Set the working directory inside the container
+# Install Bun
+RUN apt-get update && apt-get install -y curl unzip && \
+    curl -fsSL https://bun.sh/install | bash && \
+    ln -s /root/.bun/bin/bun /usr/local/bin/bun
+
 WORKDIR /src
 
-# copy the package.json and package-lock.json files to the working directory
-COPY package*.json ./
+# Copy dependency files
+COPY package.json package-lock.json ./
 
-# Install production dependencies
+# Install deps with npm instead of bun
+RUN bun install --legacy-peer-deps
 
-RUN npm Install
+# Copy the rest of the application
+COPY . .
 
-#command to run the app
-CMD ["npm", "run", "dev"]
-
-#expose the port
+# Expose port
 EXPOSE 3000
 
+# Run dev using Bun
+CMD ["bun", "run", "dev"]

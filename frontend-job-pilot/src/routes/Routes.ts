@@ -23,6 +23,8 @@ import JobList from "@/pages/frontend/joblist/JobList";
 import JobDetail from "@/pages/frontend/jobdetail/JobDetail";
 import View from "@/pages/backend/candidate/view/View";
 import Applied from "@/pages/backend/candidate/appliedjobs/Applied";
+import ErrorPage from "@/pages/frontend/error/Error";
+import Favourite from "@/pages/backend/candidate/favourite/Favourite";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -76,6 +78,11 @@ export const router = createBrowserRouter([
     Component: ForgetPassword,
   },
 
+  {
+    path: "*",
+    Component: ErrorPage
+  },
+
   // Backend Routes
   {
     Component: ProtectedRoutes,
@@ -97,8 +104,12 @@ export const router = createBrowserRouter([
         Component: Jobs,
       },
       {
-        path: "/candidates/apply-for-job",
+        path: "/candidates/applied-jobs",
         Component: Applied
+      },
+      {
+        path: "favourite-jobs",
+        Component: Favourite
       },
       {
         path: "/settings/candidate-profile",
