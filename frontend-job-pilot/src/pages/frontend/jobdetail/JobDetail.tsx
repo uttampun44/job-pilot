@@ -4,16 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/api/useFetch";
 import Facebook from "@assets/images/facebook.png";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import RelatedJobs from "./components/RelatedJobs";
 import ApplyJobModal from "./components/ApplyJobModal";
+import MessageModal from "./components/MessageModal";
 
 export default function JobDetail() {
   const { id } = useParams();
   const navigation = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
+
+  const user = localStorage.getItem("user");
+
+  const messageModalRef = useRef<any>(null);
 
   useEffect(() => {
     if (!isLoading && (!jobsDetails || !jobsDetails.data)) {
@@ -34,10 +39,9 @@ export default function JobDetail() {
 
   const jobs = jobsDetails.data;
 
-  console.log(jobs);
   return (
     <React.Fragment>
-      <section className="pt-24 pb-16">
+      <section className="pt-24 pb-16 mt-40">
         <div className="container mx-auto px-4">
           <div className="row-heading flex justify-between items-center">
             <div className="companyLogo flex items-center gap-x-8">
@@ -65,7 +69,12 @@ export default function JobDetail() {
               </div>
               <Button
                 className="applyNowBtn bg-blue-500 text-white cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => {
+                  if(!user){
+                    messageModalRef.current.openModal()
+                  }
+                  setIsModalOpen(true)
+                }}
               >
                 Apply Now
               </Button>
@@ -201,11 +210,21 @@ export default function JobDetail() {
           </div>
         </div>
       </section>
-      <ApplyJobModal
-        isVisible={isModalOpen}
-        jobId={id as string}
-        setVisible={setIsModalOpen}
-      />
+      {!user ? (
+           <>
+             <MessageModal 
+               ref={messageModalRef}
+             />
+           </>
+      ) : (
+        <React.Fragment>
+          <ApplyJobModal
+            isVisible={isModalOpen}
+            jobId={id as string}
+            setVisible={setIsModalOpen}
+          />
+        </React.Fragment>
+      )}
       <RelatedJobs />
     </React.Fragment>
   );
