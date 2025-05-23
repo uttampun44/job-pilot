@@ -63,11 +63,9 @@ export default function Applied() {
         <TableHeader>
           <TableRow>
             <TableHead>S.No.</TableHead>
-            <TableHead>Jobs Title</TableHead>
-            <TableHead>Candidate Name</TableHead>
-            <TableHead>Position</TableHead>
-            <TableHead>Company Name</TableHead>
-            <TableHead>Details</TableHead>
+            <TableHead>Jobs</TableHead>
+            <TableHead>Date Applied</TableHead>
+            <TableHead>Status</TableHead>
             <TableHead className="text-center">Actions</TableHead>
           </TableRow>
         </TableHeader>
