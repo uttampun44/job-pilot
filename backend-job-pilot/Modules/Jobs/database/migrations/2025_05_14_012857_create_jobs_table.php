@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->longText('job_description');
             $table->longText('requirements');
             $table->longText('desirable');
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->decimal('salary_start', 10, 2)->nullable();
             $table->decimal('salary_end', 10, 2)->nullable();
             $table->string('negotioable')->nullable();
-            $table->json('job_tags')->nullable();
+            $table->json('skills')->nullable();
             $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

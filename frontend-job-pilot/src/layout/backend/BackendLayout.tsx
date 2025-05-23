@@ -14,19 +14,25 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <React.Fragment>
       <PermissionContext>
-        <SidebarProvider>
-          <div className="flex min-h-screen">
-            <AppSidebar />
-          </div>
-          <div className={isTogglePin ? "ml-0 bg-white w-full overflow-x-auto" : "max-w-full w-full"}>
-            <TopNav />
-            <main className="p-4 dark:bg-gray-700">
-              <section>
-                <div >{children}</div>
-              </section>
-            </main>
-          </div>
-        </SidebarProvider>
+        <div className="mainContainer relative">
+          <SidebarProvider>
+            <div className={` ${isTogglePin ? "w-fit" : "w-20"}`}>
+              <AppSidebar />
+            </div>
+            <div
+              className={`bg-white
+                ${isTogglePin ? "w-full overflow-x-auto"
+                  : "ml-11 w-full" }`}
+            >
+              <TopNav />
+              <main className="p-4 dark:bg-gray-700">
+                <section className="h-full max-h-full">
+                  <div>{children}</div>
+                </section>
+              </main>
+            </div>
+          </SidebarProvider>
+        </div>
       </PermissionContext>
     </React.Fragment>
   );

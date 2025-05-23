@@ -60,10 +60,17 @@ export const sidebarLink: SidebarLink[] = [
       },
       {
         id: 152,
-        label: "Apply for job",
-        href: "/candidates/apply-for-job",
+        label: "View applied jobs",
+        href: "/candidates/applied-jobs",
         icon: "jobs",
         permissions: ["apply for job"],
+      },
+      {
+        id: 153,
+        label: "View favourite jobs",
+        href: "/favourite-jobs",
+        icon: "save",
+        permissions: ["view favourite jobs"],
       }
     ],
   },

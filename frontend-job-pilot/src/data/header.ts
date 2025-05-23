@@ -8,7 +8,7 @@ export const headerLinks = [
     {
         id: 7,
         title: "Find Jobs",
-        url: "/jobs",
+        url: "/job-list",
         icon: "search"
     },
     {

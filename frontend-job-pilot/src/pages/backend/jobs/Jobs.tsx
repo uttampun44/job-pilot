@@ -24,16 +24,7 @@ import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useState } from "react";
 import SelectedModal from "./components/SelectedModal";
 import Dialogbox from "./components/Dialogbox";
-
-const bgColors = [
-  "bg-blue-100 text-blue-800",
-  "bg-green-100 text-green-800",
-  "bg-yellow-100 text-yellow-800",
-  "bg-purple-100 text-purple-800",
-  "bg-pink-100 text-pink-800",
-  "bg-red-100 text-red-800",
-  "bg-indigo-100 text-indigo-800",
-];
+import TagsBatch from "@/components/TagsBatch";
 
 export default function Jobs() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -41,7 +32,7 @@ export default function Jobs() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isdeleteModalOpen, setIsdeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-  const [displayJobs, setDisplayJobs] = useState<any[]>([]);
+  const [filterJobs, setFilterJobs] = useState<any[]>([]);
 
   const {
     data: jobsData,
@@ -53,12 +44,17 @@ export default function Jobs() {
 
   const totalPages = jobsData?.meta?.last_page || 1;
   const debounce = useDebounce(search, 500);
-
+ 
   useEffect(() => {
-    if (!isLoading && Array.isArray(jobs?.data)) {
-      setDisplayJobs(jobs.data);
+    if (!isLoading && Array.isArray(jobs)) {
+      if (!debounce.trim()) {
+          setFilterJobs(jobs || [])
+      } else {
+        const filter = jobs.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()))
+        setFilterJobs(filter)
+      }
     }
-  }, [jobsData, isLoading]);
+  }, [jobs, isLoading, debounce]);
 
   if (isLoading) return <Skeleton />;
 
@@ -78,7 +74,8 @@ export default function Jobs() {
           Create Jobs
         </Button>
       </div>
-      <div className="overflow-x-auto w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+     <div className="w-full overflow-x-auto">
+  <div className="max-h-[700px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
         <Table>
           <TableCaption>A list of jobs</TableCaption>
           <TableHeader>
@@ -99,10 +96,9 @@ export default function Jobs() {
             </TableRow>
           </TableHeader>
 
-        
           <TableBody className="overflow-x-scroll">
-             {jobs?.length > 0 &&
-              jobs?.map((job: any, index: number) => {
+            {filterJobs?.length > 0 &&
+              filterJobs?.map((job: any, index: number) => {
                 return (
                   <TableRow key={index}>
                     <TableCell className="text-center">#{job.id}</TableCell>
@@ -116,17 +112,8 @@ export default function Jobs() {
                         : typeof job.job_tags === "string"
                         ? job.job_tags.split(",")
                         : []
-                      ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
-
-                        return (
-                          <span
-                            key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
-                        );
+                      ).map((tags: any, index: number) => {
+                        return <TagsBatch key={index} tags={tags.split(",")} />;
                       })}
                     </TableCell>
 
@@ -137,17 +124,9 @@ export default function Jobs() {
                         ? job.job_benefits_tags.split(",")
                         : []
                       ).map((tag: string, index: number) => {
-                        const colorClass = bgColors[index % bgColors.length];
-
-                        return (
-                          <span
-                            key={index}
-                            className={`inline-block mr-1 mb-1 rounded-full px-2 py-1 ${colorClass}`}
-                          >
-                            {tag.trim()}
-                          </span>
-                        );
+                        return <TagsBatch key={index} tags={tag.split(",")} />;
                       })}
+
                     </TableCell>
                     <TableCell>{job.job_posted}</TableCell>
                     <TableCell>{job.job_expires}</TableCell>
@@ -189,6 +168,7 @@ export default function Jobs() {
               })}
           </TableBody>
         </Table>
+      </div>
       </div>
       <div className="my-4">
         <Pagination>

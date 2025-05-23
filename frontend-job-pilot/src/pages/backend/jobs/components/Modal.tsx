@@ -30,7 +30,7 @@ export default function JobsModal({
   if (!selectid) return <Skeleton />;
 
   return (
-    <Dialog key={selectid} open={isOpen} >
+    <Dialog key={selectid} open={isOpen}>
       <DialogContent>
         <DialogHeader className={headerClass}>{header}</DialogHeader>
         <DialogTitle>{title}</DialogTitle>
