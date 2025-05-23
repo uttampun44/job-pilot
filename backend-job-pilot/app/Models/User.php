@@ -49,10 +49,19 @@ class User extends Authenticatable
         ];
     }
 
-     public function employerInformation()
+     public function employerInformation():hasOne
     {
         return $this->hasOne(EmployerInformation::class);
     }
+   
+    public function applyJobs():hasMany
+    {
+        return $this->hasMany(ApplyJob::class);
+    }
 
+    public function favouriteJobs():hasMany
+    {
+        return $this->hasMany(FavouriteJobs::class);
+    }
    
 }

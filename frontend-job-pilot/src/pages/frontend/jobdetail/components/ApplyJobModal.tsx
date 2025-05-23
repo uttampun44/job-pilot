@@ -7,8 +7,10 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import React, { useMemo, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
+import usePost from "@/hooks/api/usePost";
+import { toast } from "sonner";
 
 type ApplyJobModalProps = {
   isVisible: boolean;
@@ -17,43 +19,46 @@ type ApplyJobModalProps = {
 };
 
 type tApplyJobsType = {
-  role_id: string;
-  job_id: string;
   resume: string;
   description: string;
-}
+  user_id: string;
+  job_id: string;
+};
 
 export default function ApplyJobModal({
   isVisible,
   jobId,
   setVisible,
 }: ApplyJobModalProps) {
-  const editor = useRef(null);
-  const [content, setContent] = useState("");
-
+  const post = usePost("/api/jobs/apply");
   const formMethods = useForm<tApplyJobsType>({
     defaultValues: {
       job_id: jobId,
-    }
+      description: "",
+    },
   });
 
-  const config = useMemo(
-    () => ({
-      readonly: false,
-      placeholder: "Write your resume here",
-      height: 500,
-    }),
-    []
-  );
-  
-  const handleSubmit = (data: any) => {
-    console.log(data);
+  const handleSubmit = async (data: any) => {
+    try {
+      const response = await post.mutateAsync({ data: data });
+      if (response.status === 201) {
+        toast.success("Job applied successfully !");
+        setVisible(false);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
+    }
   };
   return (
     <Dialog open={isVisible} onOpenChange={setVisible}>
-      <DialogContent onInteractOutside={() => setVisible(false)} 
+      <DialogContent
+        onInteractOutside={() => setVisible(false)}
         className="min-w-3xl"
-        >
+      >
         <DialogHeader className="font-semibold">
           Apply for this job
         </DialogHeader>
@@ -61,13 +66,17 @@ export default function ApplyJobModal({
           <form onSubmit={formMethods.handleSubmit(handleSubmit)}>
             <Input type="file" placeholder="Upload you resume" />
             <div className="edito my-2.5">
-              <JoditEditor
-              ref={editor}
-              value={content}
-              config={config}
-              tabIndex={1} 
-              onBlur={(newContent) => setContent(newContent)} 
-            />
+              <Controller
+                name="description"
+                control={formMethods.control}
+                render={({ field }) => (
+                  <JoditEditor
+                    ref={field.ref}
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
             </div>
             <div className="button flex justify-between items-center">
               <Button
