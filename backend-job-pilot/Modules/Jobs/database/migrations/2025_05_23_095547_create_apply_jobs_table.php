@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('apply_jobs', function (Blueprint $table) {
             $table->id();
             $table->longText('resume');
-            $table->longText('description')->nullable();
+            $table->longText('cover_letter')->nullable();
             $table->foreignId('job_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import JoditEditor from "jodit-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -20,7 +21,7 @@ type ApplyJobModalProps = {
 
 type tApplyJobsType = {
   resume: string;
-  description: string;
+  cover_letter: string;
   user_id: string;
   job_id: string;
 };
@@ -34,8 +35,9 @@ export default function ApplyJobModal({
   const formMethods = useForm<tApplyJobsType>({
     defaultValues: {
       job_id: jobId,
-      description: "",
+      cover_letter: "",
     },
+    resolver: zodResolver(ApplyJobSchema),
   });
 
   const handleSubmit = async (data: any) => {
@@ -67,7 +69,7 @@ export default function ApplyJobModal({
             <Input type="file" placeholder="Upload you resume" />
             <div className="edito my-2.5">
               <Controller
-                name="description"
+                name="cover_letter"
                 control={formMethods.control}
                 render={({ field }) => (
                   <JoditEditor
