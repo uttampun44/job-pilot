@@ -4,7 +4,7 @@ import useFetch from "@/hooks/api/useFetch";
 import { RefObject, useImperativeHandle, useState } from "react";
 
 type tDialog = {
-    setSelectedId: any
+    setSelectedId: string
     ref: RefObject<any>
 }
 

@@ -19,4 +19,9 @@ class FavouriteJobsRepositories
     {
         return FavouriteJobs::with('user')->where('job_id', $id)->get();
     }
+
+    public function destroyFavouriteJobs(int $id)
+    {
+        return FavouriteJobs::destroy($id);
+    }
 }

@@ -35,4 +35,10 @@ class FavouriteJobController extends Controller {
         $data = $this->favouriteJobsRepositories->findFavouriteJobs($id);
         return response()->json($data, 200);    
     }
+
+    public function destroyFavouriteJobs(int $id)
+    {
+        $this->favouriteJobsRepositories->destroyFavouriteJobs($id);
+        return response()->json(['message' => 'Job deleted successfully'], 200);
+    }
 }

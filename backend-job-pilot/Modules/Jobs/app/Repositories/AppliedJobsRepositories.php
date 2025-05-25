@@ -39,4 +39,9 @@ class AppliedJobsRepositories
     {
         return ApplyJob::with('user')->where('job_id', $id)->get();
     }
+
+    public function destroyApplyJob(int $id)
+    {
+        return ApplyJob::destroy($id);
+    }
 }

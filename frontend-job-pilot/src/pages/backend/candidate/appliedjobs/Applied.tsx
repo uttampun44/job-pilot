@@ -14,6 +14,7 @@ import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useRef, useState } from "react";
 import AppliedModal from "./components/AppliedModal";
 import { Button } from "@/components/ui/button";
+import ConfirmAppliedModal from "./components/ConfirmAppliedModal";
 
 export default function Applied() {
   const [searchAppliedJobs, setSearchAppliedJobs] = useState("");
@@ -21,6 +22,7 @@ export default function Applied() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedId, setSelectedId] = useState("");
   const appliedModalRef = useRef<any>(null);
+  const appliedConfirmModalRef = useRef<any>(null);
 
   const debounce = useDebounce(searchAppliedJobs, 500);
   const {
@@ -96,7 +98,12 @@ export default function Applied() {
                         >
                           View
                         </Button>
-                        <Button className="bg-blue-50 p-2 rounded-sm">
+                        <Button className="bg-blue-50 p-2 rounded-sm"
+                         onClick={() => {
+                           if(!selectedId) return;
+                           appliedConfirmModalRef.current.openModal();
+                         }}
+                        >
                           Delete
                         </Button>
                       </TableCell>
@@ -107,7 +114,11 @@ export default function Applied() {
           </Table>
         </div>
       </div>
-      <AppliedModal ref={appliedModalRef} setSelectedId={setSelectedId} />
+      <AppliedModal ref={appliedModalRef} setSelectedId={selectedId} />
+      <ConfirmAppliedModal
+        ref={appliedConfirmModalRef}
+        setSelectedId={selectedId}
+      />
     </React.Fragment>
   );
 }

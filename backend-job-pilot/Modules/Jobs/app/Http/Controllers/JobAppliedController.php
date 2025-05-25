@@ -37,4 +37,10 @@ class JobAppliedController extends Controller
         $data = $this->appliedJobsRepository->findAppliedJobs($id);
         return response()->json($data, 200);    
     }
+
+    public function destroyApplyJob(int $id)
+    {
+        $this->appliedJobsRepository->destroyApplyJob($id);
+        return response()->json(['message' => 'Job deleted successfully !'], 200);
+    }
 }

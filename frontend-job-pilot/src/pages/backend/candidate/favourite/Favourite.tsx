@@ -6,6 +6,7 @@ import useDebounce from "@/hooks/useDebounce";
 import React, { useEffect, useRef, useState } from "react";
 import FavouriteJob from "./components/FabvouriteJob";
 import { Button } from "@/components/ui/button";
+import ConfirmModal from "./components/ConfirmModal";
 
 export default function Favourite() {
   const [search, setSearch] = useState("");
@@ -15,6 +16,7 @@ export default function Favourite() {
   const debounce = useDebounce(search, 500);
 
   const favouriteModalRef = useRef<any>(null);
+  const confirmModalRef = useRef<any>(null);
 
   if(isLoading) return <div className="w-full h-full flex justify-center items-center"><Skeleton /></div>;
 
@@ -70,6 +72,16 @@ export default function Favourite() {
                                 >
                                   View
                                   </Button>
+                                  <Button
+                                     variant="ghost"
+                                    className="bg-red-500 p-2 rounded-sm"
+                                    onClick={() => {
+                                     if(!selectedId) return;
+                                     confirmModalRef.current.openModal();
+                                    }}
+                                  >
+                                    Delete
+                                  </Button>
                               </div>
                             </TableCell>
                      </TableRow>
@@ -78,7 +90,11 @@ export default function Favourite() {
         </div>
         <FavouriteJob
          ref={favouriteModalRef}
-         setSelectedId={setSelectedId}
+         setSelectedId={selectedId}
+        />
+        <ConfirmModal
+         ref={confirmModalRef}
+         setSelectedId={selectedId}
         />
       </div>
     </React.Fragment>
