@@ -12,6 +12,11 @@ class AppliedJobsRepositories
         return ApplyJob::with('user')->paginate(10);
     }
 
+    public function findAppliedJobs(int $id)
+    {
+        return ApplyJob::with('user')->where('job_id', $id)->get();
+    }
+
     public function frontendAppliedJobsStore(array $data)
     {
         $exists = ApplyJob::where('job_id', $data['job_id'])
@@ -28,5 +33,10 @@ class AppliedJobsRepositories
             $data['resume'] = $imageName;
         }
         return ApplyJob::create($data);
+    }
+
+    public function findApplyJob(int $id)
+    {
+        return ApplyJob::with('user')->where('job_id', $id)->get();
     }
 }

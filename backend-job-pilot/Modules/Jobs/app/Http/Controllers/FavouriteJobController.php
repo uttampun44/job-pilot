@@ -29,4 +29,10 @@ class FavouriteJobController extends Controller {
         return response()->json(['message' => $e->getMessage()], 400);
       }
     }
+
+    public function findFavouriteJobs(int $id)
+    {
+        $data = $this->favouriteJobsRepositories->findFavouriteJobs($id);
+        return response()->json($data, 200);    
+    }
 }

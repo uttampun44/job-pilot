@@ -7,6 +7,10 @@ use Modules\Jobs\app\Http\Controllers\JobAppliedController;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('jobs', JobsController::class)->names('jobs');
+    Route::get('/apply-job/{id}', [JobAppliedController::class, 'findAppliedJobs'])->name('find-applied-job');
+    Route::get('/favourite-job/{id}', [FavouriteJobController::class, 'findFavouriteJobs'])->name('find-favourite-job');
+    Route::get('/apply-job', [JobAppliedController::class, 'fetchBackendAppliedJobs'])->name('fetch-applied-jobs');
+   Route::get('/favourite-jobs', [FavouriteJobController::class, 'fetchFavouriteJobs'])->name('fetch-favourite-jobs');
 });
 
  Route::get('/jobs/home-page-jobs', [FrontendJobsController::class, 'fetchHomePageJobs'])->name('home-page-jobs');
@@ -16,3 +20,4 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
  Route::get('/search-jobs', [FrontendJobsController::class, 'searchJobs'])->name('search-jobs');
  Route::post('/apply-job', [JobAppliedController::class, 'frontendAppliedJobsStore'])->name('apply-job');
  Route::post('/favourite-jobs', [FavouriteJobController::class, 'favouriteJobsStore'])->name('favourite-job');
+ 

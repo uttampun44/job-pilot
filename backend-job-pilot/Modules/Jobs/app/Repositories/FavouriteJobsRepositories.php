@@ -14,4 +14,9 @@ class FavouriteJobsRepositories
     {
         return FavouriteJobs::with('user')->paginate(10);
     }
+
+    public function findFavouriteJobs(int $id)
+    {
+        return FavouriteJobs::with('user')->where('job_id', $id)->get();
+    }
 }

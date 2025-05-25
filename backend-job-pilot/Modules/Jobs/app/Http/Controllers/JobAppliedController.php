@@ -31,4 +31,10 @@ class JobAppliedController extends Controller
         $data = $this->appliedJobsRepository->fetchBackendAppliedJobs();
         return response()->json($data, 200);    
     }
+
+    public function findAppliedJobs(int $id)
+    {
+        $data = $this->appliedJobsRepository->findAppliedJobs($id);
+        return response()->json($data, 200);    
+    }
 }

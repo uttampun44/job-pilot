@@ -3,13 +3,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import FavouriteJob from "./components/FabvouriteJob";
+import { Button } from "@/components/ui/button";
 
 export default function Favourite() {
   const [search, setSearch] = useState("");
+  const [selectedId, setSelectedId] = useState("");
   const [filterJobs, setFilterJobs] = useState<any[]>([]);
   const {data: favouriteJob, isLoading, isError} = useFetch(`/api/favourite-jobs`);
   const debounce = useDebounce(search, 500);
+
+  const favouriteModalRef = useRef<any>(null);
 
   if(isLoading) return <div className="w-full h-full flex justify-center items-center"><Skeleton /></div>;
 
@@ -52,10 +57,29 @@ export default function Favourite() {
                  <TableBody>
                      <TableRow>
                          <TableCell className="text-center">#{1}</TableCell>
+                          <TableCell className="text-center">#{1}</TableCell>
+                           <TableCell className="text-center">#{1}</TableCell>
+                            <TableCell className="text-center">
+                              <div className="flex gap-x-2.5">
+                                <Button
+                                  className="bg-blue-50 p-2 rounded-sm"
+                                  onClick={() => {
+                                    setSelectedId("1");
+                                    favouriteModalRef.current.openModal();
+                                  }}
+                                >
+                                  View
+                                  </Button>
+                              </div>
+                            </TableCell>
                      </TableRow>
                  </TableBody>
             </Table>
         </div>
+        <FavouriteJob
+         ref={favouriteModalRef}
+         setSelectedId={setSelectedId}
+        />
       </div>
     </React.Fragment>
   );

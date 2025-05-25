@@ -11,12 +11,16 @@ import {
 } from "@/components/ui/table";
 import useFetch from "@/hooks/api/useFetch";
 import useDebounce from "@/hooks/useDebounce";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import AppliedModal from "./components/AppliedModal";
+import { Button } from "@/components/ui/button";
 
 export default function Applied() {
   const [searchAppliedJobs, setSearchAppliedJobs] = useState("");
   const [filterAppliedJobs, setFilterAppliedJobs] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedId, setSelectedId] = useState("");
+  const appliedModalRef = useRef<any>(null);
 
   const debounce = useDebounce(searchAppliedJobs, 500);
   const {
@@ -58,41 +62,52 @@ export default function Applied() {
           className="w-1/3 bg-white"
         />
       </div>
-      <Table>
-        <TableCaption>A list of Applied jobs</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>S.No.</TableHead>
-            <TableHead>Jobs</TableHead>
-            <TableHead>Date Applied</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-center">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-         {
-          filterAppliedJobs?.length > 0 &&
-          filterAppliedJobs?.map((job: any, index: number) => {
-            return (
-              <TableRow key={index}>
-                <TableCell className="text-center">#{job.id}</TableCell>
-                <TableCell>{job.job_description.substring(0, 40)}...</TableCell>
-                <TableCell>{job.job_posted}</TableCell>
-                <TableCell>{job.job_expires}</TableCell>
-                <TableCell className="flex gap-x-2.5">
-                  <button className="bg-blue-50 p-2 rounded-sm">
-                    View
-                  </button>
-                  <button className="bg-blue-50 p-2 rounded-sm">
-                    Delete
-                  </button>
-                </TableCell>
+      <div className="w-full overflow-x-auto">
+        <div className="max-h-[700px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+          <Table>
+            <TableCaption>A list of Applied jobs</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead>S.No.</TableHead>
+                <TableHead>Jobs</TableHead>
+                <TableHead>Date Applied</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
               </TableRow>
-            );
-          })
-         }
-        </TableBody>
-      </Table>
+            </TableHeader>
+            <TableBody>
+              {filterAppliedJobs?.length > 0 &&
+                filterAppliedJobs?.map((job: any, index: number) => {
+                  return (
+                    <TableRow key={index}>
+                      <TableCell className="text-center">#{job.id}</TableCell>
+                      <TableCell>
+                        {job.job_description.substring(0, 40)}...
+                      </TableCell>
+                      <TableCell>{job.job_posted}</TableCell>
+                      <TableCell>{job.job_expires}</TableCell>
+                      <TableCell className="flex gap-x-2.5">
+                        <Button
+                          className="bg-blue-50 p-2 rounded-sm"
+                          onClick={() => {
+                            setSelectedId(job?.id);
+                            appliedModalRef.current.openModal();
+                          }}
+                        >
+                          View
+                        </Button>
+                        <Button className="bg-blue-50 p-2 rounded-sm">
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+      <AppliedModal ref={appliedModalRef} setSelectedId={setSelectedId} />
     </React.Fragment>
   );
 }
