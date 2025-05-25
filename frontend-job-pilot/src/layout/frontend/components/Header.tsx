@@ -71,6 +71,11 @@ export default function Header() {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            {
+              user && (
+                <Link to="/dashboard" className="text-underline"> Dashboard</Link>
+              )
+            }
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ export default function AppliedJobs() {
         <CardTitle>Applied Jobs</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>View all the applied jobs</p>
+        <p className="text-base font-normal">View all the applied jobs</p>
         <Table>
           <TableHeader>
             <TableRow>

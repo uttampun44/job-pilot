@@ -6,15 +6,15 @@ import Facebook from "@assets/images/facebook.png";
 export default function FavouriteJobs() {
     const {data: data} = useFetch('/api/v1/favourite-jobs');
  
-    const favouriteJobs = Array.isArray(data?.data) ? data.data : [];
-    console.log(favouriteJobs);
+   const favouriteJobs = Array.isArray(data?.data) ? data.data : [];
+
     return (
          <Card>
       <CardHeader>
         <CardTitle>Favourite Jobs</CardTitle>
       </CardHeader>
       <CardContent>
-        <p>View all the favourite jobs</p>
+        <p className="text-base font-normal">View all the favourite jobs</p>
         <Table>
           <TableHeader>
             <TableRow>

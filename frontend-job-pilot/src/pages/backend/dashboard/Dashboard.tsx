@@ -3,6 +3,7 @@ import { Users, Briefcase, Heart, Bell } from "lucide-react";
 import CompleteProfile from "./components/CompleteProfile";
 import AppliedJobs from "./components/AppliedJobs";
 import FavouriteJobs from "./components/FavouriteJobs";
+import DashboardChart from "./components/DashboarChart";
 
 export default function Dashboard() {
 
@@ -56,8 +57,13 @@ export default function Dashboard() {
           <CompleteProfile />
       </div>
       <div className="w-full flex gap-x-2.5">
-          <AppliedJobs />
+           <div className="flex  gap-x-2.5">
+            <AppliedJobs />
             <FavouriteJobs />
+           </div>
+            <div className="chart w-full">
+               <DashboardChart />
+            </div>
       </div>
     </div>
   );

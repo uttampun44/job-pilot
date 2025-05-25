@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/features/AuthContext";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/api/usePost";
@@ -65,6 +65,7 @@ export default function TopNav() {
                />
             </div>
             <div className="flex items-center gap-6">
+                 <Link to="/" className="text-base font-medium">Visit Home Page</Link>
                 <Label>{new Date().toLocaleDateString()} {time}</Label>
                 <Button
                     type="button"
