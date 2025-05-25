@@ -25,6 +25,7 @@ import Applied from "@/pages/backend/candidate/appliedjobs/Applied";
 import ErrorPage from "@/pages/frontend/error/Error";
 import Favourite from "@/pages/backend/candidate/favourite/Favourite";
 import ViewCalendar from "@/pages/backend/calendar/ViewCalendar";
+import Users from "@/pages/backend/users/Users";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -106,6 +107,10 @@ export const router = createBrowserRouter([
       {
         path: "/candidates/applied-jobs",
         Component: Applied
+      },
+      {
+        path: "/users",
+        Component: Users
       },
       {
         path: "favourite-jobs",
