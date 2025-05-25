@@ -23,7 +23,7 @@ export default function Applied() {
     data: jobs,
     isLoading,
     isError,
-  } = useFetch(`/api/jobs-lists?page=${currentPage}`);
+  } = useFetch(`/api/apply-job?page=${currentPage}`);
 
   useEffect(() => {
     if (!isLoading && Array.isArray(jobs)) {
@@ -70,9 +70,27 @@ export default function Applied() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell className="text-center">#</TableCell>
-          </TableRow>
+         {
+          filterAppliedJobs?.length > 0 &&
+          filterAppliedJobs?.map((job: any, index: number) => {
+            return (
+              <TableRow key={index}>
+                <TableCell className="text-center">#{job.id}</TableCell>
+                <TableCell>{job.job_description.substring(0, 40)}...</TableCell>
+                <TableCell>{job.job_posted}</TableCell>
+                <TableCell>{job.job_expires}</TableCell>
+                <TableCell className="flex gap-x-2.5">
+                  <button className="bg-blue-50 p-2 rounded-sm">
+                    View
+                  </button>
+                  <button className="bg-blue-50 p-2 rounded-sm">
+                    Delete
+                  </button>
+                </TableCell>
+              </TableRow>
+            );
+          })
+         }
         </TableBody>
       </Table>
     </React.Fragment>

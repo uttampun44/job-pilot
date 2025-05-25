@@ -17,7 +17,7 @@ class FavouriteJobs extends Model
      * The attributes that are mass assignable.
      */
     protected $table = 'favourite_jobs';
-    protected $fillable = ['is_favourite', 'job_id', 'user_id'];
+    protected $fillable = ['job_id', 'user_id'];
 
     // protected static function newFactory(): FavouriteJobsFactory
     // {
@@ -27,5 +27,10 @@ class FavouriteJobs extends Model
     public function user():BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function job():BelongsTo
+    {
+        return $this->belongsTo(Jobs::class);
     }
 }

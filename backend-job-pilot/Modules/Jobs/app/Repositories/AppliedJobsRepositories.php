@@ -7,6 +7,11 @@ use Illuminate\Support\Str;
 
 class AppliedJobsRepositories
 {
+    public function fetchBackendAppliedJobs()
+    {
+        return ApplyJob::with('user')->paginate(10);
+    }
+
     public function frontendAppliedJobsStore(array $data)
     {
         $exists = ApplyJob::where('job_id', $data['job_id'])
@@ -23,10 +28,5 @@ class AppliedJobsRepositories
             $data['resume'] = $imageName;
         }
         return ApplyJob::create($data);
-    }
-
-    public function fetchBackendAppliedJobs()
-    {
-        return ApplyJob::with('user')->get();
     }
 }

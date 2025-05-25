@@ -9,7 +9,6 @@ import ResetPassword from "@/pages/frontend/resetpassword/ResetPassword";
 import EmailVerification from "@/pages/frontend/emailverification/EmailVerification";
 import Dashboard from "@/pages/backend/dashboard/Dashboard";
 import ProtectedRoutes from "./ProtectedRoutes";
-import Calendar from "@/pages/backend/calendar/Calendar";
 import Candidate from "@/pages/frontend/candidate/Candidate";
 import Employer from "@/pages/frontend/employer/Employer";
 import Profile from "@/pages/backend/settings/profile/Profile";
@@ -25,6 +24,7 @@ import View from "@/pages/backend/candidate/view/View";
 import Applied from "@/pages/backend/candidate/appliedjobs/Applied";
 import ErrorPage from "@/pages/frontend/error/Error";
 import Favourite from "@/pages/backend/candidate/favourite/Favourite";
+import ViewCalendar from "@/pages/backend/calendar/ViewCalendar";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -93,7 +93,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/calendar",
-        Component: Calendar,
+        Component: ViewCalendar,
       },
       {
         path: "/candidates",

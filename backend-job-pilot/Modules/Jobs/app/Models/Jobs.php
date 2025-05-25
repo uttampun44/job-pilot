@@ -36,4 +36,9 @@ class Jobs extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function favouriteJobs():HasMany
+    {
+        return $this->hasMany(FavouriteJobs::class);
+    }
 }

@@ -15,3 +15,4 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
  Route::get('/jobs-lists', [FrontendJobsController::class, 'fetchAllJobs'])->name('job-list');
  Route::get('/search-jobs', [FrontendJobsController::class, 'searchJobs'])->name('search-jobs');
  Route::post('/apply-job', [JobAppliedController::class, 'frontendAppliedJobsStore'])->name('apply-job');
+ Route::post('/favourite-jobs', [FavouriteJobController::class, 'favouriteJobsStore'])->name('favourite-job');

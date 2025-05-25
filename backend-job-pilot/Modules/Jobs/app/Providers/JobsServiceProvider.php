@@ -44,6 +44,9 @@ class JobsServiceProvider extends ServiceProvider
         $this->app->bind(AppliedJobsRepositories::class, function(){
             return new AppliedJobsRepositories();
         });
+        $this->app->bind(FavouriteJobsRepositories::class, function(){
+            return new FavouriteJobsRepositories();
+        });
     }
 
     /**

@@ -1,5 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Briefcase, Heart, Bell } from "lucide-react";
+import CompleteProfile from "./components/CompleteProfile";
+import AppliedJobs from "./components/AppliedJobs";
+import FavouriteJobs from "./components/FavouriteJobs";
 
 export default function Dashboard() {
 
@@ -48,6 +51,13 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         ))}
+      </div>
+      <div className="w-full my-4">
+          <CompleteProfile />
+      </div>
+      <div className="w-full flex">
+          <AppliedJobs />
+            <FavouriteJobs />
       </div>
     </div>
   );

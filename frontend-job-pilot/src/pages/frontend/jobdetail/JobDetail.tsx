@@ -9,6 +9,14 @@ import { useNavigate, useParams } from "react-router";
 import RelatedJobs from "./components/RelatedJobs";
 import ApplyJobModal from "./components/ApplyJobModal";
 import MessageModal from "./components/MessageModal";
+import { useForm } from "react-hook-form";
+import usePost from "@/hooks/api/usePost";
+import { toast } from "sonner";
+
+type tfavourtieJobTypes = {
+  job_id: string;
+  user_id: string;
+};
 
 export default function JobDetail() {
   const { id } = useParams();
@@ -17,8 +25,31 @@ export default function JobDetail() {
   const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
 
   const user = localStorage.getItem("user");
-
+  const userType = JSON.parse(user as string);
   const messageModalRef = useRef<any>(null);
+
+  const { handleSubmit } = useForm<tfavourtieJobTypes>({
+    defaultValues: {
+      job_id: id,
+      user_id: userType.id,
+    },
+  });
+
+  const post = usePost("/favourite-jobs");
+  const handleFavouriteJob = async (data: tfavourtieJobTypes) => {
+    try {
+      const response = await post.mutateAsync({ data: data });
+      if (response.status === 201) {
+        toast.success("Job favourited successfully");
+      }else{
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      if(error instanceof Error){
+        toast.error(error.message);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!isLoading && (!jobsDetails || !jobsDetails.data)) {
@@ -65,18 +96,20 @@ export default function JobDetail() {
             </div>
             <div className="applyNow flex items-center gap-x-2.5">
               <div className="favorite bg-blue-50 p-4 rounded-sm">
-                <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
+                <form onSubmit={handleSubmit(handleFavouriteJob)}>
+                  <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
+                </form>
               </div>
               <Button
-               type="button"
+                type="button"
                 className="applyNowBtn bg-blue-500 text-white cursor-pointer"
                 onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
-                  if(!user){
-                    messageModalRef.current.openModal()
+                  if (!user) {
+                    messageModalRef.current.openModal();
                   }
-                  setIsModalOpen(true)
+                  setIsModalOpen(true);
                 }}
               >
                 Apply Now
@@ -214,11 +247,9 @@ export default function JobDetail() {
         </div>
       </section>
       {!user ? (
-           <React.Fragment>
-             <MessageModal 
-               ref={messageModalRef}
-             />
-           </React.Fragment>
+        <React.Fragment>
+          <MessageModal ref={messageModalRef} />
+        </React.Fragment>
       ) : (
         <React.Fragment>
           <ApplyJobModal

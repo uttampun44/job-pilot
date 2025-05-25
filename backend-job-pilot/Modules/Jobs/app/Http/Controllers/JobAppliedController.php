@@ -19,12 +19,9 @@ class JobAppliedController extends Controller
     public function frontendAppliedJobsStore(Request $request)
     {
         try {
-                Log::info('Job applied request received'); // add this
-
             $this->appliedJobsRepository->frontendAppliedJobsStore($request->all());
             return response()->json(['message' => 'Job applied successfully !'], 201);
         } catch (\Throwable $th) {
-              Log::error('Job application error: ' . $th->getMessage());
             return response()->json(['message' => $th->getMessage()], 500);
         }
     }
