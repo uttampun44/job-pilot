@@ -33,4 +33,10 @@ class FavouriteJobs extends Model
     {
         return $this->belongsTo(Jobs::class);
     }
+    
+
+    protected $casts = [
+        'job_id' => 'integer',
+        'user_id' => 'integer',
+    ];
 }

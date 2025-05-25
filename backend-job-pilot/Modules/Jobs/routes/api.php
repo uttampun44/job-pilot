@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\Jobs\app\Http\Controllers\JobsController;
 use Modules\Jobs\app\Http\Controllers\FrontendJobsController;
 use Modules\Jobs\app\Http\Controllers\JobAppliedController;
+use Modules\Jobs\app\Http\Controllers\FavouriteJobController;
 
 Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::apiResource('jobs', JobsController::class)->names('jobs');
@@ -13,6 +14,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::delete('/apply-job/{id}', [JobAppliedController::class, 'destroyApplyJob'])->name('delete-applied-job');
    Route::get('/favourite-jobs', [FavouriteJobController::class, 'fetchFavouriteJobs'])->name('fetch-favourite-jobs');
   Route::delete('/favourite-job/{id}', [FavouriteJobController::class, 'destroyFavouriteJobs'])->name('delete-favourite-job');
+  Route::get('/favourite-jobs', [FavouriteJobController::class, 'fetchFavouriteJobs'])->name('fetch-favourite-jobs');
 });
 
  Route::get('/jobs/home-page-jobs', [FrontendJobsController::class, 'fetchHomePageJobs'])->name('home-page-jobs');
@@ -22,4 +24,3 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
  Route::get('/search-jobs', [FrontendJobsController::class, 'searchJobs'])->name('search-jobs');
  Route::post('/apply-job', [JobAppliedController::class, 'frontendAppliedJobsStore'])->name('apply-job');
  Route::post('/favourite-jobs', [FavouriteJobController::class, 'favouriteJobsStore'])->name('favourite-job');
- 

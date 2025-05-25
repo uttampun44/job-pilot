@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\Jobs\app\Repositories\JobsRepositories;
 use Modules\Jobs\app\Repositories\AppliedJobsRepositories;
+use Modules\Jobs\app\Repositories\FavouriteJobsRepositories;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;

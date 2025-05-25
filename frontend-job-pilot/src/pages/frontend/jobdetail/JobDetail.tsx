@@ -12,10 +12,12 @@ import MessageModal from "./components/MessageModal";
 import { useForm } from "react-hook-form";
 import usePost from "@/hooks/api/usePost";
 import { toast } from "sonner";
+import FavouriteModalMessage from "./components/FavouriteModalMessage";
+import TagsBatch from "@/components/TagsBatch";
 
 type tfavourtieJobTypes = {
-  job_id: string;
-  user_id: string;
+  job_id: string | number;
+  user_id: string | number;
 };
 
 export default function JobDetail() {
@@ -23,29 +25,35 @@ export default function JobDetail() {
   const navigation = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
-
   const user = localStorage.getItem("user");
   const userType = JSON.parse(user as string);
   const messageModalRef = useRef<any>(null);
+  const favouriteModalRef = useRef<any>(null);
 
-  const { handleSubmit } = useForm<tfavourtieJobTypes>({
+  const { getValues } = useForm<tfavourtieJobTypes>({
     defaultValues: {
-      job_id: id,
-      user_id: userType.id,
+      job_id: Number(id),
+      user_id: parseInt(userType?.id),
     },
   });
 
-  const post = usePost("/favourite-jobs");
+  const post = usePost("/api/favourite-jobs");
   const handleFavouriteJob = async (data: tfavourtieJobTypes) => {
     try {
-      const response = await post.mutateAsync({ data: data });
+      const response = await post.mutateAsync({
+        data: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       if (response.status === 201) {
         toast.success("Job favourited successfully");
-      }else{
+      } else {
         toast.error("Something went wrong");
       }
     } catch (error) {
-      if(error instanceof Error){
+      console.log(error);
+      if (error instanceof Error) {
         toast.error(error.message);
       }
     }
@@ -69,7 +77,7 @@ export default function JobDetail() {
   if (isError) return <div>Something went wrong</div>;
 
   const jobs = jobsDetails.data;
-
+ 
   return (
     <React.Fragment>
       <section className="pt-24 pb-16 mt-40">
@@ -96,9 +104,18 @@ export default function JobDetail() {
             </div>
             <div className="applyNow flex items-center gap-x-2.5">
               <div className="favorite bg-blue-50 p-4 rounded-sm">
-                <form onSubmit={handleSubmit(handleFavouriteJob)}>
-                  <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
-                </form>
+                <Icon
+                  iconName="save"
+                  className="w-4 h-4 cursor-pointer"
+                  onClick={() => {
+                    if (!user) {
+                      messageModalRef.current.openModal();
+                    } else {
+                      const formData = getValues();
+                      handleFavouriteJob(formData);
+                    }
+                  }}
+                />
               </div>
               <Button
                 type="button"
@@ -154,6 +171,21 @@ export default function JobDetail() {
               </div>
             </div>
             <div className="sideDetails w-full mt-4">
+            <div className="jobBenefits my-4">
+              <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
+                <CardHeader>
+                  <CardTitle className="text-base text-black font-bold">
+                    Job Benefits
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="border-b border-blue-50 pb-2 font-medium">
+                   <TagsBatch
+                   tags={jobs.job_benefits_tags}
+                   textColor="text-green-600"
+                     />
+                </CardContent>
+              </Card>
+            </div>
               <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
                 <CardHeader>
                   <CardTitle className="text-base text-black font-bold">
@@ -249,6 +281,7 @@ export default function JobDetail() {
       {!user ? (
         <React.Fragment>
           <MessageModal ref={messageModalRef} />
+          <FavouriteModalMessage ref={favouriteModalRef} />
         </React.Fragment>
       ) : (
         <React.Fragment>

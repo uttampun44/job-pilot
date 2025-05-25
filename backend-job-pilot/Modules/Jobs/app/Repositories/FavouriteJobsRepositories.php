@@ -1,18 +1,32 @@
 <?php
 
 namespace Modules\Jobs\app\Repositories;
+
+use Illuminate\Support\Facades\Auth;
 use \Modules\Jobs\app\Models\FavouriteJobs;
 
 class FavouriteJobsRepositories
 {
     public function favouriteJobsStore(array $data)
-    {
-        return FavouriteJobs::create($data);
+    {    
+        $checkFavourite = FavouriteJobs::where('user_id', $data['user_id'])
+                             ->where('job_id', $data['job_id'])
+                             ->first();
+
+        if($checkFavourite)
+        {
+            $checkFavourite->delete();
+        }else{
+            $checkFavourite = FavouriteJobs::create($data);
+            return $checkFavourite;
+        }                     
+       
     }
 
     public function fetchFavouriteJobs()
-    {
-        return FavouriteJobs::with('user')->paginate(10);
+    {  
+        $authUser = Auth::user();
+        return FavouriteJobs::with('job')->where('user_id', $authUser->id)->paginate(10);
     }
 
     public function findFavouriteJobs(int $id)

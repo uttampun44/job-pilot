@@ -55,7 +55,7 @@ export default function Dashboard() {
       <div className="w-full my-4">
           <CompleteProfile />
       </div>
-      <div className="w-full flex">
+      <div className="w-full flex gap-x-2.5">
           <AppliedJobs />
             <FavouriteJobs />
       </div>

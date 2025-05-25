@@ -1,15 +1,17 @@
 <?php
 
-namespace Modules\Jobs\Http\Controllers;
+namespace Modules\Jobs\app\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
+use Modules\Jobs\app\Http\Requests\FavouriteJobsRequest;
 use Modules\Jobs\app\Repositories\FavouriteJobsRepositories;
 
 class FavouriteJobController extends Controller {
 
     protected $favouriteJobsRepositories;
 
-    public function __construct(FavouriteRepositories $favouriteJobsRepositories)
+    public function __construct(FavouriteJobsRepositories $favouriteJobsRepositories)
     {
         $this->favouriteJobsRepositories = $favouriteJobsRepositories;
     }
@@ -19,13 +21,15 @@ class FavouriteJobController extends Controller {
         $data = $this->favouriteJobsRepositories->fetchFavouriteJobs();
         return response()->json($data, 200);
     }
-    public function favouriteJobsStore(FavouriteJobRequest $request)
+    public function favouriteJobsStore(FavouriteJobsRequest $request)
     {
       try {
-        
-        $this->favouriteJobsRepositories->favouriteJobsStore($request->validated());
-        return response()->json(['message' => 'Job favourited successfully'], 200);
+         $data = $request->validated();
+        $this->favouriteJobsRepositories->favouriteJobsStore($data);
+        return response()->json(['message' => 'Job favourited successfully'], 201);
       } catch (\Exception $e) {
+        Log::info("Error in favouriteJobsStore: " . $e->getMessage());
+        Log::error("Error in favouriteJobsStore: " . $e->getMessage());
         return response()->json(['message' => $e->getMessage()], 400);
       }
     }

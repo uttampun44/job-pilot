@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Jobs\Database\Factories\JobsFactory;
 use Modules\Settings\app\Models\EmployerInformation;
 
@@ -40,5 +41,9 @@ class Jobs extends Model
     public function favouriteJobs():HasMany
     {
         return $this->hasMany(FavouriteJobs::class);
+    }
+    public function employerInformation():BelongsTo
+    {
+        return $this->belongsTo(EmployerInformation::class, 'job_id');
     }
 }

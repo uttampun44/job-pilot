@@ -49,14 +49,18 @@ export default function AppSidebar() {
       } p-4 rounded-md dark:bg-gray-900`}
     >
       <SidebarHeader className="p-0">
-        <div className="flex items-center gap-x-2.5 py-3.5 px-1 w-full bg-white dark:bg-gray-900">
+        <div className="flex items-center gap-x-2.5 py-3.5 px-2 w-full bg-white dark:bg-gray-900">
           <Icon iconName="mainIcon" />
-          <h1 className="text-lg font-semibold">Job Pilot</h1>
+         {
+          isTogglePin && (
+             <h1 className="text-lg font-semibold">Job Pilot</h1>
+          )
+         }
         </div>
       </SidebarHeader>
       <SidebarContent className={` bg-white dark:bg-gray-900`}>
         <SidebarGroup>
-          <SidebarGroupContent className="py-4">
+          <SidebarGroupContent>
             <SidebarMenu>
               {sidebarLink.map((item) => {
                 const checkPermissions =
@@ -68,14 +72,11 @@ export default function AppSidebar() {
                     {!item.subNavigation ? (
                       <SidebarMenuButton asChild>
                         {checkPermissions && (
-                          <React.Fragment>
+                          <React.Fragment key={item.id}>
                             {isTogglePin ? (
-                              <Icon
-                                iconName={item.icon}
-                                className="text-blue-600"
-                              />
-                            ) : (
-                              <Link
+
+                            <div className="p-2">
+                                <Link
                                 to={item.href as string}
                                 className="flex items-center font-semibold gap-2 hover:text-blue-500"
                               >
@@ -85,6 +86,13 @@ export default function AppSidebar() {
                                 />
                                 {item.label}
                               </Link>
+                            </div>
+                            ) : (
+                              <Icon
+                                iconName={item.icon}
+                                className="text-blue-600"
+                              />
+                              
                             )}
                           </React.Fragment>
                         )}
@@ -96,11 +104,6 @@ export default function AppSidebar() {
                       >
                         <CollapsibleTrigger asChild>
                           {isTogglePin ? (
-                            <Icon
-                              iconName={item.icon}
-                              className="text-blue-600"
-                            />
-                          ) : (
                             <div className="flex items-center justify-between cursor-pointer p-2 font-semibold hover:text-blue-500">
                               <span className="flex items-center gap-2">
                                 <Icon iconName={item.icon} className="text-blue-600" />
@@ -113,6 +116,11 @@ export default function AppSidebar() {
                                 }`}
                               />
                             </div>
+                          ) : (
+                            <Icon
+                              iconName={item.icon}
+                              className="text-blue-600"
+                            />
                           )}
                         </CollapsibleTrigger>
                         <CollapsibleContent>
@@ -130,11 +138,6 @@ export default function AppSidebar() {
                                   {checkSubNaviationPermissions && (
                                     <React.Fragment>
                                       {isTogglePin ? (
-                                        <Icon
-                                          iconName={subItem.icon}
-                                          className="w-4 h-4 text-blue-600"
-                                        />
-                                      ) : (
                                         <Link
                                           key={subItem.id}
                                           to={subItem.href}
@@ -142,6 +145,11 @@ export default function AppSidebar() {
                                         >
                                           {subItem.label}
                                         </Link>
+                                      ) : (
+                                        <Icon
+                                          iconName={subItem.icon}
+                                          className="w-4 h-4 text-blue-600"
+                                        />
                                       )}
                                     </React.Fragment>
                                   )}
