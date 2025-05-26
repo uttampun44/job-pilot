@@ -29,15 +29,17 @@ export default function Applied() {
     data: jobs,
     isLoading,
     isError,
-  } = useFetch(`/api/apply-job?page=${currentPage}`);
+  } = useFetch(`/api/v1/apply-job?page=${currentPage}`);
+
+  const appliedJobsData = Array.isArray(jobs?.data) ? jobs?.data : [];
 
   useEffect(() => {
-    if (!isLoading && Array.isArray(jobs)) {
+    if (!isLoading && Array.isArray(appliedJobsData)) {
       if (!debounce.trim()) {
-        setFilterAppliedJobs(jobs || []);
+        setFilterAppliedJobs(appliedJobsData || []);
       } else {
-        const filter = jobs.filter((job: any) =>
-          job.job_level.toLowerCase().includes(debounce.toLowerCase())
+        const filter = appliedJobsData.filter((job: any) =>
+          job.cover_letter.toLowerCase().includes(debounce.toLowerCase())
         );
         setFilterAppliedJobs(filter);
       }
@@ -70,10 +72,11 @@ export default function Applied() {
             <TableCaption>A list of Applied jobs</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>S.No.</TableHead>
-                <TableHead>Jobs</TableHead>
-                <TableHead>Date Applied</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead className="text-center">S.No.</TableHead>
+                <TableHead className="text-center">Job Level</TableHead>
+                <TableHead className="text-center">Cover Letter</TableHead>
+                <TableHead className="text-center">Resume</TableHead>
+                <TableHead className="text-center">Date Applied</TableHead>
                 <TableHead className="text-center">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -83,26 +86,38 @@ export default function Applied() {
                   return (
                     <TableRow key={index}>
                       <TableCell className="text-center">#{job.id}</TableCell>
-                      <TableCell>
-                        {job.job_description.substring(0, 40)}...
+                      <TableCell className="text-center">
+                        {job.job.job_level}
                       </TableCell>
-                      <TableCell>{job.job_posted}</TableCell>
-                      <TableCell>{job.job_expires}</TableCell>
-                      <TableCell className="flex gap-x-2.5">
+                      <TableCell>{job.cover_letter}</TableCell>
+                      <TableCell>
+                        <img
+                          src={`htpp://localhost:8000/api/v1/public/apply-jobs/resumes/${job.resume}`}
+                          alt="cover_letter"
+                          className="w-4 h-4 rounded-lg"
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {job.created_at.substring(0, 10)}
+                      </TableCell>
+                      <TableCell className="flex justify-center gap-x-2.5">
                         <Button
-                          className="bg-blue-50 p-2 rounded-sm"
-                          onClick={() => {
+                          className="bg-blue-500 p-2 rounded-sm"
+                          onClick={(event) => {
+                            event.stopPropagation();
                             setSelectedId(job?.id);
                             appliedModalRef.current.openModal();
                           }}
                         >
                           View
                         </Button>
-                        <Button className="bg-blue-50 p-2 rounded-sm"
-                         onClick={() => {
-                           if(!selectedId) return;
-                           appliedConfirmModalRef.current.openModal();
-                         }}
+                        <Button
+                          className="bg-red-500 p-2 rounded-sm"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            if (!selectedId) return;
+                            appliedConfirmModalRef.current.openModal();
+                          }}
                         >
                           Delete
                         </Button>
@@ -114,11 +129,15 @@ export default function Applied() {
           </Table>
         </div>
       </div>
-      <AppliedModal ref={appliedModalRef} setSelectedId={selectedId} />
-      <ConfirmAppliedModal
-        ref={appliedConfirmModalRef}
-        setSelectedId={selectedId}
-      />
+      {selectedId && (
+        <React.Fragment>
+          <AppliedModal ref={appliedModalRef} setSelectedId={selectedId} />
+          <ConfirmAppliedModal
+            ref={appliedConfirmModalRef}
+            setSelectedId={selectedId}
+          />
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 }

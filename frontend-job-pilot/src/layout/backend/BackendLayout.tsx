@@ -19,14 +19,11 @@ export default function Layout({ children }: LayoutProps) {
             <div className={` ${isTogglePin ? "w-fit" : "w-20"}`}>
               <AppSidebar />
             </div>
-            <div
-              className={`bg-white
-                ${isTogglePin ? "w-full overflow-x-auto"
-                  : "ml-11 w-full" }`}
-            >
+            <div className={`bg-white backend-layout ${isTogglePin ? "w-full" : "ml-11 w-full" }`}
+             >
               <TopNav />
               <main className="p-4 dark:bg-gray-700">
-                <section className="h-full max-h-full">
+                <section className="h-full max-h-full py-16">
                   <div>{children}</div>
                 </section>
               </main>

@@ -46,4 +46,8 @@ class Jobs extends Model
     {
         return $this->belongsTo(EmployerInformation::class, 'job_id');
     }
+    public function applyJobs():HasMany
+    {
+        return $this->hasMany(ApplyJob::class);
+    }
 }

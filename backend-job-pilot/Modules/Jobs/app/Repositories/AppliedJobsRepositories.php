@@ -9,7 +9,7 @@ class AppliedJobsRepositories
 {
     public function fetchBackendAppliedJobs()
     {
-        return ApplyJob::with('user')->paginate(10);
+        return ApplyJob::with('job')->paginate(10);
     }
 
     public function findAppliedJobs(int $id)

@@ -56,7 +56,7 @@ export default function TopNav() {
     }, []);
 
     return (
-        <header className="w-full border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
+        <header className="w-full backend-top-navigation fixed top-0 border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
 
             <div className="row pl-4">
                <Icon iconName="dashboard" 

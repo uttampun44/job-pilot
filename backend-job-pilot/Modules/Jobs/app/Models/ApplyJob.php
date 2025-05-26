@@ -29,5 +29,10 @@ class ApplyJob extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function job(): BelongsTo
+    {
+        return $this->belongsTo(Jobs::class);
+    }
     
 }
