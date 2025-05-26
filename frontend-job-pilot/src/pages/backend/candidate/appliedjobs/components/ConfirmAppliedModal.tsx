@@ -20,7 +20,7 @@ type tFormType = Omit<tDialogProps, "ref">;
 
 export default function ConfirmAppliedModal({ setSelectedId, ref }: tDialogProps) {
   const [isVisible, setVisible] = useState(false);
-  const post = usePost(`/api/v1/favourite-job/${setSelectedId}`);
+  const post = usePost(`/api/v1/apply-job/${setSelectedId}`);
 
   const {handleSubmit} = useForm<tFormType>();
 
