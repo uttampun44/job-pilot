@@ -18,4 +18,10 @@ class DashboardController extends Controller {
     {   
         return $this->dashboardRepository->fetchPermissions();
     }
+
+    public function fetchTotalUsersWithRoles()
+    {
+        $data = $this->dashboardRepository->fetchTotalUsersWithRoles();
+        return response()->json($data, 200);
+    }
 }
