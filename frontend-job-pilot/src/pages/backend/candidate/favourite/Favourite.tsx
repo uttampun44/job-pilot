@@ -26,7 +26,7 @@ export default function Favourite() {
       if (!debounce.trim()) {
         setFilterJobs(favouriteJobsData || []);
       } else {
-        const filter = favouriteJobsData.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()));
+        const filter = favouriteJobsData.filter((job: any) => job.job.job_level.toLowerCase().includes(debounce.toLowerCase()));
         setFilterJobs(filter);
       }
     }

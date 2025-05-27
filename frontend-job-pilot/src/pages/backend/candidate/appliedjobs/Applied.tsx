@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -28,11 +27,10 @@ export default function Applied() {
   const {
     data: jobs,
     isLoading,
-    isError,
   } = useFetch(`/api/v1/apply-job?page=${currentPage}`);
 
   const appliedJobsData = Array.isArray(jobs?.data) ? jobs?.data : [];
-  console.log("appliedJobsData", jobs);
+  
   useEffect(() => {
     if (!isLoading && Array.isArray(appliedJobsData)) {
       if (!debounce.trim()) {
@@ -46,14 +44,7 @@ export default function Applied() {
     }
   }, [jobs, isLoading, debounce]);
 
-  if (isLoading)
-    return (
-      <div>
-        <Skeleton />
-      </div>
-    );
-
-  if (isError) return <div>Something went wrong</div>;
+  
 
   return (
     <React.Fragment>

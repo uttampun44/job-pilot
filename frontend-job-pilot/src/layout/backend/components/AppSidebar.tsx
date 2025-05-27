@@ -23,7 +23,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/context/features/AuthContext";
 
 export default function AppSidebar() {
-  
   const [openItems, setOpenItems] = useState<{ [key: number]: boolean }>({});
 
   const { permissions } = usePermission();
@@ -44,18 +43,18 @@ export default function AppSidebar() {
 
   return (
     <Sidebar
-      className={`${
-        isTogglePin ? "w-[13.1%]" : "w-32"
-      } p-4 rounded-md dark:bg-gray-900`}
+      className={`transition-all duration-300 ease-in-out 
+    ${isTogglePin ? "w-full md:w-[13.1%]" : "w-16"} 
+    p-4 rounded-md dark:bg-gray-900 bg-white`}
     >
       <SidebarHeader className="p-0">
         <div className="flex items-center gap-x-2.5 py-3.5 px-2 w-full bg-white dark:bg-gray-900">
-          <Icon iconName="mainIcon" />
-         {
-          isTogglePin && (
-             <h1 className="text-lg font-semibold">Job Pilot</h1>
-          )
-         }
+          {isTogglePin && (
+            <>
+              <h1 className="text-lg font-semibold">Job Pilot</h1>
+              <Icon iconName="mainIcon" />
+            </>
+          )}
         </div>
       </SidebarHeader>
       <SidebarContent className={` bg-white dark:bg-gray-900`}>
@@ -74,25 +73,23 @@ export default function AppSidebar() {
                         {checkPermissions && (
                           <React.Fragment key={item.id}>
                             {isTogglePin ? (
-
-                            <div className="p-2">
+                              <div className="p-2">
                                 <Link
-                                to={item.href as string}
-                                className="flex items-center font-semibold gap-2 hover:text-blue-500"
-                              >
-                                <Icon
-                                  iconName={item.icon}
-                                  className="text-blue-600"
-                                />
-                                {item.label}
-                              </Link>
-                            </div>
+                                  to={item.href as string}
+                                  className="flex items-center font-semibold gap-2 hover:text-blue-500"
+                                >
+                                  <Icon
+                                    iconName={item.icon}
+                                    className="text-blue-600"
+                                  />
+                                  {item.label}
+                                </Link>
+                              </div>
                             ) : (
                               <Icon
                                 iconName={item.icon}
                                 className="text-blue-600"
                               />
-                              
                             )}
                           </React.Fragment>
                         )}
@@ -106,7 +103,10 @@ export default function AppSidebar() {
                           {isTogglePin ? (
                             <div className="flex items-center justify-between cursor-pointer p-2 font-semibold hover:text-blue-500">
                               <span className="flex items-center gap-2">
-                                <Icon iconName={item.icon} className="text-blue-600" />
+                                <Icon
+                                  iconName={item.icon}
+                                  className="text-blue-600"
+                                />
                                 {item.label}
                               </span>
                               <Icon

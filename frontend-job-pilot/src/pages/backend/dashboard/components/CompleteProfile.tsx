@@ -25,7 +25,7 @@ export default function CompleteProfile() {
 
           </div>
             <div className="Button">
-              <Link to="/profile" className={buttonVariants({ variant: "secondary" })}>
+              <Link to="/settings/candidate-profile" className={buttonVariants({ variant: "secondary" })}>
                 Complete Profile
               </Link>
             </div>

@@ -1,11 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGetDashboardQuery } from "@/reduxtoolkit/api/apiSlice";
-
+import Facebook from "@/assets/images/facebook.png";
 
 export default function FavouriteJobs() {
     const {data, isLoading, isError} = useGetDashboardQuery();
-    console.log(data);
+    
+    const favouriteJobs = Array.isArray(data?.favouriteJobs) ? data?.favouriteJobs : [];
+
     if(isLoading) return <div>Loading...</div>;
     if(isError) return <div>Error!</div>;
     
@@ -15,7 +17,6 @@ export default function FavouriteJobs() {
         <CardTitle>Here You Will Seed Latest 10 Favourite Jobs</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-base font-normal">View all the favourite jobs</p>
         <Table>
           <TableHeader>
             <TableRow>
@@ -26,7 +27,7 @@ export default function FavouriteJobs() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {/* {
+            {
               favouriteJobs.map((item: any, index: number) => (
                 <TableRow key={index}>
                   <TableCell className="text-center">#{index + 1}</TableCell>
@@ -38,7 +39,7 @@ export default function FavouriteJobs() {
                   <TableCell className="text-center">{item.job.job_expires}</TableCell>
                 </TableRow>
               ))
-            } */}
+            }
           </TableBody>
         </Table>
       </CardContent>

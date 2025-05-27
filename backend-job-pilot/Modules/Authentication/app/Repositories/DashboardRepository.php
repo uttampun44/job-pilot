@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Modules\Settings\app\Models\CandidateInformation;
 use Modules\Settings\app\Models\EmployerInformation;
 use Illuminate\Support\Facades\DB;
+use Modules\Jobs\app\Models\ApplyJob;
+use Modules\Jobs\app\Models\FavouriteJobs;
 
 class DashboardRepository
 {
@@ -54,11 +56,11 @@ class DashboardRepository
 
     public function fetchDashboardData()
     {
-        $totalUsersWithRoles =  $data = DB::table('model_has_roles')
-        ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-        ->select('roles.name', DB::raw('count(*) as total'))
-        ->groupBy('roles.name')
-        ->get();
+        $totalUsersWithRoles = DB::table('model_has_roles')
+                              ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                             ->select('roles.name', DB::raw('count(*) as total'))
+                          ->groupBy('roles.name')
+                          ->get();
 
         $favouriteJobs  = $this->fetchDashboardFavouriteJobs();
         $appliedJobs = $this->fetchDashboardAppliedJobs();
@@ -73,12 +75,20 @@ class DashboardRepository
     public function fetchDashboardFavouriteJobs()
     {
          $authUser = Auth::user();
-        return FavouriteJobs::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->latest(10)->get();
+        return FavouriteJobs::with(['job', 'user.employerInformation'])
+                ->where('user_id', $authUser->id)
+                ->latest('id')
+                ->take(10)
+                ->get();
     }
 
     public function fetchDashboardAppliedJobs()
     {
          $authUser = Auth::user();
-        return ApplyJob::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->latest(10)->get();
+        return ApplyJob::with(['job', 'user.employerInformation'])->
+                   where('user_id', $authUser->id)
+                   ->latest('id')
+                   ->take(10)
+                   ->get();
     }
 }

@@ -56,8 +56,7 @@ export default function TopNav() {
     }, []);
 
     return (
-        <header className="w-full backend-top-navigation fixed top-0 border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
-
+       <header className="w-full z-50 bg-gray-50 dark:bg-gray-900 py-4 px-4 border-b shadow-sm flex flex-wrap justify-between items-center gap-4 sticky top-0">
             <div className="row pl-4">
                <Icon iconName="dashboard" 
                className="h-8 w-8" 
@@ -86,11 +85,13 @@ export default function TopNav() {
                         <DropdownMenuItem onClick={() => {
                             setTheme("light")
                             document.documentElement.classList.remove("dark")
+                            localStorage.setItem("theme", "light")
                         }}>
                             Light Mode
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-red-600" onClick={() => {
                             setTheme("dark")
+                            localStorage.setItem("theme", "dark")
                             document.documentElement.classList.add("dark")
                         }}>
                             Dark Mode

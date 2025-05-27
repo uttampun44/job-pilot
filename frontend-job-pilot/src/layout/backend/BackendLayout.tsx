@@ -16,15 +16,20 @@ export default function Layout({ children }: LayoutProps) {
       <PermissionContext>
         <div className="mainContainer relative">
           <SidebarProvider>
-            <div className={` ${isTogglePin ? "w-fit" : "w-20"}`}>
+            <div
+              className={`transition-all duration-300 ${
+                isTogglePin ? "w-full md:w-[13.1%]" : "w-16"
+              }`}
+            >
               <AppSidebar />
             </div>
-            <div className={`bg-white backend-layout ${isTogglePin ? "w-full" : "ml-11 w-full" }`}
-             >
+            <div
+              className={`bg-white backend-layout w-full transition-all duration-300`}
+            >
               <TopNav />
               <main className="p-4 dark:bg-gray-700">
-                <section className="h-full max-h-full py-16">
-                  <div>{children}</div>
+                <section className="h-full max-h-full py-6">
+                  {children}
                 </section>
               </main>
             </div>

@@ -24,13 +24,15 @@ export default function JobDetail() {
   const { id } = useParams();
   const navigation = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
+  const { data: jobsDetails, isLoading } = useFetch(`/api/jobs/${id}`);
   const user = localStorage.getItem("user");
   const role = localStorage.getItem("role");
   const userType = JSON.parse(user as string);
   const messageModalRef = useRef<any>(null);
   const favouriteModalRef = useRef<any>(null);
-
+  
+  const jobs = jobsDetails?.data;
+  
   const { getValues } = useForm<tfavourtieJobTypes>({
     defaultValues: {
       job_id: Number(id),
@@ -60,29 +62,24 @@ export default function JobDetail() {
     }
   };
 
+
   useEffect(() => {
-    if (!isLoading && (!jobsDetails || !jobsDetails.data)) {
+    if (!isLoading && (!jobs || !jobs)) {
       navigation("/job-list");
     }
-  }, [jobsDetails, isLoading, navigation]);
+  }, [jobs, isLoading, navigation]);
 
-  if (isLoading)
-    return (
-      <section className="mt-24 h-full max-h-full ">
-        <div className="container mx-auto px-4 w-full h-full">
-          <Skeleton />
-        </div>
-      </section>
-    );
 
-  if (isError) return <div>Something went wrong</div>;
-
-  const jobs = jobsDetails.data;
- 
   return (
     <React.Fragment>
       <section className="pt-24 pb-16 mt-40">
-        <div className="container mx-auto px-4">
+       {
+        isLoading ? (
+          <div className="container mx-auto px-4">
+                  loading::
+          </div>
+        ): (
+           <div className="container mx-auto px-4">
           <div className="row-heading flex justify-between items-center">
             <div className="companyLogo flex items-center gap-x-8">
               <div className="img w-20 h-20">
@@ -109,7 +106,8 @@ export default function JobDetail() {
                   iconName="save"
                   className="w-4 h-4 cursor-pointer"
                   onClick={() => {
-                    if(role === "Super Admin" || role == "Admin") return alert("You can't favourite this job");
+                    if (role === "Super Admin" || role == "Admin" || role == "Employer")
+                      return alert("You can't favourite this job");
                     if (!user) {
                       messageModalRef.current.openModal();
                     } else {
@@ -125,6 +123,8 @@ export default function JobDetail() {
                 onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
+                  if (role === "Super Admin" || role == "Admin" || role == "Employer")
+                    return alert("You can't apply for this job");
                   if (!user) {
                     messageModalRef.current.openModal();
                   }
@@ -173,21 +173,21 @@ export default function JobDetail() {
               </div>
             </div>
             <div className="sideDetails w-full mt-4">
-            <div className="jobBenefits my-4">
-              <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
-                <CardHeader>
-                  <CardTitle className="text-base text-black font-bold">
-                    Job Benefits
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="border-b border-blue-50 pb-2 font-medium">
-                   <TagsBatch
-                   tags={jobs.job_benefits_tags}
-                   textColor="text-green-600"
-                     />
-                </CardContent>
-              </Card>
-            </div>
+              <div className="jobBenefits my-4">
+                <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
+                  <CardHeader>
+                    <CardTitle className="text-base text-black font-bold">
+                      Job Benefits
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="border-b border-blue-50 pb-2 font-medium">
+                    <TagsBatch
+                      tags={jobs.job_benefits_tags}
+                      textColor="text-green-600"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
               <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
                 <CardHeader>
                   <CardTitle className="text-base text-black font-bold">
@@ -279,6 +279,8 @@ export default function JobDetail() {
             </div>
           </div>
         </div>
+        )
+       }
       </section>
       {!user ? (
         <React.Fragment>

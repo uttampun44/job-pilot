@@ -17,7 +17,7 @@ export default function DashboardChart() {
   
   const {data, isLoading, isError} = useGetDashboardQuery();
 
-  const usersWithRolesData = data?.totalUsersWithRoles;
+  const usersWithRolesData = Array.isArray(data?.totalUsersWithRoles) ? data?.totalUsersWithRoles : [];
   
   if(isLoading) return <div>Loading...</div>;
   if(isError) return <div>Error!</div>;
@@ -27,7 +27,7 @@ export default function DashboardChart() {
         <CardTitle>Total Users with Roles</CardTitle>
       </CardHeader>
       <CardContent>
-         {/* <Line data={{
+         <Line data={{
                 labels: usersWithRolesData.map((user: any,  index:number) => user.name),
                 datasets: [{
                     label: 'Users',
@@ -46,7 +46,7 @@ export default function DashboardChart() {
                         text: 'Total Users with Roles',
                     },
                 },
-            }} /> */}
+            }} />
       </CardContent>
     </Card>
   );
