@@ -24,4 +24,16 @@ class DashboardController extends Controller {
         $data = $this->dashboardRepository->fetchTotalUsersWithRoles();
         return response()->json($data, 200);
     }
+
+    public function fetchDashboardFavouriteJobs()
+    {
+        $data = $this->dashboardRepository->fetchDashboardFavouriteJobs();
+        return response()->json($data, 200);
+    }
+
+    public function fetchDashboardAppliedJobs()
+    {
+        $data = $this->dashboardRepository->fetchDashboardAppliedJobs();
+        return response()->json($data, 200);
+    }
 }

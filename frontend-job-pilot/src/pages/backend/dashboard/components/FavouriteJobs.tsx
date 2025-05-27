@@ -4,14 +4,14 @@ import useFetch from "@/hooks/api/useFetch";
 import Facebook from "@assets/images/facebook.png";
 
 export default function FavouriteJobs() {
-    const {data: data} = useFetch('/api/v1/favourite-jobs');
+    const {data: data} = useFetch('/api/v1/dashboard-applied-jobs');
  
    const favouriteJobs = Array.isArray(data?.data) ? data.data : [];
 
     return (
          <Card>
       <CardHeader>
-        <CardTitle>Favourite Jobs</CardTitle>
+        <CardTitle>Here You Will Seed Latest 10 Favourite Jobs</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-base font-normal">View all the favourite jobs</p>

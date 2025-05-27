@@ -62,4 +62,16 @@ class DashboardRepository
 
         return $totalUsersWithRoles;
     }
+
+    public function fetchDashboardFavouriteJobs()
+    {
+         $authUser = Auth::user();
+        return FavouriteJobs::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->latest(10)->get();
+    }
+
+    public function fetchDashboardAppliedJobs()
+    {
+         $authUser = Auth::user();
+        return ApplyJob::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->latest(10)->get();
+    }
 }
