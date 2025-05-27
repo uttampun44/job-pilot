@@ -79,27 +79,3 @@ Linting & formatting checks
 Deploying to production/staging (optional)
 
 Docker builds and image pushes
-
-project-root/
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── pages/
-│   │   ├── context/
-│   │   ├── redux/
-│   │   └── App.tsx
-│   └── vite.config.ts
-├── backend/
-│   ├── app/
-│   │   ├── Modules/
-│   │   │   ├── User/
-│   │   │   ├── Role/
-│   │   ├── Repositories/
-│   │   └── Http/
-│   ├── routes/
-│   └── composer.json
-├── docker-compose.yml
-└── .github/
-    └── workflows/
-        └── ci.yml
