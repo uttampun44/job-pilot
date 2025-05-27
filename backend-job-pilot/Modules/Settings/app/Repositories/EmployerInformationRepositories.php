@@ -12,8 +12,8 @@ class EmployerInformationRepositories
 {
     public function fetchEmployer()
     {
-        //  eager loading
-       return EmployerInformation::with("user")->select("id", "company_name", "company_address", "company_phone_number", "company_email", "company_website_url", "linkedin_url", "industry", "company_size", "founded_year", "logo", "user_id")->get();
+        
+       return EmployerInformation::with("user")->where('user_id', Auth::user()->id)->select("id", "company_name", "company_address", "company_phone_number", "company_email", "company_website_url", "linkedin_url", "industry", "company_size", "founded_year", "logo", "user_id")->get();
     }
 
     public function fetchEmployerIndustries()
@@ -28,17 +28,12 @@ class EmployerInformationRepositories
     {
         $userId = Auth::user()->id;
 
-        if (isset($data['logo']) && $data['logo'] instanceof \Illuminate\Http\UploadedFile) {
-           
-            // generate uuid and add extension to filename
+         if (isset($data['logo']) && $data['logo'] instanceof \Illuminate\Http\UploadedFile) {
             $uuid = Str::uuid()->toString();
-            $extension = $data['logo']->getClientOriginalExtension();
-            $filename = $uuid . '.' . $extension;
-
-            $path = Storage::putFileAs('company/logos', $data['logo'], $filename, 'public');
-            $data['logo'] = $path;
+            $imageName =  $uuid . '.' . $data['logo']->getClientOriginalExtension();
+            $data['logo']->move(public_path('company/logos'), $imageName);
+            $data['logo'] = $imageName;
         }
-      
         $employer = EmployerInformation::where('user_id', $userId)->first();
 
         if($employer){

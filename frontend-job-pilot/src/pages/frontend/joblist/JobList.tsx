@@ -33,19 +33,21 @@ export default function JobList() {
 
   const totalPages = jobs?.meta?.last_page || 1;
 
+  const jobsData = jobs?.data || [];
+
   useEffect(() => {
     if (jobs?.data.length > 0) {
       if (searchTerm.trim() === "" && location.trim() === "") {
-        setFilterJobs(jobs.data);
+        setFilterJobs(jobsData);
       }
     } else {
       setFilterJobs([]);
     }
-  }, [jobs, debounce, debounceLocation]);
+  }, [jobsData, debounce, debounceLocation]);
 
   const handleSearch = () => {
     if (!searchTerm.trim() && !location.trim()) {
-      setFilterJobs(jobs?.data || []);
+      setFilterJobs(jobsData || []);
     } else {
       const filtered = (jobs?.data || []).filter((job: any) => {
         const search = searchTerm.toLowerCase();
@@ -109,16 +111,16 @@ export default function JobList() {
             </Button>
           </div>
 
-          <div className="relative">
             {isLoading && (
-              <div className="absolute inset-0 z-10 bg-white/60 flex items-center justify-center">
+              <div className="container mx-auto py-16 px-4">
                 <Skeleton className="w- h-full" />
               </div>
             )}
+          <div className="relative">
 
             <div className="jobs grid grid-cols-4 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filterJobs.length > 0
-                ? filterJobs.map((job: any, index: number) => (
+                && filterJobs.map((job: any, index: number) => (
                     <Link to={`/job-detail/${job.id}`} key={index}>
                       <Card className="hover:shadow-lg gap-0 p-2 cursor-pointer transition-shadow duration-300">
                         <CardHeader>
@@ -157,7 +159,7 @@ export default function JobList() {
                       </Card>
                     </Link>
                   ))
-                : !isLoading && <p>No jobs found.</p>}
+                }
             </div>
           </div>
 

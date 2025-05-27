@@ -53,7 +53,7 @@ export const sidebarLink: SidebarLink[] = [
     subNavigation: [
       {
         id: 151,
-        label: "view candidate",
+        label: "View candidate",
         href: "/candidates",
         icon: "view",
         permissions: ["view candidate"],
@@ -74,42 +74,36 @@ export const sidebarLink: SidebarLink[] = [
       }
     ],
   },
+  
   {
     id: 16,
-    label: "Clients",
-    icon: "calendar",
-    href: "/clients",
-    permissions: ["view clients"],
-  },
-  {
-    id: 17,
     label: "Users",
     icon: "calendar",
     href: "/users",
     permissions: ["view users"],
   },
   {
-    id: 18,
+    id: 17,
     label: "Settings",
     icon: "settings",
     permissions: ["view settings"],
     subNavigation: [
       {
-        id: 181,
+        id: 171,
         label: "Profile",
         href: "/settings/candidate-profile",
         icon: "profile",
         permissions: ["view candidate profile"],
       },
       {
-        id: 182,
+        id: 172,
         label: "Company Information",
         href: "/settings/company-information",
         icon: "company",
         permissions: ["view employer profile"],
       },
       {
-        id: 183,
+        id: 173,
         label: "Permissions",
         href: "/settings/permissions",
         icon: "permissions",

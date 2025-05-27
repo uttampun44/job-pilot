@@ -42,11 +42,11 @@ export default function Footer() {
                     <div>
                         <h3 className="text-white text-xl font-semibold mb-4">Browse Jobs</h3>
                         <ul className="space-y-2">
-                            <li><Link to="/jobs" className="hover:text-white transition-colors duration-300">All Jobs</Link></li>
-                            <li><Link to="/jobs" className="hover:text-white transition-colors duration-300">Full Time</Link></li>
-                            <li><Link to="/jobs" className="hover:text-white transition-colors duration-300">Part Time</Link></li>
-                            <li><Link to="/jobs" className="hover:text-white transition-colors duration-300">Internship</Link></li>
-                            <li><Link to="/jobs" className="hover:text-white transition-colors duration-300">Remote</Link></li>
+                            <li><Link to="/job-list" className="hover:text-white transition-colors duration-300">All Jobs</Link></li>
+                            <li><Link to="/job-list" className="hover:text-white transition-colors duration-300">Full Time</Link></li>
+                            <li><Link to="/job-list" className="hover:text-white transition-colors duration-300">Part Time</Link></li>
+                            <li><Link to="/job-list" className="hover:text-white transition-colors duration-300">Internship</Link></li>
+                            <li><Link to="/job-list" className="hover:text-white transition-colors duration-300">Remote</Link></li>
                         </ul>
                     </div>
 

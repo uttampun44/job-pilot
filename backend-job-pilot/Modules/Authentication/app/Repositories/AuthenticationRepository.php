@@ -25,7 +25,7 @@ class AuthenticationRepository
         $checkEmail = User::where('email', $data['email'])->first();
 
         if ($checkEmail) {
-            return throw new \Exception('Email already exists');
+           throw new \Exception('Email already exists');
         }
 
         $user =  User::create([

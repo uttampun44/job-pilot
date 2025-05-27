@@ -128,7 +128,7 @@ function SidebarProvider({
     <SidebarContext.Provider value={contextValue}>
       <TooltipProvider delayDuration={0}>
         <div
-          data-slot="sidebar-wrapper bg-[#F0F5F9]"
+          data-slot="sidebar-wrapper"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH,
@@ -137,7 +137,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper bg-[#F0F5F9] has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full",
+            "group/sidebar-wrapper has-data-[variant=inset]:bg-sidebar flex min-h-svh w-full",
             className
           )}
           {...props}
@@ -372,7 +372,7 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="sidebar-content"
       data-sidebar="content"
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-hidden group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
       {...props}
@@ -454,7 +454,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
-      className={cn("flex w-full min-w-0 flex-col gap-1", className)}
+      className={cn("flex w-full min-w-0 flex-col gap-2.5", className)}
       {...props}
     />
   )
