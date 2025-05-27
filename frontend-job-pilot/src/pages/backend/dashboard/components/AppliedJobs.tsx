@@ -1,20 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import useFetch from "@/hooks/api/useFetch";
+import {useGetDashboardQuery } from "@/reduxtoolkit/api/apiSlice";
 
 export default function AppliedJobs() {
 
-  const {data: appliedJobs, isLoading, isError} = useFetch("/api/v1/dashboard/dashboard-favourite-jobs");
-  
-  const appliedJobsData = Array.isArray(appliedJobs?.data) ? appliedJobs.data : [];
-   
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+ const {data, isLoading, isError} = useGetDashboardQuery();
 
-  if (isError) {
-    return <div>Error!</div>;
-  }
+ console.log(data);
+
+ if(isLoading) return <div>Loading...</div>;
+ if(isError) return <div>Error!</div>;
+ 
   return (
     <Card>
       <CardHeader>

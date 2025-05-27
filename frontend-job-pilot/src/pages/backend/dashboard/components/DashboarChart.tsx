@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import useFetch from "@/hooks/api/useFetch";
 import { Line } from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend} from 'chart.js';
+import { useGetDashboardQuery } from "@/reduxtoolkit/api/apiSlice";
 
 ChartJS.register(
     CategoryScale,
@@ -14,17 +14,20 @@ ChartJS.register(
 );
 
 export default function DashboardChart() {
-   const {data: usersWithRoles} =  useFetch('/api/v1/total-users-with-roles');
+  
+  const {data, isLoading, isError} = useGetDashboardQuery();
 
-    const usersWithRolesData = Array.isArray(usersWithRoles) ? usersWithRoles : [];
-
+  const usersWithRolesData = data?.totalUsersWithRoles;
+  
+  if(isLoading) return <div>Loading...</div>;
+  if(isError) return <div>Error!</div>;
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Chart </CardTitle>
+        <CardTitle>Total Users with Roles</CardTitle>
       </CardHeader>
       <CardContent>
-         <Line data={{
+         {/* <Line data={{
                 labels: usersWithRolesData.map((user: any,  index:number) => user.name),
                 datasets: [{
                     label: 'Users',
@@ -43,7 +46,7 @@ export default function DashboardChart() {
                         text: 'Total Users with Roles',
                     },
                 },
-            }} />
+            }} /> */}
       </CardContent>
     </Card>
   );

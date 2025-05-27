@@ -52,7 +52,7 @@ class DashboardRepository
         return $employers;
     }
 
-    public function fetchTotalUsersWithRoles()
+    public function fetchDashboardData()
     {
         $totalUsersWithRoles =  $data = DB::table('model_has_roles')
         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
@@ -60,7 +60,14 @@ class DashboardRepository
         ->groupBy('roles.name')
         ->get();
 
-        return $totalUsersWithRoles;
+        $favouriteJobs  = $this->fetchDashboardFavouriteJobs();
+        $appliedJobs = $this->fetchDashboardAppliedJobs();
+
+        return [
+            'totalUsersWithRoles' => $totalUsersWithRoles,
+            'favouriteJobs' => $favouriteJobs,
+            'appliedJobs' => $appliedJobs,
+        ];
     }
 
     public function fetchDashboardFavouriteJobs()

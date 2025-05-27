@@ -8,9 +8,7 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     // Route::apiResource('authentication', AuthenticationController::class)->names('authentication');
     Route::post('logout', [AuthenticationController::class, 'postLogout'])->name('authentication.logout');
     Route::get('all-permissions', [DashboardController::class, 'fetchPermission'])->name('dashboard.fetchPermission');
-    Route::get('total-users-with-roles', [DashboardController::class, 'fetchTotalUsersWithRoles'])->name('dashboard.fetchTotalUsersWithRoles');
-    Route::get('dashboard-favourite-jobs', [DashboardController::class, 'fetchDashboardFavouriteJobs'])->name('dashboard.fetchDashboardFavouriteJobs');
-    Route::get('dashboard-applied-jobs', [DashboardController::class, 'fetchDashboardAppliedJobs'])->name('dashboard.fetchDashboardAppliedJobs');
+    Route::get('dashboard-data', [DashboardController::class, 'fetchDashboardData'])->name('dashboard.fetchDashboardData');
 });
 Route::prefix('v1')->group(function () {
     Route::get('all-roles', [AuthenticationController::class, 'fetchRoles'])->name('authentication.fetchRoles');

@@ -19,21 +19,11 @@ class DashboardController extends Controller {
         return $this->dashboardRepository->fetchPermissions();
     }
 
-    public function fetchTotalUsersWithRoles()
+    public function fetchDashboardData()
     {
-        $data = $this->dashboardRepository->fetchTotalUsersWithRoles();
+        $data = $this->dashboardRepository->fetchDashboardData();
         return response()->json($data, 200);
     }
 
-    public function fetchDashboardFavouriteJobs()
-    {
-        $data = $this->dashboardRepository->fetchDashboardFavouriteJobs();
-        return response()->json($data, 200);
-    }
-
-    public function fetchDashboardAppliedJobs()
-    {
-        $data = $this->dashboardRepository->fetchDashboardAppliedJobs();
-        return response()->json($data, 200);
-    }
+   
 }

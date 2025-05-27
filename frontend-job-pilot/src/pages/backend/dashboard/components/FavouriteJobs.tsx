@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import useFetch from "@/hooks/api/useFetch";
-import Facebook from "@assets/images/facebook.png";
+import { useGetDashboardQuery } from "@/reduxtoolkit/api/apiSlice";
+
 
 export default function FavouriteJobs() {
-    const {data: data} = useFetch('/api/v1/dashboard-applied-jobs');
- 
-   const favouriteJobs = Array.isArray(data?.data) ? data.data : [];
-
+    const {data, isLoading, isError} = useGetDashboardQuery();
+    console.log(data);
+    if(isLoading) return <div>Loading...</div>;
+    if(isError) return <div>Error!</div>;
+    
     return (
          <Card>
       <CardHeader>
@@ -25,7 +26,7 @@ export default function FavouriteJobs() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {
+            {/* {
               favouriteJobs.map((item: any, index: number) => (
                 <TableRow key={index}>
                   <TableCell className="text-center">#{index + 1}</TableCell>
@@ -37,7 +38,7 @@ export default function FavouriteJobs() {
                   <TableCell className="text-center">{item.job.job_expires}</TableCell>
                 </TableRow>
               ))
-            }
+            } */}
           </TableBody>
         </Table>
       </CardContent>
