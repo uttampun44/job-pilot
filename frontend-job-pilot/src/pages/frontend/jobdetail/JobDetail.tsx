@@ -26,6 +26,7 @@ export default function JobDetail() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
   const user = localStorage.getItem("user");
+  const role = localStorage.getItem("role");
   const userType = JSON.parse(user as string);
   const messageModalRef = useRef<any>(null);
   const favouriteModalRef = useRef<any>(null);
@@ -108,6 +109,7 @@ export default function JobDetail() {
                   iconName="save"
                   className="w-4 h-4 cursor-pointer"
                   onClick={() => {
+                    if(role === "Super Admin" || role == "Admin") return alert("You can't favourite this job");
                     if (!user) {
                       messageModalRef.current.openModal();
                     } else {
