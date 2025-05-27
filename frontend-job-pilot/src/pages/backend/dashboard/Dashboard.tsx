@@ -1,8 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Briefcase, Heart, Bell } from "lucide-react";
+import CompleteProfile from "./components/CompleteProfile";
+import AppliedJobs from "./components/AppliedJobs";
+import FavouriteJobs from "./components/FavouriteJobs";
+import DashboardChart from "./components/DashboarChart";
 
 export default function Dashboard() {
-
   const stats = [
     {
       title: "Active Users",
@@ -39,15 +42,29 @@ export default function Dashboard() {
               <CardTitle className="text-sm font-medium text-muted-foreground">
                 {stat.title}
               </CardTitle>
-              <div className={`p-2 rounded-md ${stat.color}`}>
-                {stat.icon}
-              </div>
+              <div className={`p-2 rounded-md ${stat.color}`}>{stat.icon}</div>
             </CardHeader>
             <CardContent>
               <p className="text-2xl font-bold">{stat.value}</p>
             </CardContent>
           </Card>
         ))}
+      </div>
+      <div className="w-full my-4">
+        <CompleteProfile />
+      </div>
+      <div className="w-full flex gap-x-2.5">
+        <div className="w-full lg:w-1/3 flex flex-col gap-y-2.5 h-full">
+          <div className="flex-1">
+            <AppliedJobs />
+          </div>
+          <div className="flex-1">
+            <FavouriteJobs />
+          </div>
+        </div>
+        <div className="chart w-full">
+          <DashboardChart />
+        </div>
       </div>
     </div>
   );

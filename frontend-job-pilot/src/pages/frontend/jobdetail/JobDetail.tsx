@@ -4,41 +4,82 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import useFetch from "@/hooks/api/useFetch";
 import Facebook from "@assets/images/facebook.png";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import RelatedJobs from "./components/RelatedJobs";
 import ApplyJobModal from "./components/ApplyJobModal";
+import MessageModal from "./components/MessageModal";
+import { useForm } from "react-hook-form";
+import usePost from "@/hooks/api/usePost";
+import { toast } from "sonner";
+import FavouriteModalMessage from "./components/FavouriteModalMessage";
+import TagsBatch from "@/components/TagsBatch";
+
+type tfavourtieJobTypes = {
+  job_id: string | number;
+  user_id: string | number;
+};
 
 export default function JobDetail() {
   const { id } = useParams();
   const navigation = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: jobsDetails, isLoading, isError } = useFetch(`/api/jobs/${id}`);
+  const { data: jobsDetails, isLoading } = useFetch(`/api/jobs/${id}`);
+  const user = localStorage.getItem("user");
+  const role = localStorage.getItem("role");
+  const userType = JSON.parse(user as string);
+  const messageModalRef = useRef<any>(null);
+  const favouriteModalRef = useRef<any>(null);
+  
+  const jobs = jobsDetails?.data;
+  
+  const { getValues } = useForm<tfavourtieJobTypes>({
+    defaultValues: {
+      job_id: Number(id),
+      user_id: parseInt(userType?.id),
+    },
+  });
+
+  const post = usePost("/api/favourite-jobs");
+  const handleFavouriteJob = async (data: tfavourtieJobTypes) => {
+    try {
+      const response = await post.mutateAsync({
+        data: data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (response.status === 201) {
+        toast.success("Job favourited successfully");
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+  };
+
 
   useEffect(() => {
-    if (!isLoading && (!jobsDetails || !jobsDetails.data)) {
+    if (!isLoading && (!jobs || !jobs)) {
       navigation("/job-list");
     }
-  }, [jobsDetails, isLoading, navigation]);
+  }, [jobs, isLoading, navigation]);
 
-  if (isLoading)
-    return (
-      <section className="mt-24 h-full max-h-full ">
-        <div className="container mx-auto px-4 w-full h-full">
-          <Skeleton />
-        </div>
-      </section>
-    );
 
-  if (isError) return <div>Something went wrong</div>;
-
-  const jobs = jobsDetails.data;
-
-  console.log(jobs);
   return (
     <React.Fragment>
-      <section className="pt-24 pb-16">
-        <div className="container mx-auto px-4">
+      <section className="pt-24 pb-16 mt-40">
+       {
+        isLoading ? (
+          <div className="container mx-auto px-4">
+                  loading::
+          </div>
+        ): (
+           <div className="container mx-auto px-4">
           <div className="row-heading flex justify-between items-center">
             <div className="companyLogo flex items-center gap-x-8">
               <div className="img w-20 h-20">
@@ -61,11 +102,34 @@ export default function JobDetail() {
             </div>
             <div className="applyNow flex items-center gap-x-2.5">
               <div className="favorite bg-blue-50 p-4 rounded-sm">
-                <Icon iconName="save" className="w-4 h-4 cursor-pointer" />
+                <Icon
+                  iconName="save"
+                  className="w-4 h-4 cursor-pointer"
+                  onClick={() => {
+                    if (role === "Super Admin" || role == "Admin" || role == "Employer")
+                      return alert("You can't favourite this job");
+                    if (!user) {
+                      messageModalRef.current.openModal();
+                    } else {
+                      const formData = getValues();
+                      handleFavouriteJob(formData);
+                    }
+                  }}
+                />
               </div>
               <Button
+                type="button"
                 className="applyNowBtn bg-blue-500 text-white cursor-pointer"
-                onClick={() => setIsModalOpen(true)}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  if (role === "Super Admin" || role == "Admin" || role == "Employer")
+                    return alert("You can't apply for this job");
+                  if (!user) {
+                    messageModalRef.current.openModal();
+                  }
+                  setIsModalOpen(true);
+                }}
               >
                 Apply Now
               </Button>
@@ -109,6 +173,21 @@ export default function JobDetail() {
               </div>
             </div>
             <div className="sideDetails w-full mt-4">
+              <div className="jobBenefits my-4">
+                <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
+                  <CardHeader>
+                    <CardTitle className="text-base text-black font-bold">
+                      Job Benefits
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="border-b border-blue-50 pb-2 font-medium">
+                    <TagsBatch
+                      tags={jobs.job_benefits_tags}
+                      textColor="text-green-600"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
               <Card className="rounded-2xl shadow-sm w-full border border-blue-50">
                 <CardHeader>
                   <CardTitle className="text-base text-black font-bold">
@@ -200,12 +279,23 @@ export default function JobDetail() {
             </div>
           </div>
         </div>
+        )
+       }
       </section>
-      <ApplyJobModal
-        isVisible={isModalOpen}
-        jobId={id as string}
-        setVisible={setIsModalOpen}
-      />
+      {!user ? (
+        <React.Fragment>
+          <MessageModal ref={messageModalRef} />
+          <FavouriteModalMessage ref={favouriteModalRef} />
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <ApplyJobModal
+            isVisible={isModalOpen}
+            jobId={id as string}
+            setVisible={setIsModalOpen}
+          />
+        </React.Fragment>
+      )}
       <RelatedJobs />
     </React.Fragment>
   );

@@ -101,7 +101,7 @@ export default function Jobs() {
               filterJobs?.map((job: any, index: number) => {
                 return (
                   <TableRow key={index}>
-                    <TableCell className="text-center">#{job.id}</TableCell>
+                    <TableCell className="text-center">#{index+1}</TableCell>
                     <TableCell className="truncate">
                       {job.job_description.substring(0, 40)}...
                     </TableCell>

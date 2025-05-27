@@ -18,4 +18,12 @@ class DashboardController extends Controller {
     {   
         return $this->dashboardRepository->fetchPermissions();
     }
+
+    public function fetchDashboardData()
+    {
+        $data = $this->dashboardRepository->fetchDashboardData();
+        return response()->json($data, 200);
+    }
+
+   
 }

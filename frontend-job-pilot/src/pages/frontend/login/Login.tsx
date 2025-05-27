@@ -29,10 +29,13 @@ export default function Login() {
         try {
             const response = await post.mutateAsync({ data: formData })
             if (response.status === 200) {
+                // @ts-ignore
                 localStorage.setItem("role", response.data.role as string)
                 localStorage.setItem("token", response.token as string)
+                // @ts-ignore
                 localStorage.setItem("user", JSON.stringify(response.data.user))
                 setToken(response.token as string)
+            //    @ts-ignore
                 setUser(response.data.user)
                 toast.success("Login successfully !")
                 navigation("/dashboard")

@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/features/AuthContext";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Icon from "@/components/Icon";
 import { Button } from "@/components/ui/button";
 import usePost from "@/hooks/api/usePost";
@@ -56,8 +56,7 @@ export default function TopNav() {
     }, []);
 
     return (
-        <header className="w-full border-b bg-gray-50 dark:bg-gray-900 py-4 flex justify-between items-center shadow-sm">
-
+       <header className="w-full z-50 bg-gray-50 dark:bg-gray-900 py-4 px-4 border-b shadow-sm flex flex-wrap justify-between items-center gap-4 sticky top-0">
             <div className="row pl-4">
                <Icon iconName="dashboard" 
                className="h-8 w-8" 
@@ -65,6 +64,7 @@ export default function TopNav() {
                />
             </div>
             <div className="flex items-center gap-6">
+                 <Link to="/" className="text-base font-medium">Visit Home Page</Link>
                 <Label>{new Date().toLocaleDateString()} {time}</Label>
                 <Button
                     type="button"
@@ -85,11 +85,13 @@ export default function TopNav() {
                         <DropdownMenuItem onClick={() => {
                             setTheme("light")
                             document.documentElement.classList.remove("dark")
+                            localStorage.setItem("theme", "light")
                         }}>
                             Light Mode
                         </DropdownMenuItem>
                         <DropdownMenuItem className="text-red-600" onClick={() => {
                             setTheme("dark")
+                            localStorage.setItem("theme", "dark")
                             document.documentElement.classList.add("dark")
                         }}>
                             Dark Mode

@@ -21,9 +21,8 @@ const multiLanguages = [
 
 export default function Header() {
   const user = localStorage.getItem("user");
-
   const userType = JSON.parse(user as string);
-  console.log(userType);
+
   return (
     <header className="shadow-md fixed top-0 z-50 w-full">
       <div className="navigation bg-gray-100">
@@ -72,6 +71,11 @@ export default function Header() {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            {
+              user && (
+                <Link to="/dashboard" className="text-underline"> Dashboard</Link>
+              )
+            }
           </div>
         </div>
       </div>

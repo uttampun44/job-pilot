@@ -50,20 +50,16 @@ class CandidateInformationRepositories
 
         if(!$auth_user->hasRole(['Candidate', 'Super Admin', 'Admin']))
         {
-            return throw new \Exception('You are not authorized to perform this action !');
+            throw new \Exception('You are not authorized to perform this action !');
         }
 
-       if (isset($data['image'])) {
-           
-            // generate uuid and add extension to filename
+         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
             $uuid = Str::uuid()->toString();
-            $extension = $data['image']->getClientOriginalExtension();
-            $filename = $uuid . '.' . $extension;
-
-            $path = Storage::putFileAs('candidate/image', $data['image'], $filename, 'public');
-            $data['image'] = $path;
+            $imageName =  $uuid . '.' . $data['image']->getClientOriginalExtension();
+            $data['image']->move(public_path('candidate/images'), $imageName);
+            $data['image'] = $imageName;
         }
-
+       
         CandidateInformation::updateOrCreate($data);
         CandidateExperience::updateOrCreate($data);
         
