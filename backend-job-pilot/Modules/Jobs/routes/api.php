@@ -14,7 +14,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
     Route::delete('/apply-job/{id}', [JobAppliedController::class, 'destroyApplyJob'])->name('delete-applied-job');
    Route::get('/favourite-jobs', [FavouriteJobController::class, 'fetchFavouriteJobs'])->name('fetch-favourite-jobs');
   Route::delete('/favourite-job/{id}', [FavouriteJobController::class, 'destroyFavouriteJobs'])->name('delete-favourite-job');
-  Route::get('/favourite-jobs', [FavouriteJobController::class, 'fetchFavouriteJobs'])->name('fetch-favourite-jobs');
 });
 
  Route::get('/jobs/home-page-jobs', [FrontendJobsController::class, 'fetchHomePageJobs'])->name('home-page-jobs');

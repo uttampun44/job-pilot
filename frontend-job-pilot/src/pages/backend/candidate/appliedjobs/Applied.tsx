@@ -32,7 +32,7 @@ export default function Applied() {
   } = useFetch(`/api/v1/apply-job?page=${currentPage}`);
 
   const appliedJobsData = Array.isArray(jobs?.data) ? jobs?.data : [];
-
+  console.log("appliedJobsData", jobs);
   useEffect(() => {
     if (!isLoading && Array.isArray(appliedJobsData)) {
       if (!debounce.trim()) {
@@ -73,6 +73,9 @@ export default function Applied() {
             <TableHeader>
               <TableRow>
                 <TableHead className="text-center">S.No.</TableHead>
+                <TableHead className="text-center">Company Name.</TableHead>
+                <TableHead className="text-center">Contact No.</TableHead>
+                <TableHead className="text-center">Job Location</TableHead>
                 <TableHead className="text-center">Job Level</TableHead>
                 <TableHead className="text-center">Cover Letter</TableHead>
                 <TableHead className="text-center">Resume</TableHead>
@@ -85,12 +88,31 @@ export default function Applied() {
                 filterAppliedJobs?.map((job: any, index: number) => {
                   return (
                     <TableRow key={index}>
-                      <TableCell className="text-center">#{job.id}</TableCell>
+                      <TableCell className="text-center">
+                        #{index + 1}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {job.user.employer_information.company_name
+                          ? job.user.employer_information.company_name
+                          : "N/A"}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {job.user.employer_information.company_phone_number
+                          ? job.user.employer_information.company_phone_number
+                          : "N/A"}
+                      </TableCell>
+                      <TableCell className="text-center">
+                        {job.job.job_location ? job.job.job_location : "N/A"}
+                      </TableCell>
                       <TableCell className="text-center">
                         {job.job.job_level}
                       </TableCell>
-                      <TableCell>{job.cover_letter}</TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
+                        <span
+                          dangerouslySetInnerHTML={{ __html: job.cover_letter }}
+                        />
+                      </TableCell>
+                      <TableCell className="text-center">
                         <img
                           src={`htpp://localhost:8000/api/v1/public/apply-jobs/resumes/${job.resume}`}
                           alt="cover_letter"
@@ -98,7 +120,11 @@ export default function Applied() {
                         />
                       </TableCell>
                       <TableCell className="text-center">
-                        {job.created_at.substring(0, 10)}
+                        {new Date(job.created_at).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })}
                       </TableCell>
                       <TableCell className="flex justify-center gap-x-2.5">
                         <Button

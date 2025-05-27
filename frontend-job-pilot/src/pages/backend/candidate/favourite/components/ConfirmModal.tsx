@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -20,25 +21,25 @@ type tFormType = Omit<tDialogProps, "ref">;
 
 export default function ConfirmModal({ setSelectedId, ref }: tDialogProps) {
   const [isVisible, setVisible] = useState(false);
-  const post = usePost(`/api/v1/favourite-job/${setSelectedId}`);
+  const post = usePost(`/api/v1/favourite-jobs/${setSelectedId}`);
 
-  const {handleSubmit} = useForm<tFormType>();
+  const { handleSubmit } = useForm<tFormType>();
 
-  const onSubmit = async(data: any) => {
+  const onSubmit = async (data: any) => {
     try {
-        const response = await post.mutateAsync({ data: data })
-        if (response.status === 200) {
-            toast.success("Deleted successfully !")
-            setVisible(false)
-        } else {
-            toast.error("Something went wrong !")
-        }
+      const response = await post.mutateAsync({ data: data });
+      if (response.status === 200) {
+        toast.success("Deleted successfully !");
+        setVisible(false);
+      } else {
+        toast.error("Something went wrong !");
+      }
     } catch (error) {
-        if(error instanceof Error) {
-            toast.error(error.message);
-        } else {
-            toast.error("An unknown error occurred.");
-        }
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
     }
   };
 
@@ -56,26 +57,27 @@ export default function ConfirmModal({ setSelectedId, ref }: tDialogProps) {
         <DialogTitle>Delete Favourite Job</DialogTitle>
         <DialogHeader> Are you sure you want to delete this job?</DialogHeader>
         <DialogDescription>This action cannot be undone.</DialogDescription>
+        <DialogFooter>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex">
+              <Button
+                variant="outline"
+                color="primary"
+                onClick={() => setVisible(false)}
+              >
+                Close
+              </Button>
+              <Button
+                variant="outline"
+                color="primary"
+                onClick={() => setVisible(false)}
+              >
+                Close
+              </Button>
+            </div>
+          </form>
+        </DialogFooter>
       </DialogContent>
-
-       <form onSubmit={handleSubmit(onSubmit)}>s
-        <div className="flex">
-        <Button
-          variant="outline"
-          color="primary"
-          onClick={() => setVisible(false)}
-        >
-          Close
-        </Button>
-        <Button
-          variant="outline"
-          color="primary"
-          onClick={() => setVisible(false)}
-        >
-          Close
-        </Button>
-      </div>
-       </form>
     </Dialog>
   );
 }

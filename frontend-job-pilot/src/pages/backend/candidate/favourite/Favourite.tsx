@@ -12,30 +12,33 @@ export default function Favourite() {
   const [search, setSearch] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [filterJobs, setFilterJobs] = useState<any[]>([]);
-  const {data: favouriteJob, isLoading, isError} = useFetch(`/api/favourite-jobs`);
+  const {data: favouriteJob, isLoading, isError} = useFetch('/api/v1/favourite-jobs');
   const debounce = useDebounce(search, 500);
 
+  const favouriteJobsData = Array.isArray(favouriteJob?.data) ? favouriteJob?.data : [];
+  
   const favouriteModalRef = useRef<any>(null);
   const confirmModalRef = useRef<any>(null);
 
-  if(isLoading) return <div className="w-full h-full flex justify-center items-center"><Skeleton /></div>;
-
-  if (isError) return <div>Something went wrong</div>;
-
+  
   useEffect(() => {
-    if (!isLoading && Array.isArray(favouriteJob)) {
+    if (!isLoading && Array.isArray(favouriteJobsData)) {
       if (!debounce.trim()) {
-        setFilterJobs(favouriteJob || []);
+        setFilterJobs(favouriteJobsData || []);
       } else {
-        const filter = favouriteJob.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()));
+        const filter = favouriteJobsData.filter((job: any) => job.job_level.toLowerCase().includes(debounce.toLowerCase()));
         setFilterJobs(filter);
       }
     }
   }, [favouriteJob, isLoading, debounce]);
+  
+  if(isLoading) return <div className="w-full h-full flex justify-center items-center"><Skeleton /></div>;
+
+  if (isError) return <div>Something went wrong</div>;
 
   return (
     <React.Fragment>
-      <div className="jobs-backend-pagination my-2.5">
+      <div className="jobs-backend-pagination my-2.5 ">
         <Input
           type="text"
           value={search}
@@ -50,41 +53,65 @@ export default function Favourite() {
                  <TableCaption>A list of favourite jobs</TableCaption>
                  <TableHeader>
                     <TableRow>
-                        <TableHead>S.No.</TableHead>
-                        <TableHead>Company Name</TableHead>
-                        <TableHead>Job Level</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead className="text-center">S.No.</TableHead>
+                        <TableHead className="text-center">Company Name</TableHead>
+                        <TableHead className="text-center">Contact No.</TableHead>
+                        <TableHead className="text-center">Job Location</TableHead>
+                        <TableHead className="text-center">Job Level</TableHead>
+                        <TableHead className="text-center">Job Saved Date</TableHead>
+                        <TableHead className="text-center">Actions</TableHead>
                     </TableRow>
                  </TableHeader>
                  <TableBody>
-                     <TableRow>
-                         <TableCell className="text-center">#{1}</TableCell>
-                          <TableCell className="text-center">#{1}</TableCell>
-                           <TableCell className="text-center">#{1}</TableCell>
-                            <TableCell className="text-center">
-                              <div className="flex gap-x-2.5">
-                                <Button
-                                  className="bg-blue-50 p-2 rounded-sm"
-                                  onClick={() => {
-                                    setSelectedId("1");
-                                    favouriteModalRef.current.openModal();
-                                  }}
-                                >
-                                  View
-                                  </Button>
-                                  <Button
-                                     variant="ghost"
-                                    className="bg-red-500 p-2 rounded-sm"
-                                    onClick={() => {
-                                     if(!selectedId) return;
-                                     confirmModalRef.current.openModal();
-                                    }}
-                                  >
-                                    Delete
-                                  </Button>
-                              </div>
-                            </TableCell>
-                     </TableRow>
+                   {
+                    favouriteJobsData.length > 0 && favouriteJobsData.map((job: any, index: number) => (
+                      <TableRow key={index} >
+                        <TableCell className="text-center">#{index +1}</TableCell>
+                        <TableCell className="text-center">
+                          {job.user.employer_information.company_name ? job.user.employer_information.company_name : "N/A"}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {job.user.employer_information.company_phone_number ? job.user.employer_information.company_phone_number : "N/A"}
+                          </TableCell>
+                          <TableCell className="text-center">
+                          {job.job.job_location ? job.job.job_location : "N/A"}
+                          </TableCell>
+                        <TableCell className="text-center">
+                          {job.job.job_level}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          {new Date(job.created_at).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <div className="flex justify-center gap-x-2.5">
+                            <Button
+                              className="bg-blue-500 p-2 rounded-sm"
+                              onClick={() => {
+                                setSelectedId(job.id);
+                                favouriteModalRef.current.openModal();
+                              }}
+                            >
+                              View
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              className="bg-red-500 p-2 rounded-sm"
+                              onClick={() => {
+                                if (!selectedId) return;
+                                confirmModalRef.current.openModal();
+                              }}
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                   }
                  </TableBody>
             </Table>
         </div>

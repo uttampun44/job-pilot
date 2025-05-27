@@ -2,14 +2,16 @@
 
 namespace Modules\Jobs\app\Repositories;
 
+use Illuminate\Support\Facades\Auth;
 use Modules\Jobs\app\Models\ApplyJob;
 use Illuminate\Support\Str;
 
 class AppliedJobsRepositories
 {
     public function fetchBackendAppliedJobs()
-    {
-        return ApplyJob::with('job')->paginate(10);
+    {   
+        $authUser = Auth::user();
+        return ApplyJob::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->paginate(10);
     }
 
     public function findAppliedJobs(int $id)

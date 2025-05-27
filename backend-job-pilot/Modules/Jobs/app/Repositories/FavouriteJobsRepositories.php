@@ -26,12 +26,13 @@ class FavouriteJobsRepositories
     public function fetchFavouriteJobs()
     {  
         $authUser = Auth::user();
-        return FavouriteJobs::with('job')->where('user_id', $authUser->id)->paginate(10);
+        return FavouriteJobs::with(['job', 'user.employerInformation'])->where('user_id', $authUser->id)->paginate(10);
     }
 
     public function findFavouriteJobs(int $id)
-    {
-        return FavouriteJobs::with('user')->where('job_id', $id)->get();
+    {    
+        $authUser = Auth::user();
+        return FavouriteJobs::with(['job', 'user.employerInformation'])->where('user_id', $id)->where('job_id', $id)->first();
     }
 
     public function destroyFavouriteJobs(int $id)
