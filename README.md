@@ -79,3 +79,5 @@ Linting & formatting checks
 Deploying to production/staging (optional)
 
 Docker builds and image pushes
+
+![Screenshot 2025-05-27 203506](https://github.com/user-attachments/assets/66e0c208-5591-4654-aad2-c00e392fa403)
