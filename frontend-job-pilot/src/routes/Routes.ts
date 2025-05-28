@@ -26,6 +26,8 @@ import ErrorPage from "@/pages/frontend/error/Error";
 import Favourite from "@/pages/backend/candidate/favourite/Favourite";
 import ViewCalendar from "@/pages/backend/calendar/ViewCalendar";
 import Users from "@/pages/backend/users/Users";
+import CreateCourse from "@/pages/backend/course/createcourse/CreateCourse";
+import ViewCourse from "@/pages/backend/course/viewcourse/ViewCourse";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -107,6 +109,14 @@ export const router = createBrowserRouter([
       {
         path: "/candidates/applied-jobs",
         Component: Applied
+      },
+      {
+       path: "/create-course",
+       Component: CreateCourse
+      },
+      {
+        path: "/view-course",
+        Component: ViewCourse
       },
       {
         path: "/users",

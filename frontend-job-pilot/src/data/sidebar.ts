@@ -39,14 +39,14 @@ export const sidebarLink: SidebarLink[] = [
       {
         id: 141,
         label: "View course",
-        href: "/course",
+        href: "/view-course",
         icon: "view",
         permissions: ["view course"],
       },
       {
          id: 142,
          label: "Create course",
-         href: "/course/create",
+         href: "/create-course",
          icon: "create",
          permissions: ["create course"],
       }
