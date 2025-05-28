@@ -4,6 +4,8 @@ namespace Modules\Course\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Course\app\Repositories\CourseEnrollRepositories;
+use Modules\Course\app\Repositories\CourseRepositories;
 use Nwidart\Modules\Traits\PathNamespace;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -36,6 +38,12 @@ class CourseServiceProvider extends ServiceProvider
     {
         $this->app->register(EventServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(CourseRepositories::class, function () {
+            return new CourseRepositories();
+        });
+        $this->app->bind(CourseEnrollRepositories::class, function () {
+            return new CourseEnrollRepositories();
+        });
     }
 
     /**
