@@ -4,15 +4,25 @@ namespace Modules\Course\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Course\app\Repositories\CourseRepositories;
 
 class CourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    protected $courseRepository;
+    public function __construct(CourseRepositories $courseRepository)
+    {
+        $this->courseRepository = $courseRepository;
+    }
     public function index()
     {
-        return view('course::index');
+        $categories = $this->courseRepository->fetchCourseCategories();
+
+        return response()->json([
+            'categories' => $categories,
+        ], 200);
     }
 
     /**
