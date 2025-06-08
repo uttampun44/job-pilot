@@ -15,13 +15,15 @@ class CourseDatabaseSeeder extends Seeder
     public function run(): void
     {
         // $this->call([]);
-        $courseCategories = EnumCourseCategory::cases();
+        $this->call([CourseSeeder::class]);
+        
+        // $courseCategories = EnumCourseCategory::cases();
 
-        foreach ($courseCategories as $category) {
-            CourseCategory::create([
-                'name' => $category->value,
-                'slug' => Str::slug($category->value, '-'),
-            ]);
-        }
+        // foreach ($courseCategories as $category) {
+        //     CourseCategory::create([
+        //         'name' => $category->value,
+        //         'slug' => Str::slug($category->value, '-'),
+        //     ]);
+        // }
     }
 }

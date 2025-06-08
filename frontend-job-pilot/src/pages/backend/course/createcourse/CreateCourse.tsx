@@ -43,6 +43,7 @@ type tCourseType = {
   course_details: string;
   career_outcomes: string;
   short_description: string;
+  course_type: string;
 }
 export default function CreateCourse() {
   const { control, register, handleSubmit, formState: { errors } } = useForm<tCourseType>({
