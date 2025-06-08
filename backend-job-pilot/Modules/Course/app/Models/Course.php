@@ -4,7 +4,7 @@ namespace Modules\Course\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Course\Database\Factories\CourseFactory;
+use Modules\Course\Database\Factories\CourseFactory;
 
 class Course extends Model
 {
@@ -15,8 +15,8 @@ class Course extends Model
      */
     protected $fillable = [];
 
-    // protected static function newFactory(): CourseFactory
-    // {
-    //     // return CourseFactory::new();
-    // }
+    protected static function newFactory(): CourseFactory
+    {
+        return CourseFactory::new();
+    }
 }
