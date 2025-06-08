@@ -17,14 +17,13 @@ class CourseFactory extends Factory
     public function definition(): array
     {
         return [
-             'name' => $this->faker->name,
+             'title' => $this->faker->name,
             'short_description' => $this->faker->sentence,
             'course_details' => $this->faker->paragraphs(2, true),
             'career_outcomes' => $this->faker->paragraphs(1, true),
             'image' => $this->faker->imageUrl(),
             'course_type' => $this->faker->randomElement(['Online', 'Offline']),
             'price' => $this->faker->numberBetween(100, 1000),
-            'duration' => $this->faker->numberBetween(1, 10),
             'course_category_id' => $this->faker->numberBetween(1, 5),
         ];
     }

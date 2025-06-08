@@ -6,9 +6,9 @@ import React, { useState } from "react";
 export default function ViewCourse() {
   const [search, setSearch] = useState("");
 
-  const {data: data} = useFetch("/api/v1/course");
+  const { data: data } = useFetch("/api/v1/course");
 
-  console.log(data);
+  const courses = data?.courses.data;
 
   return (
     <React.Fragment>
@@ -19,17 +19,21 @@ export default function ViewCourse() {
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search jobs ..."
           className="w-1/3 bg-white"
-        /> 
+        />
       </div>
-      <div className="w-full overflow-x-auto">
-        <Card className="bg-red-400">
-          <CardHeader>
-            <CardTitle className="text-white font-semibold text-lg">
-              View Course
-            </CardTitle>
-          </CardHeader>
-          <CardContent></CardContent>
-        </Card>
+      <div className="w-full grid grid-cols-3 gap-5 overflow-x-auto">
+        {
+          courses?.map((course: any, index: number) => (
+            <Card className="bg-red-400" key={index}>
+              <CardHeader>
+                <CardTitle className="text-white font-semibold text-lg">
+                  {course.title}
+                </CardTitle>
+              </CardHeader>
+              <CardContent></CardContent>
+            </Card>
+          ))
+        }
       </div>
     </React.Fragment>
   );
