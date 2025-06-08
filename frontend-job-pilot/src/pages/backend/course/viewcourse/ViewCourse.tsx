@@ -1,9 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import useFetch from "@/hooks/api/useFetch";
 import React, { useState } from "react";
 
 export default function ViewCourse() {
   const [search, setSearch] = useState("");
+
+  const {data: data} = useFetch("/api/v1/course");
+
+  console.log(data);
 
   return (
     <React.Fragment>

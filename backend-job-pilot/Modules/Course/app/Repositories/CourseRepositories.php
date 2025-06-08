@@ -14,7 +14,7 @@ class CourseRepositories
     }
     public function fetchCourses()
     {
-        $courses = Course::all();
+        $courses = Course::paginate(10);
         return $courses;
     }
 
