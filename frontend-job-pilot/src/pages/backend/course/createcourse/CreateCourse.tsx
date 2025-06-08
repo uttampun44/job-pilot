@@ -51,7 +51,7 @@ export default function CreateCourse() {
      resolver: zodResolver(CourseTypSchema)
   });
   const { data: data } = useFetch("/api/v1/course");
-  const post = usePost("/api/v1/course/create");
+  const post = usePost("/api/v1/course");
 
   const categoriesaNames = data?.categories;
 

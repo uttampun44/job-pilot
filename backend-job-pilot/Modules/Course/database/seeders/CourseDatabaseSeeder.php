@@ -15,7 +15,7 @@ class CourseDatabaseSeeder extends Seeder
     public function run(): void
     {
         // $this->call([]);
-        $this->call([CourseSeeder::class]);
+        $this->call(CourseSeeder::class);
         
         // $courseCategories = EnumCourseCategory::cases();
 

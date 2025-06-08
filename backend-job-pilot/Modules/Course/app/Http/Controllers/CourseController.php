@@ -19,9 +19,10 @@ class CourseController extends Controller
     public function index()
     {
         $categories = $this->courseRepository->fetchCourseCategories();
-
+        $courses = $this->courseRepository->fetchCourses();
         return response()->json([
             'categories' => $categories,
+            'courses' => $courses,
         ], 200);
     }
 
@@ -36,7 +37,20 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(CourseRequest $request) 
+    {
+       try {
+           $data = $request->validated();
+           $this->courseRepository->createCourse($data);
+           return response()->json([
+               'message' => 'Course created successfully',
+           ], 201);
+       } catch (\Throwable $th) {
+           return response()->json([
+               'message' => $th->getMessage(),
+           ], 400);
+       }    
+    }
 
     /**
      * Show the specified resource.
@@ -51,7 +65,10 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        return view('course::edit');
+        $course = $this->courseRepository->fetchCourse($id);
+        return response()->json([
+            'course' => $course,
+        ], 200);
     }
 
     /**
@@ -62,5 +79,11 @@ class CourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function destroy($id) 
+    {
+        $this->courseRepository->deleteCourse($id);
+        return response()->json([
+            'message' => 'Course deleted successfully',
+        ], 200);
+    }
 }
