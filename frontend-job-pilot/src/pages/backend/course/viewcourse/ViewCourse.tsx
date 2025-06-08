@@ -1,4 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import useFetch from "@/hooks/api/useFetch";
 import React, { useState } from "react";
@@ -9,6 +10,10 @@ export default function ViewCourse() {
   const { data: data } = useFetch("/api/v1/course");
 
   const courses = data?.courses.data;
+
+  const handleAddtoCart = (id: any) => {
+    console.log(id);
+  };
 
   return (
     <React.Fragment>
@@ -30,7 +35,16 @@ export default function ViewCourse() {
                   {course.title}
                 </CardTitle>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                <p>{course.short_description}</p>
+                <p>{course.course_details}</p>
+                <p>{course.price}</p>
+                <p>{course.course_type}</p>
+                <p>{course.carrer_outcomes}</p>
+              </CardContent>
+              <CardFooter>
+                 <Button className="bg-white text-red-400" onClick={() => handleAddtoCart(course.id)}>Add To Cart</Button>
+              </CardFooter>
             </Card>
           ))
         }
