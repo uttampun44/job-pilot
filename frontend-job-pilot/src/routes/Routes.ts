@@ -29,6 +29,7 @@ import Users from "@/pages/backend/users/Users";
 import ViewCreateCourse from "@/pages/backend/course/createcourse/ViewCreateCourse";
 import ViewCourse from "@/pages/backend/course/viewcourse/ViewCourse";
 import CreateCourse from "@/pages/backend/course/createcourse/CreateCourse";
+import CourseDetails from "@/pages/backend/course/viewcourse/CourseDetails";
 
 export const router = createBrowserRouter([
   // Frontend Routes
@@ -114,6 +115,10 @@ export const router = createBrowserRouter([
       {
        path: "/view-create-course",
        Component: ViewCreateCourse
+      },
+      {
+        path: "/view-course-details/:id",
+        Component: CourseDetails
       },
       {
         path: "/create-course",

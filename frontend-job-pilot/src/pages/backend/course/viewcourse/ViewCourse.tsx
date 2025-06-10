@@ -4,11 +4,12 @@ import { Input } from "@/components/ui/input";
 import useFetch from "@/hooks/api/useFetch";
 import { useState } from "react";
 import CourseImage from "@assets/images/course.webp";
+import { useNavigate } from "react-router";
 
 
 export default function ViewCourse() {
   const [search, setSearch] = useState("");
-
+  const navigate = useNavigate();
   const { data: data, isLoading } = useFetch("/api/v1/course");
 
   const courses = data?.courses.data;
@@ -57,7 +58,9 @@ export default function ViewCourse() {
           </div>
         ) : (
           courses?.map((course: any, index: number) => (
-            <Card className="bg-black text-white hover:shadow-lg transition-shadow duration-300" key={index}>
+            <Card className="bg-black text-white hover:shadow-lg transition-shadow duration-300" key={index}
+             onClick={() => navigate(`/view-course-details/${course.id}`)}
+            >
               <img src={CourseImage} alt="course" className="w-full h-44 object-cover rounded-t-lg" />
               <CardHeader className="space-y-2">
                 <CardTitle className="text-white font-semibold text-xl line-clamp-2">
