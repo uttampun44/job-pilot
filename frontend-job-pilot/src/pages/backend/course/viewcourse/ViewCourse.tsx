@@ -14,10 +14,6 @@ export default function ViewCourse() {
 
   const courses = data?.courses.data;
 
-  const handleAddtoCart = (id: any) => {
-    console.log(id);
-  };
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="course flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
@@ -58,9 +54,7 @@ export default function ViewCourse() {
           </div>
         ) : (
           courses?.map((course: any, index: number) => (
-            <Card className="bg-black text-white hover:shadow-lg transition-shadow duration-300" key={index}
-             onClick={() => navigate(`/view-course-details/${course.id}`)}
-            >
+            <Card className="bg-black text-white hover:shadow-lg transition-shadow duration-300 cursor-pointer" key={index}>
               <img src={CourseImage} alt="course" className="w-full h-44 object-cover rounded-t-lg" />
               <CardHeader className="space-y-2">
                 <CardTitle className="text-white font-semibold text-xl line-clamp-2">
@@ -80,10 +74,12 @@ export default function ViewCourse() {
               </CardContent>
               <CardFooter>
                 <Button 
-                  className="w-full bg-white hover:bg-gray-100 text-red-500 font-semibold transition-colors duration-300" 
-                  onClick={() => handleAddtoCart(course.id)}
+                  className="w-full bg-white hover:bg-gray-100 text-red-500 font-semibold transition-colors duration-300 cursor-pointer" 
+                  onClick={() => {
+                    navigate(`/view-course-details/${course.id}`)
+                  }}
                 >
-                  Add To Cart
+                  View Details
                 </Button>
               </CardFooter>
             </Card>
