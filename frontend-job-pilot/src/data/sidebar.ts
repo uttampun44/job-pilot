@@ -43,13 +43,7 @@ export const sidebarLink: SidebarLink[] = [
         icon: "view",
         permissions: ["view course"],
       },
-      {
-         id: 142,
-         label: "Create course",
-         href: "/view-create-course",
-         icon: "create",
-         permissions: ["view create course"],
-      }
+     
     ],
   },
   {

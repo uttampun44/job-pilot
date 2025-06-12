@@ -13,11 +13,11 @@ interface ViewCourseDetailsState {
         carrer_outcomes: string;
     };
 }
-
+const course  = localStorage.getItem("courseDetails")
 const viewCourseDetailsStore = createSlice({
     name: "courseDetails",
     initialState: {
-        courseDetails: {
+        courseDetails: course ? JSON.parse(course) : {
             id: 0,
             title: "",
             short_description: "",
@@ -30,10 +30,12 @@ const viewCourseDetailsStore = createSlice({
         }
     } as ViewCourseDetailsState,
     reducers: {
-        courseDetails : (state, action) => {
+        setCourseDetails : (state, action) => {
             state.courseDetails = action.payload;
+            localStorage.setItem("courseDetails", JSON.stringify(state.courseDetails))
         },
     }
 })
 
-export const {courseDetails} = viewCourseDetailsStore.actions
+export const {setCourseDetails} = viewCourseDetailsStore.actions
+export default viewCourseDetailsStore

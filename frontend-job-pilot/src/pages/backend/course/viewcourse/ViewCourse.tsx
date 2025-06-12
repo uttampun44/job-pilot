@@ -5,20 +5,23 @@ import useFetch from "@/hooks/api/useFetch";
 import { useState } from "react";
 import CourseImage from "@assets/images/course.webp";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setCourseDetails } from "@/reduxtoolkit/features/viewCourseDetails";
 
 
 export default function ViewCourse() {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const { data: data, isLoading } = useFetch("/api/v1/course");
-
+ 
+  const dispatch = useDispatch();
   const courses = data?.courses.data;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="course flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Available Courses</h1>
-        <div className="w-full sm:w-1/3">
+        <div className="w-full flex items-baseline gap-x-2.5 sm:w-1/3">
           <Input
             type="text"
             value={search}
@@ -26,6 +29,14 @@ export default function ViewCourse() {
             placeholder="Search courses..."
             className="w-full bg-white shadow-sm focus:ring-2 focus:ring-red-500 focus:border-transparent"
           />
+          <Button
+            className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
+            onClick={() => {
+              navigate("/create-course");
+            }}
+          >
+            Create Course
+          </Button>
         </div>
       </div>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -77,6 +88,7 @@ export default function ViewCourse() {
                   className="w-full bg-white hover:bg-gray-100 text-red-500 font-semibold transition-colors duration-300 cursor-pointer" 
                   onClick={() => {
                     navigate(`/view-course-details/${course.id}`)
+                    dispatch(setCourseDetails(course));
                   }}
                 >
                   View Details
