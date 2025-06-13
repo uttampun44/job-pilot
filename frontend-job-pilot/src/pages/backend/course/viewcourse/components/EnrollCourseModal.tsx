@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -16,15 +15,9 @@ import { toast } from "sonner";
 type typeEnrollCourseProps = {
   courseId: string | number | undefined;
   userId: string;
-  selectedId: string;
   ref: RefObject<any>;
 };
-export default function EnrollCourseModal({
-  courseId,
-  userId,
-  selectedId,
-  ref,
-}: typeEnrollCourseProps) {
+export default function EnrollCourseModal({courseId,userId,ref}: typeEnrollCourseProps) {
   const [isVisible, setVisible] = useState(false);
 
   const formMethods = useForm();
@@ -55,8 +48,8 @@ export default function EnrollCourseModal({
     },
   }));
   return (
-    <Dialog key={selectedId} open={isVisible}>
-      <DialogContent ref={ref} onInteractOutside={() => setVisible(false)}>
+    <Dialog  open={isVisible} onOpenChange={setVisible}>
+      <DialogContent onInteractOutside={() => setVisible(false)}>
         <DialogTitle>Enroll Course</DialogTitle>
         <DialogDescription>
           Are you sure you want to enroll this course?
@@ -69,7 +62,7 @@ export default function EnrollCourseModal({
           <Button variant="secondary" onClick={() => setVisible(false)}>
             Close
           </Button>
-          <Button variant="outline" onClick={() => setVisible(false)}>
+          <Button variant="outline" >
             Submit
           </Button>
         </DialogFooter>

@@ -1,17 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { tCourseDetailsType } from "../types/courseDetailsType";
 
 interface ViewCourseDetailsState {
-    courseDetails: {
-        id: number;
-        title: string;
-        short_description: string;
-        course_details: string;
-        career_outcomes: string;
-        price: number;
-        duration: string;
-        course_type: string;
-        carrer_outcomes: string;
-    };
+    courseDetails: tCourseDetailsType;
 }
 const course  = localStorage.getItem("courseDetails")
 const viewCourseDetailsStore = createSlice({

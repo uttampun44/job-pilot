@@ -9,17 +9,17 @@ import { useAuth } from "@/context/features/AuthContext";
 
 export default function CourseDetails() {
 
- const coursedetails = useSelector(
+  const coursedetails = useSelector(
     (state: any) => state.courseDetails.courseDetails
   );
 
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   const userId = user?.id || ""
-  
+
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
+
   const enrollCourseModalRef = useRef<any>(null);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function CourseDetails() {
       setIsError(true);
     }
   }, [coursedetails]);
-  
+
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -64,88 +64,87 @@ export default function CourseDetails() {
 
   return (
     <React.Fragment>
-    <div className="container mx-auto px-4 py-8">
-      <Card className="overflow-hidden bg-white shadow-xl">
-        <div className="relative h-64 w-full">
-          <img
-            src={CourseImage}
-            alt={coursedetails.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              {coursedetails.title}
-            </h1>
-            <p className="text-gray-200 text-lg">
-              {coursedetails.short_description}
-            </p>
-          </div>
-        </div>
-
-        <CardContent className="grid md:grid-cols-3 gap-8 p-6">
-          <div className="md:col-span-2 space-y-6">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Course Details
-              </h2>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                {coursedetails.course_details}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                Career Outcomes
-              </h3>
-              <div className="bg-gray-50 rounded-lg p-4 text-gray-700">
-                {coursedetails.career_outcomes}
-              </div>
+      <div className="container mx-auto px-4 py-8">
+        <Card className="overflow-hidden bg-white shadow-xl">
+          <div className="relative h-64 w-full">
+            <img
+              src={CourseImage}
+              alt={coursedetails.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {coursedetails.title}
+              </h1>
+              <p className="text-gray-200 text-lg">
+                {coursedetails.short_description}
+              </p>
             </div>
           </div>
 
-          <div className="md:col-span-1">
-            <Card className="sticky top-4">
-              <CardHeader>
-                <CardTitle className="text-3xl font-bold text-gray-900">
-                  {new Intl.NumberFormat("en-us", {
-                    style: "currency",
-                    currency: "USD",
-                  }).format(coursedetails.price)}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-gray-600">
-                  <p className="mb-2">
-                    <span className="font-semibold">Duration:</span>{" "}
-                    {coursedetails.duration}
-                  </p>
-                  <p>
-                    <span className="font-semibold">Type:</span>{" "}
-                    {coursedetails.course_type}
-                  </p>
+          <CardContent className="grid md:grid-cols-3 gap-8 p-6">
+            <div className="md:col-span-2 space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Course Details
+                </h2>
+                <div className="prose prose-lg max-w-none text-gray-700">
+                  {coursedetails.course_details}
                 </div>
-                <Button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 text-lg"
-                 onClick={() => 
-                 {
-                  enrollCourseModalRef.current?.openModal()
-                  setSelectedId(coursedetails.id)
-                 }
-                 }
-                >
-                  Enroll Now
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-    <EnrollCourseModal
-     ref={enrollCourseModalRef}
-     courseId={coursedetails.id}
-     userId={userId as string}
-     selectedId={selectedId.toString()}
-    />
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Career Outcomes
+                </h3>
+                <div className="bg-gray-50 rounded-lg p-4 text-gray-700">
+                  {coursedetails.career_outcomes}
+                </div>
+              </div>
+            </div>
+
+            <div className="md:col-span-1">
+              <Card className="sticky top-4">
+                <CardHeader>
+                  <CardTitle className="text-3xl font-bold text-gray-900">
+                    {new Intl.NumberFormat("en-us", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(coursedetails.price)}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="text-gray-600">
+                    <p className="mb-2">
+                      <span className="font-semibold">Duration:</span>{" "}
+                      {coursedetails.duration}
+                    </p>
+                    <p>
+                      <span className="font-semibold">Type:</span>{" "}
+                      {coursedetails.course_type}
+                    </p>
+                  </div>
+                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white py-3 text-lg"
+                    onClick={() => {
+                      if (enrollCourseModalRef.current) {
+                        enrollCourseModalRef.current.openModal();
+                      }
+                    }
+                    }
+                  >
+                    Enroll Now
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      <EnrollCourseModal
+        ref={enrollCourseModalRef}
+        courseId={coursedetails.id}
+        userId={userId as string}
+      />
     </React.Fragment>
   );
 }
