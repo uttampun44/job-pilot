@@ -13,6 +13,7 @@ class CourseEntrollment extends Model
     /**
      * The attributes that are mass assignable.
      */
+    protected $table = 'course_entrollments';
     protected $fillable = [];
 
     // protected static function newFactory(): CourseEntrollmentFactory
