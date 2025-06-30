@@ -13,7 +13,7 @@ class UserFakeSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = ['Candidate', 'Employee'];
+        $roles = ['Candidate', 'Employee', 'Admin', 'Super Admin'];
         // $this->call([]);
 
         foreach ($roles as $role) {
