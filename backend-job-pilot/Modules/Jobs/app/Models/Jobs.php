@@ -18,7 +18,7 @@ class Jobs extends Model
     /**
      * The attributes that are mass assignable.
      */
-    protected $table = 'jobs';
+    protected $table = 'job_datas';
     protected $fillable = [];
 
     protected static function newFactory(): JobsFactory

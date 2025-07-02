@@ -32,12 +32,28 @@ export const sidebarLink: SidebarLink[] = [
   },
   {
     id: 14,
+    label: "Course",
+    icon: "school",
+    permissions: ["view course"],
+    subNavigation: [
+      {
+        id: 141,
+        label: "View course",
+        href: "/view-course",
+        icon: "view",
+        permissions: ["view course"],
+      },
+     
+    ],
+  },
+  {
+    id: 15,
     label: "Employer",
     icon: "calendar",
     permissions: ["view employer"],
     subNavigation: [
       {
-        id: 141,
+        id: 151,
         label: "Jobs",
         href: "/jobs",
         icon: "view",
@@ -46,64 +62,64 @@ export const sidebarLink: SidebarLink[] = [
     ],
   },
   {
-    id: 15,
+    id: 16,
     label: "Candidates",
     icon: "candidate",
     permissions: ["view candidates"],
     subNavigation: [
       {
-        id: 151,
+        id: 161,
         label: "View candidate",
         href: "/candidates",
         icon: "view",
         permissions: ["view candidate"],
       },
       {
-        id: 152,
+        id: 162,
         label: "View applied jobs",
         href: "/candidates/applied-jobs",
         icon: "jobs",
         permissions: ["apply for job"],
       },
       {
-        id: 153,
+        id: 163,
         label: "View favourite jobs",
         href: "/favourite-jobs",
         icon: "save",
         permissions: ["view favourite jobs"],
-      }
+      },
     ],
   },
-  
+
   {
-    id: 16,
+    id: 17,
     label: "Users",
     icon: "calendar",
     href: "/users",
     permissions: ["view users"],
   },
   {
-    id: 17,
+    id: 18,
     label: "Settings",
     icon: "settings",
     permissions: ["view settings"],
     subNavigation: [
       {
-        id: 171,
+        id: 181,
         label: "Profile",
         href: "/settings/candidate-profile",
         icon: "profile",
         permissions: ["view candidate profile"],
       },
       {
-        id: 172,
+        id: 182,
         label: "Company Information",
         href: "/settings/company-information",
         icon: "company",
         permissions: ["view employer profile"],
       },
       {
-        id: 173,
+        id: 183,
         label: "Permissions",
         href: "/settings/permissions",
         icon: "permissions",

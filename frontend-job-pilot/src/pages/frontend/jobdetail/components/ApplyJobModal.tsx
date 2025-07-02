@@ -45,13 +45,13 @@ export default function ApplyJobModal({
     defaultValues: {
       cover_letter: "",
     },
-    mode:"onSubmit",
-   resolver: zodResolver(ApplyJobSchema),
+    mode: "onSubmit",
+    resolver: zodResolver(ApplyJobSchema),
   });
 
   const onSubmit = async (data: tApplyJobsType) => {
-    if(isSubmitting) return;
-    setVisible(true)
+    if (isSubmitting) return;
+    setVisible(true);
     const dataToSend = {
       ...data,
       job_id: jobId,
@@ -59,12 +59,15 @@ export default function ApplyJobModal({
     };
 
     try {
-      const response = await post.mutateAsync({ data: dataToSend, headers: { 'Content-Type': 'multipart/form-data' }, });
+      const response = await post.mutateAsync({
+        data: dataToSend,
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       if (response.status === 201) {
         toast.success("Job applied successfully !");
         setVisible(false);
         resetField("resume");
-        resetField("cover_letter")
+        resetField("cover_letter");
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -79,8 +82,8 @@ export default function ApplyJobModal({
       <DialogContent
         onInteractOutside={() => {
           resetField("resume");
-          resetField("cover_letter")
-          setVisible(false)
+          resetField("cover_letter");
+          setVisible(false);
         }}
         className="min-w-3xl"
       >
@@ -99,8 +102,8 @@ export default function ApplyJobModal({
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files?.[0];
-                  if(file){
-                     field.onChange(file);
+                  if (file) {
+                    field.onChange(file);
                   }
                 }}
               />
@@ -120,6 +123,28 @@ export default function ApplyJobModal({
                   value={field.value}
                   onChange={(e) => {
                     field.onChange(e);
+                  }}
+                  config={{
+                    readonly: false,
+                    height: 300,
+                    theme: "default",
+                    toolbarButtonSize: "small",
+                    buttons: [
+                      "bold",
+                      "italic",
+                      "underline",
+                      "|",
+                      "ul",
+                      "ol",
+                      "|",
+                      "link",
+                      "image",
+                      "|",
+                      "align",
+                      "|",
+                      "undo",
+                      "redo",
+                    ],
                   }}
                 />
               )}
