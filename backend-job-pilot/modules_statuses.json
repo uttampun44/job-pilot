@@ -4,5 +4,7 @@
     "CreateOnlineUsers": true,
     "Settings": true,
     "Jobs": true,
-    "Factory": true
+    "Factory": true,
+    "Course": true,
+    "CourseController": true
 }

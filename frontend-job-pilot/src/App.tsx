@@ -5,7 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CombineContext from "./context/CombineContext";
 import "./utils/i18n";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./Store";
+
 
 const queryClient = new QueryClient();
 
